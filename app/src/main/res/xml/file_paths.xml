@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--
+        Exports are written to ExternalStorage.getPublicDownloadDirectory(), which
+        lives on external storage. This grants the share target read access to it.
+    -->
+    <external-path
+        name="external"
+        path="." />
+</paths>

@@ -1,0 +1,148 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <!--
+        Add/edit a centrifuge batch. Structured like the fill-up form
+        (activity_gas_record_calc_*.xml) but much simpler: there is no data entry
+        mode, so there is only one layout and no mode button.
+    -->
+
+    <!-- BAR WITH OK/CANCEL BUTTONS ACCROSS BOTTOM -->
+    <RelativeLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dialog_buttonbar_bg"
+        android:gravity="right"
+        android:padding="4dip" >
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+            android:onClick="clickedCancel"
+            android:text="@string/cancel_label" />
+
+        <Button
+            android:id="@+id/buttonOK"
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/buttonCancel"
+            android:onClick="clickedOk"
+            android:text="@string/ok_label" />
+    </RelativeLayout>
+
+    <!-- SCROLL VIEW CONTAINING ALL FORM FIELDS -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/buttonBar" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dip" >
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_label" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/editTextDate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="false"
+                    android:inputType="datetime" />
+
+                <ImageButton
+                    android:id="@+id/buttonEditDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="clickedEditDate"
+                    android:contentDescription="@string/edit_description"
+                    android:src="@drawable/ic_btn_edit" />
+            </LinearLayout>
+
+            <!-- CLEAN FUEL YIELDED (required) -->
+            <TextView
+                android:id="@+id/textViewYield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_yield_label" />
+
+            <EditText
+                android:id="@+id/editTextYield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789.,"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/hint_batch_yield"
+                android:imeOptions="actionNext" >
+                <requestFocus />
+            </EditText>
+
+            <!-- RAW OIL PROCESSED (optional) -->
+            <TextView
+                android:id="@+id/textViewRaw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_raw_label" />
+
+            <EditText
+                android:id="@+id/editTextRaw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789.,"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/hint_batch_raw"
+                android:imeOptions="actionNext" />
+
+            <!-- YIELD PERCENTAGE (derived; blank until raw oil is entered) -->
+            <TextView
+                android:id="@+id/textViewYieldPercent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="@color/calc_text_color" />
+
+            <TextView
+                android:id="@+id/textViewNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notes_label" />
+
+            <EditText
+                android:id="@+id/editTextNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_notes"
+                android:inputType="text|textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+                android:maxLength="80"
+                android:lines="3"
+                android:maxLines="3"
+                android:minLines="3"
+                android:imeOptions="flagNoEnterAction|actionDone"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

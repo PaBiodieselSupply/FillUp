@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    // The Java package is unchanged from upstream FillUp (Apache 2.0 attribution).
+    // Only the applicationId is rebranded for PA Biodiesel Supply, so this build
+    // installs side-by-side with a stock FillUp install rather than upgrading it.
+    namespace 'com.github.wdkapps.fillup'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.pabiodiesel.fillup"
+        minSdk 21
+
+        // targetSdk 29 (plus android:requestLegacyExternalStorage in the manifest)
+        // deliberately opts out of scoped storage. That is what keeps CSV export,
+        // FileSelectionActivity's file browser and ExternalStorage.getPublicDownloadDirectory()
+        // working unchanged. Installable on Android 14/15; NOT publishable to Google
+        // Play (which requires 34+). Raising this requires rewriting CSV I/O onto
+        // the Storage Access Framework and deleting FileSelectionActivity.
+        targetSdk 29
+
+        versionCode 24
+        versionName "1.8.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        // This is a 2014 codebase: showDialog/onCreateDialog(int), PreferenceActivity,
+        // Html.fromHtml(String) and Resources.getColor(int) are all deprecated but
+        // still functional. Deliberately not migrated.
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation files('libs/androidplot-core-0.6.0.jar')
+
+    // FileProvider only - needed because Uri.fromFile() throws FileUriExposedException
+    // when sharing an exported CSV at targetSdk >= 24.
+    implementation 'androidx.core:core:1.13.1'
+}

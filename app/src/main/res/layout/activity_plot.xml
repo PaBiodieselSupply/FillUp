@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/stats_bg" >
+
+    <include android:id="@+id/rangeButtons" layout="@layout/range_button_bar"/>
+
+    <ScrollView
+        android:id="@+id/scrollviewPlots"
+        android:layout_below="@id/rangeButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:fillViewport="true" >
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+            <!--
+                FUEL SPLIT: the proportion of fuel consumed that the user produced
+                themselves, versus fuel they bought.
+
+                This is a plain weighted LinearLayout rather than a sixth XYPlot.
+                The bundled AndroidPlot 0.6.0 has no horizontal stacked bar renderer,
+                and PlotActivity sizes every XYPlot to 85% of the scroll view height -
+                which is not a sensible size for a percentage strip. It is therefore
+                deliberately excluded from that sizing loop and has no setHeight().
+            -->
+            <TextView
+                android:id="@+id/titleFuelSplit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_fuel_split" />
+
+            <LinearLayout
+                android:id="@+id/layoutFuelSplit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/fuel_split_bg"
+                android:orientation="vertical"
+                android:padding="8dp" >
+
+                <LinearLayout
+                    android:id="@+id/barFuelSplit"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
+
+                    <View
+                        android:id="@+id/barBlackDiesel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="50"
+                        android:background="@color/fuel_split_black_diesel" />
+
+                    <View
+                        android:id="@+id/barPumpDiesel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="50"
+                        android:background="@color/fuel_split_pump_diesel" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/labelFuelSplit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/fuel_split_fg" />
+
+                <TextView
+                    android:id="@+id/labelFuelSplitEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/fuel_split_fg"
+                    android:text="@string/fuel_split_nodata"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/titleMileagePlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_mileage" />
+
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/xyMileagePlot"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                androidplot.title="" />
+            
+            <TextView 
+                android:id="@+id/titleOdometerPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_odometer" />
+            
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/xyOdometerPlot"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                androidplot.title="" />
+
+            <TextView 
+                android:id="@+id/titleGallonsPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_gallons" />
+             
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/xyGallonsPlot"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                androidplot.title="" />
+            
+            <TextView 
+                android:id="@+id/titleCostPlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_cost" />
+ 
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/xyCostPlot"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                androidplot.title="" />
+
+            <TextView 
+                android:id="@+id/titlePricePlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/plot_title_fg"
+                android:background="@color/plot_title_bg"
+                android:text="@string/title_plot_price" />
+ 
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/xyPricePlot"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                androidplot.title="" />
+            
+        </LinearLayout>
+        
+    </ScrollView>
+
+</RelativeLayout>

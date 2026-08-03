@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemAddBatch"
+        android:title="@string/batch_add_label"
+        android:icon="@drawable/ic_menu_add"
+        />
+
+    <item android:id="@+id/itemSettings"
+        android:title="@string/menu_settings"
+        android:icon="@drawable/ic_menu_preferences"
+        android:orderInCategory="100"
+        />
+
+</menu>
