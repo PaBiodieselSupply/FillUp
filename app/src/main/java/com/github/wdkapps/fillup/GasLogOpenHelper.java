@@ -112,6 +112,12 @@ class GasLogOpenHelper extends SQLiteOpenHelper {
 						"raw_gallons real not null default 0, " +
 						"notes text);");
 				break;
+
+			case 6:
+				// blend percentage and what the batch cost to produce
+				sql.add("ALTER TABLE Batches ADD COLUMN blend_percent real not null default 0;");
+				sql.add("ALTER TABLE Batches ADD COLUMN cost real not null default 0;");
+				break;
 			}
 
 			oldVersion++;

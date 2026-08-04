@@ -28,9 +28,16 @@ import java.util.Locale;
  *
  * <ul>
  * <li>DIESEL - conventional diesel purchased at a fuel station. Has a cost.
- * <li>WVO - "Black Diesel", produced by the user from waste oil using a
- * centrifuge system. Has no purchase cost.
+ * <li>WVO - "Waste Oil Fuel", produced by the user from waste oil using a
+ * centrifuge system. Has no purchase cost, though it may have a production
+ * cost recorded against the centrifuge batch it came from.
  * </ul>
+ *
+ * The displayed name covers both WVO (vegetable) and WMO (motor) oil feedstock,
+ * which is why it is not called "Black Diesel" in the user interface. The enum
+ * constant and the persisted token remain WVO / "wvo": they are internal
+ * identifiers, never displayed, and renaming them would require a data
+ * migration and would break every CSV file already exported.
  *
  * NOTES:<p>
  * <ol>
@@ -48,8 +55,8 @@ import java.util.Locale;
  */
 public enum FuelType {
 
-	DIESEL("diesel", R.string.fuel_type_diesel, R.color.fuel_type_diesel_fg),
-	WVO   ("wvo",    R.string.fuel_type_wvo,    R.color.fuel_type_wvo_fg);
+	DIESEL("diesel", R.string.fuel_type_diesel),
+	WVO   ("wvo",    R.string.fuel_type_wvo);
 
 	/// the persisted value: used for the database column and the CSV field
 	private final String token;
@@ -57,20 +64,15 @@ public enum FuelType {
 	/// resource id of the localized display label
 	private final int labelResId;
 
-	/// resource id of the color used to display this fuel type in the log list
-	private final int colorResId;
-
 	/**
 	 * DESCRIPTION:
 	 * Constructs an instance of FuelType.
 	 * @param token - the persisted string value.
 	 * @param labelResId - resource id of the display label.
-	 * @param colorResId - resource id of the display color.
 	 */
-	private FuelType(String token, int labelResId, int colorResId) {
+	private FuelType(String token, int labelResId) {
 		this.token = token;
 		this.labelResId = labelResId;
-		this.colorResId = colorResId;
 	}
 
 	/**
@@ -95,20 +97,11 @@ public enum FuelType {
 
 	/**
 	 * DESCRIPTION:
-	 * Returns the resource id of the color used to display this fuel type.
-	 * @return the color resource id.
-	 */
-	public int getColorResId() {
-		return colorResId;
-	}
-
-	/**
-	 * DESCRIPTION:
-	 * Determines whether this is user-produced fuel (Black Diesel), which has
+	 * Determines whether this is user-produced fuel (Waste Oil Fuel), which has
 	 * no purchase cost.
-	 * @return true if this is Black Diesel.
+	 * @return true if this is Waste Oil Fuel.
 	 */
-	public boolean isBlackDiesel() {
+	public boolean isWasteOil() {
 		return (this == WVO);
 	}
 

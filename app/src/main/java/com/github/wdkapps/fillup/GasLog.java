@@ -76,6 +76,8 @@ public class GasLog {
     private static final String BATCH_YIELD = "yield_gallons";
     private static final String BATCH_RAW = "raw_gallons";
     private static final String BATCH_NOTES = "notes";
+    private static final String BATCH_BLEND = "blend_percent";
+    private static final String BATCH_COST = "cost";
 
 
     // column names for VEHICLE_TABLE
@@ -106,7 +108,9 @@ public class GasLog {
     	BATCH_TIME,
     	BATCH_YIELD,
     	BATCH_RAW,
-    	BATCH_NOTES
+    	BATCH_NOTES,
+    	BATCH_BLEND,
+    	BATCH_COST
     };
     
     /// SQL commands to create the database
@@ -144,7 +148,9 @@ public class GasLog {
     			BATCH_TIME  + " integer not null, " +
     			BATCH_YIELD + " real not null, " +
     			BATCH_RAW   + " real not null default 0, " +
-    			BATCH_NOTES + " text);"
+    			BATCH_NOTES + " text, " +
+    			BATCH_BLEND + " real not null default 0, " +
+    			BATCH_COST  + " real not null default 0);"
     };
 
     /// SQL commands to delete the database
@@ -159,7 +165,8 @@ public class GasLog {
 	
 	/// the database version number
 	/// version 6 added Records.fuel_type and the Batches table
-    public static final int DATABASE_VERSION = 6;
+	/// version 7 added Batches.blend_percent and Batches.cost
+    public static final int DATABASE_VERSION = 7;
 
     /// context of the instance creator
     private final Context context;
@@ -277,6 +284,8 @@ public class GasLog {
     	values.put(BATCH_YIELD, record.getYieldGallons());
     	values.put(BATCH_RAW, record.getRawGallons());
     	values.put(BATCH_NOTES, record.getNotes());
+    	values.put(BATCH_BLEND, record.getBlendPercent());
+    	values.put(BATCH_COST, record.getCost());
     	return values;
     }
     
@@ -378,6 +387,8 @@ public class GasLog {
     		float yield = c.getFloat(c.getColumnIndex(BATCH_YIELD));
     		float raw = c.getFloat(c.getColumnIndex(BATCH_RAW));
     		String notes = c.getString(c.getColumnIndex(BATCH_NOTES));
+    		float blend = c.getFloat(c.getColumnIndex(BATCH_BLEND));
+    		double cost = c.getDouble(c.getColumnIndex(BATCH_COST));
 
     		record = new BatchRecord();
     		record.setID(id);
@@ -385,6 +396,8 @@ public class GasLog {
     		record.setYieldGallons(yield);
     		record.setRawGallons(raw);
     		record.setNotes(notes);
+    		record.setBlendPercent(blend);
+    		record.setCost(cost);
     	}
     	return record;
     }

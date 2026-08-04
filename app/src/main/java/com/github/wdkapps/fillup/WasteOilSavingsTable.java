@@ -24,35 +24,38 @@ import java.util.List;
 
 /**
  * DESCRIPTION:
- * A table estimating what the user has saved by burning Black Diesel they
+ * A table estimating what the user has saved by burning Waste Oil Fuel they
  * produced themselves, instead of buying Pump Diesel.<p>
  *
- * The price used is derived entirely from the user's own purchase history, so it
- * is a genuine personalized average rather than an estimate they have to type in
- * and keep up to date:
+ * Both rates come from the user's own records, so this is a personalised figure
+ * rather than an estimate they have to type in and keep up to date:
  * <pre>
- *     average price = total cost of costed Pump Diesel fill-ups
- *                     / total volume of those same fill-ups
- *     savings       = average price * volume of Black Diesel burned
+ *     pump price      = cost of costed Pump Diesel fill-ups / their volume
+ *     production cost = cost of costed centrifuge batches   / their yield
+ *     net savings     = (pump price - production cost) x volume burned
  * </pre>
  *
  * NOTES:<p>
  * <ol>
- * <li>The date range applies to the Black Diesel volume and therefore to the
- * savings figure, but the <b>average price deliberately uses the complete
- * history</b>, so that the price baseline stays as accurate as possible even
- * when the user is looking at a short window.
- * <li>Because of that, the price row carries an explicit "all time"
- * qualification. Without it, a user switching from All to Past Month would watch
- * every figure on the screen change except one, and reasonably conclude it was
- * broken. Surfacing the mixed semantics is required, not decorative.
+ * <li>The savings figure is <b>net</b>: what the fuel cost to produce is
+ * subtracted. Reporting the gross figure would overstate the saving by exactly
+ * the production cost, and would not survive a customer checking it.
+ * <li>The date range applies to the volume burned and therefore to the savings,
+ * but <b>both rates deliberately use the complete history</b>, so the baseline
+ * stays as accurate as possible when looking at a short window. The rate rows
+ * say "all time" explicitly - without that, a user switching from All to Past
+ * Month would watch every figure change except two and assume a bug.
+ * <li>If no batch has a cost recorded, production cost is zero and the result is
+ * the gross figure. That is the honest answer to "I have not told the app what
+ * my fuel costs to make".
+ * <li>A negative result is displayed rather than clamped: if producing costs
+ * more per unit than buying, that is worth knowing.
  * <li>The css class is "summary", which is already defined in the report's
- * header asset. That is deliberate: asset_stats_top_html is a localized string
- * resource, so introducing a new css class would mean editing three separate
- * asset files, and missing one would leave those users with an unstyled table.
+ * header asset. Introducing a new class would mean editing three localised asset
+ * files, and missing one would leave those users with an unstyled table.
  * </ol>
  */
-public class BlackDieselSavingsTable implements HtmlData {
+public class WasteOilSavingsTable implements HtmlData {
 
 	/// a title for the table
 	private final String title;
@@ -69,29 +72,38 @@ public class BlackDieselSavingsTable implements HtmlData {
 	/// a row index used during creation
 	private int row;
 
-	/// totals over the complete history - the source of the average price
-	private final FuelTypeTotals allTime;
+	/// fill-up totals over the complete history - the source of the pump price
+	private final FuelTypeTotals allTimeFuel;
 
-	/// totals over the selected date range - the source of the volume burned
-	private final FuelTypeTotals inRange;
+	/// fill-up totals over the selected date range - the source of the volume burned
+	private final FuelTypeTotals inRangeFuel;
+
+	/// batch totals over the complete history - the source of the production cost
+	private final BatchTotals allTimeBatches;
 
 	/// end of line string
 	private static final String newline = System.getProperty("line.separator");
 
 	/**
 	 * DESCRIPTION:
-	 * Constructs an instance of BlackDieselSavingsTable.
+	 * Constructs an instance of WasteOilSavingsTable.
 	 * @param records - ALL gas records for the vehicle, unfiltered by date.
+	 * @param batches - ALL centrifuge batch records, unfiltered by date.
 	 * @param title - the current date range summary, for the table header.
 	 */
-	public BlackDieselSavingsTable(List<GasRecord> records, String title) {
-		this.title = getString(R.string.stats_savings_prefix) + title;
+	public WasteOilSavingsTable(List<GasRecord> records, List<BatchRecord> batches, String title) {
 
-		// no range: the price baseline uses the complete history
-		this.allTime = new FuelTypeTotals(records,null);
+		this.title = String.format(App.getLocale(),
+				getString(R.string.stats_table_title),
+				getString(R.string.stats_heading_savings),
+				title);
+
+		// no range: both rates use the complete history
+		this.allTimeFuel = new FuelTypeTotals(records,null);
+		this.allTimeBatches = new BatchTotals(batches,null);
 
 		// ranged: the volume burned and the savings follow the range buttons
-		this.inRange = new FuelTypeTotals(records,
+		this.inRangeFuel = new FuelTypeTotals(records,
 				new PlotDateRange(App.getContext(),Settings.KEY_PLOT_DATE_RANGE));
 
 		createTable();
@@ -117,12 +129,13 @@ public class BlackDieselSavingsTable implements HtmlData {
 		html.append("<table"+property("class",cssClass)+">").append(newline);
 		appendTableHeaderRow(title,"2");
 		row = 0;
-		if (allTime.hasAveragePumpPrice()) {
+		if (allTimeFuel.hasAveragePumpPrice()) {
 			appendAvgPumpPriceData();
-			appendBlackDieselBurnedData();
+			appendProductionCostData();
+			appendWasteOilBurnedData();
 			appendEstimatedSavingsData();
 		} else {
-			appendNoCostDataMessage();
+			appendSpanningRow(getString(R.string.stats_message_no_cost_data));
 		}
 		html.append("</table>").append(newline);
 	}
@@ -135,42 +148,67 @@ public class BlackDieselSavingsTable implements HtmlData {
 		String label = getString(R.string.stats_label_avg_pump_price);
 		String value = String.format(App.getLocale(),getString(R.string.stats_calc_avg_pump_price),
 				CurrencyManager.getInstance().getSymbolicFractionalFormatter()
-						.format(allTime.getAveragePumpPrice()),
+						.format(allTimeFuel.getAveragePumpPrice()),
 				units.getLiquidVolumeRatioLabel(),
-				allTime.getPumpDieselCostedCount());
+				allTimeFuel.getPumpDieselCostedCount());
 		value = value.replace("(","<br/>(");
 		appendTableRow(new String[]{label,value});
 	}
 
 	/**
 	 * DESCRIPTION:
-	 * Appends the volume of Black Diesel burned to the table.
+	 * Appends what the user's own fuel costs to produce.
 	 */
-	private void appendBlackDieselBurnedData() {
+	private void appendProductionCostData() {
+
+		String label = getString(R.string.stats_label_production_cost);
+		String value;
+
+		if (allTimeBatches.hasCostPerUnit()) {
+			value = String.format(App.getLocale(),getString(R.string.stats_calc_production_cost),
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter()
+							.format(allTimeBatches.getCostPerUnit()),
+					units.getLiquidVolumeRatioLabel(),
+					allTimeBatches.getCostedCount());
+			value = value.replace("(","<br/>(");
+		} else {
+			value = getString(R.string.stats_calc_production_cost_none);
+		}
+
+		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends the volume of Waste Oil Fuel burned to the table.
+	 */
+	private void appendWasteOilBurnedData() {
 		String label = getString(R.string.stats_label_wvo_burned);
 		String value = String.format(App.getLocale(),getString(R.string.stats_calc_wvo_gallons),
-				inRange.getBlackDieselGallons(),
+				inRangeFuel.getWasteOilGallons(),
 				units.getLiquidVolumeLabelLowerCase());
 		appendTableRow(new String[]{label,value});
 	}
 
 	/**
 	 * DESCRIPTION:
-	 * Appends the estimated savings to the table.
+	 * Appends the estimated net savings to the table.
 	 */
 	private void appendEstimatedSavingsData() {
-		double savings = allTime.getAveragePumpPrice() * inRange.getBlackDieselGallons();
 		String label = getString(R.string.stats_label_est_savings);
-		String value = CurrencyManager.getInstance().getSymbolicFormatter().format(savings);
+		String value = CurrencyManager.getInstance().getSymbolicFormatter().format(getNetSavings());
 		appendTableRow(new String[]{label,value});
 	}
 
 	/**
 	 * DESCRIPTION:
-	 * Appends a message explaining why no savings can be calculated.
+	 * Calculates the estimated net savings: what the fuel would have cost at the
+	 * pump, less what it cost to produce.
+	 * @return the net savings.
 	 */
-	private void appendNoCostDataMessage() {
-		appendSpanningRow(getString(R.string.stats_message_no_cost_data));
+	private double getNetSavings() {
+		double saving = allTimeFuel.getAveragePumpPrice() - allTimeBatches.getCostPerUnit();
+		return saving * inRangeFuel.getWasteOilGallons();
 	}
 
 	/**

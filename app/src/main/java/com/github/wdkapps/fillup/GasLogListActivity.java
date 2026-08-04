@@ -119,6 +119,14 @@ implements ConfirmationDialog.Listener,
 
 		// configure ListView to use our adapter
 		listView.setAdapter(adapter);
+
+		// the app bar (and therefore the options menu) is on the home screen only
+		findViewById(R.id.buttonAddFuel).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getGas(view);
+			}
+		});
 		
 		// configure ListView to use our context menu when a record is clicked
 		registerForContextMenu(listView);
@@ -160,8 +168,11 @@ implements ConfirmationDialog.Listener,
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+    	// NOTE: Import and Export have moved to the home screen menu, so findItem
+    	// returns null here. Guarded rather than removed so this stays correct if
+    	// they are ever added back.
     	MenuItem itemExport = menu.findItem(R.id.itemExport);
-    	itemExport.setEnabled(!records.isEmpty());
+    	if (itemExport != null) itemExport.setEnabled(!records.isEmpty());
     	return true;
     }
     

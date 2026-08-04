@@ -302,11 +302,22 @@ public class PricePlot implements OnSharedPreferenceChangeListener {
     	minx = Long.MAX_VALUE; 
     	maxx = Long.MIN_VALUE;
     	xlabels.clear();
+    	// Accumulates every record in range so the average can be calculated the
+    	// same way as each bar - pump diesel only.
+    	List<GasRecord> allRecords = new LinkedList<GasRecord>();
+
     	long x = 0L;
     	double y = 0f;
     	for (Month month : PlotActivity.monthly) {
     		TripRecord data = PlotActivity.monthly.getTrips(month);
-    		y = data.getPrice();
+
+    		// NOTE: pump diesel only, deliberately. TripRecord.getPrice() is this
+    		// month's spend divided by this month's TOTAL fuel, so waste oil fuel
+    		// sat in the denominator contributing nothing to the numerator and
+    		// pulled the price below anything the user ever actually paid.
+    		List<GasRecord> monthRecords = new LinkedList<GasRecord>(data.getGasRecords());
+    		allRecords.addAll(monthRecords);
+    		y = new FuelTypeTotals(monthRecords,null).getAveragePumpPrice();
     		Log.d(tag,"month="+month.toString()+" x="+x+" y="+y);
     		minx = Math.min(minx, x);
     		maxx = Math.max(maxx, x);
@@ -322,8 +333,8 @@ public class PricePlot implements OnSharedPreferenceChangeListener {
     	if (xNumbers.isEmpty()) minx = maxx = 0;
     	if (yNumbers.isEmpty()) miny = maxy = 0;
     	
-    	// calculate average for the series
-    	average = sumy.getPrice();
+    	// calculate average for the series - pump diesel only, matching the bars
+    	average = new FuelTypeTotals(allRecords,null).getAveragePumpPrice();
 
     	Log.d(tag,"minx="+minx+" maxx="+maxx);
     	Log.d(tag,"miny="+miny+" maxy="+maxy);

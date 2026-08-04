@@ -90,6 +90,7 @@ public class BatchLogListAdapter extends ArrayAdapter<BatchRecord> {
 		TextView columnBatchYield = (TextView)view.findViewById(R.id.columnBatchYield);
 		TextView columnBatchPercent = (TextView)view.findViewById(R.id.columnBatchPercent);
 		TextView rowBatchRaw = (TextView)view.findViewById(R.id.rowBatchRaw);
+		TextView rowBatchCost = (TextView)view.findViewById(R.id.rowBatchCost);
 		TextView rowBatchNotes = (TextView)view.findViewById(R.id.rowBatchNotes);
 
 		// populate row widgets from record data
@@ -107,15 +108,39 @@ public class BatchLogListAdapter extends ArrayAdapter<BatchRecord> {
 		// yield percentage (only calculable when raw oil was recorded)
 		columnBatchPercent.setText(record.getYieldPercentString());
 
-		// raw oil processed (optional - don't display if not recorded)
-		if (!record.hasRawGallons()) {
-			rowBatchRaw.setVisibility(View.GONE);
-		} else {
+		// raw oil collected and blend percentage, joined on one line
+		// (both optional - the line is hidden only if neither was recorded)
+		StringBuilder inputs = new StringBuilder();
+		if (record.hasRawGallons()) {
 			format = App.getContext().getString(R.string.batch_row_raw);
-			rowBatchRaw.setText(String.format(App.getLocale(),format,
+			inputs.append(String.format(App.getLocale(),format,
 					record.getRawGallons(),
 					units.getLiquidVolumeLabelLowerCase()));
+		}
+		if (record.hasBlendPercent()) {
+			if (inputs.length() > 0) inputs.append(" · ");
+			format = App.getContext().getString(R.string.batch_row_blend);
+			inputs.append(String.format(App.getLocale(),format,
+					record.getBlendPercentString()));
+		}
+		if (inputs.length() == 0) {
+			rowBatchRaw.setVisibility(View.GONE);
+		} else {
+			rowBatchRaw.setText(inputs.toString());
 			rowBatchRaw.setVisibility(View.VISIBLE);
+		}
+
+		// production cost and cost per unit (optional)
+		Double costPerUnit = record.getCostPerUnit();
+		if (costPerUnit == null) {
+			rowBatchCost.setVisibility(View.GONE);
+		} else {
+			format = App.getContext().getString(R.string.batch_row_cost);
+			rowBatchCost.setText(String.format(App.getLocale(),format,
+					CurrencyManager.getInstance().getSymbolicFormatter().format(record.getCost()),
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(costPerUnit),
+					units.getLiquidVolumeLabelLowerCase()));
+			rowBatchCost.setVisibility(View.VISIBLE);
 		}
 
 		// notes (don't display if blank)

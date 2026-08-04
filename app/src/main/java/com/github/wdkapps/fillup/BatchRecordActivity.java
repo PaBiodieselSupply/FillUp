@@ -64,8 +64,11 @@ implements ConfirmationDialog.Listener {
 	private EditText editTextDate;
 	private EditText editTextYield;
 	private EditText editTextRaw;
+	private EditText editTextBlend;
+	private EditText editTextBatchCost;
 	private EditText editTextNotes;
 	private TextView textViewYieldPercent;
+	private TextView textViewCostPerUnit;
 
 	/**
 	 * DESCRIPTION:
@@ -100,10 +103,13 @@ implements ConfirmationDialog.Listener {
 		editTextDate = (EditText)findViewById(R.id.editTextDate);
 		editTextYield = (EditText)findViewById(R.id.editTextYield);
 		editTextRaw = (EditText)findViewById(R.id.editTextRaw);
+		editTextBlend = (EditText)findViewById(R.id.editTextBlend);
+		editTextBatchCost = (EditText)findViewById(R.id.editTextBatchCost);
 		editTextNotes = (EditText)findViewById(R.id.editTextNotes);
 		textViewYieldPercent = (TextView)findViewById(R.id.textViewYieldPercent);
+		textViewCostPerUnit = (TextView)findViewById(R.id.textViewCostPerUnit);
 
-		// update labels and hints to reflect current units
+		// update labels and hints to reflect current units and currency
 		Units units = new Units(Settings.KEY_UNITS);
 		String volume = units.getLiquidVolumeLabelLowerCase();
 
@@ -111,6 +117,9 @@ implements ConfirmationDialog.Listener {
 		label.setText(String.format(App.getLocale(),getString(R.string.batch_yield_label),volume));
 		label = (TextView)findViewById(R.id.textViewRaw);
 		label.setText(String.format(App.getLocale(),getString(R.string.batch_raw_label),volume));
+		label = (TextView)findViewById(R.id.textViewBatchCost);
+		label.setText(String.format(App.getLocale(),getString(R.string.batch_cost_label),
+				CurrencyManager.getInstance().getCurrencySymbol()));
 
 		// disallow newline in notes field
 		editTextNotes.addTextChangedListener(new TextWatcher() {
@@ -137,6 +146,8 @@ implements ConfirmationDialog.Listener {
 		};
 		editTextYield.addTextChangedListener(yieldWatcher);
 		editTextRaw.addTextChangedListener(yieldWatcher);
+		editTextBlend.addTextChangedListener(yieldWatcher);
+		editTextBatchCost.addTextChangedListener(yieldWatcher);
 	}
 
 	/**
@@ -171,6 +182,19 @@ implements ConfirmationDialog.Listener {
 			editTextRaw.setText("");
 		}
 
+		if (record.hasBlendPercent()) {
+			editTextBlend.setText(String.format(App.getLocale(),"%.0f",record.getBlendPercent()));
+		} else {
+			editTextBlend.setText("");
+		}
+
+		if (record.hasCost()) {
+			editTextBatchCost.setText(
+					CurrencyManager.getInstance().getNumericFormatter().format(record.getCost()));
+		} else {
+			editTextBatchCost.setText("");
+		}
+
 		editTextNotes.setText(record.getNotes());
 
 		updateYieldPercent();
@@ -191,6 +215,8 @@ implements ConfirmationDialog.Listener {
 		// reset any previous errors
 		editTextYield.setError(null);
 		editTextRaw.setError(null);
+		editTextBlend.setError(null);
+		editTextBatchCost.setError(null);
 
 		// clean fuel yielded (required)
 		try {
@@ -209,6 +235,24 @@ implements ConfirmationDialog.Listener {
 			message = String.format(App.getLocale(),getString(R.string.toast_invalid_raw_value),volume);
 			editTextRaw.setError(message);
 			editTextRaw.requestFocus();
+			return false;
+		}
+
+		// blend percentage (optional - blank is valid and means "none recorded")
+		try {
+			record.setBlendPercent(editTextBlend.getText().toString());
+		} catch (NumberFormatException e) {
+			editTextBlend.setError(getString(R.string.toast_invalid_blend_value));
+			editTextBlend.requestFocus();
+			return false;
+		}
+
+		// batch cost (optional - blank is valid and means "not recorded")
+		try {
+			record.setCost(editTextBatchCost.getText().toString());
+		} catch (NumberFormatException e) {
+			editTextBatchCost.setError(getString(R.string.toast_invalid_batch_cost_value));
+			editTextBatchCost.requestFocus();
 			return false;
 		}
 
@@ -256,17 +300,29 @@ implements ConfirmationDialog.Listener {
 
 		Float yield = parse(editTextYield.getText().toString());
 		Float raw = parse(editTextRaw.getText().toString());
+		Float cost = parse(editTextBatchCost.getText().toString());
 
+		// yield percentage
 		if ((yield == null) || (raw == null) || (raw <= 0f) || (yield <= 0f)) {
 			textViewYieldPercent.setText("");
-			return;
+		} else {
+			// formatted by BatchRecord so that this live preview and the batch log
+			// list can never display the same batch differently
+			String percent = BatchRecord.formatYieldPercent((yield / raw) * 100f);
+			textViewYieldPercent.setText(
+					String.format(App.getLocale(),getString(R.string.batch_yield_percent_value),percent));
 		}
 
-		// formatted by BatchRecord so that this live preview and the batch log
-		// list can never display the same batch differently
-		String percent = BatchRecord.formatYieldPercent((yield / raw) * 100f);
-		textViewYieldPercent.setText(
-				String.format(App.getLocale(),getString(R.string.batch_yield_percent_value),percent));
+		// cost per unit - what this batch cost you per gallon/liter
+		if ((yield == null) || (cost == null) || (yield <= 0f) || (cost <= 0f)) {
+			textViewCostPerUnit.setText("");
+		} else {
+			Units units = new Units(Settings.KEY_UNITS);
+			textViewCostPerUnit.setText(String.format(App.getLocale(),
+					getString(R.string.batch_cost_per_unit_value),
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(cost / yield),
+					units.getLiquidVolumeLabelLowerCase()));
+		}
 	}
 
 	/**

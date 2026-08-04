@@ -39,17 +39,24 @@
     <color name="calc_text_color">#e0e0e0</color> <!--  light grey -->
     <color name="calc_hint_color">#a0a0a0</color> <!--  darker grey -->
 
-    <!-- FUEL TYPE COLORS -->
-    <!-- Both are dark: they are drawn on the log list rows, whose background is
-         log_bg (#ececec) with log_fg (#000000) text. Fuel type is ALSO distinguished
-         by its text label, so these colors are reinforcement, not the sole signal. -->
-    <color name="fuel_type_wvo_fg">#1b5e20</color>    <!-- dark green -->
-    <color name="fuel_type_diesel_fg">#37474f</color> <!-- dark blue-grey -->
+    <!-- APP BAR COLORS -->
+    <!-- Deliberately neutral dark to sit naturally on the existing black theme.
+         Brand colours are a later change. -->
+    <color name="app_bar_bg">#1f1f1f</color>
+    <color name="app_bar_fg">#ffffff</color>
+    <color name="app_bar_divider">#5a5a5a</color>
 
-    <!-- FUEL SPLIT COLORS -->
-    <color name="fuel_split_black_diesel">#7bd610</color> <!-- green, matches th.summary in stats_top.html -->
-    <color name="fuel_split_pump_diesel">#f0a30a</color>  <!-- amber -->
-    <color name="fuel_split_bg">#ffffff</color>
-    <color name="fuel_split_fg">#000000</color>
+    <!-- FUEL SPLIT / FUEL USED CHART COLORS -->
+    <!-- Shared by the fuel split bar and the stacked Fuel Used chart, so the
+         split bar doubles as a key for the chart below it. -->
+    <color name="fuel_split_waste_oil">#7bd610</color>   <!-- green, matches th.summary in stats_top.html -->
+    <color name="fuel_split_pump_diesel">#f0a30a</color> <!-- amber -->
+
+    <!-- Fuel split card, styled to match the androidplot cards on the same screen.
+         androidplot 0.6.0 defaults: Color.DKGRAY fill, rgb(150,150,150) 1px border,
+         BorderStyle.SQUARE. -->
+    <color name="plot_card_bg">#444444</color>
+    <color name="plot_card_border">#969696</color>
+    <color name="fuel_split_fg">#ffffff</color>
 
 </resources>

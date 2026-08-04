@@ -52,6 +52,8 @@ public class BatchRecord implements Serializable {
 
 	// define maximum values (for display reasons)
 	public static final float MAX_GALLONS = 9999.999f;
+	public static final float MAX_BLEND_PERCENT = 100.0f;
+	public static final double MAX_COST = 999999.999d;
 
 	/// get a locale specific date formatter
 	private static final java.text.DateFormat dateFormatter =
@@ -73,6 +75,12 @@ public class BatchRecord implements Serializable {
 	/// amount of waste oil processed to produce the batch (0 = not recorded)
 	private Float raw;
 
+	/// percentage of gasoline or diesel blended into the batch (0 = none/not recorded)
+	private Float blend;
+
+	/// what the batch cost to produce (0 = not recorded)
+	private Double cost;
+
 	/// textual notes about the batch
 	private String notes;
 
@@ -88,6 +96,8 @@ public class BatchRecord implements Serializable {
 		date = new Date();
 		yield = Float.valueOf(0.0f);
 		raw = Float.valueOf(0.0f);
+		blend = Float.valueOf(0.0f);
+		cost = Double.valueOf(0.0d);
 		notes = "";
 	}
 
@@ -102,6 +112,8 @@ public class BatchRecord implements Serializable {
 		this.date.setTime(that.date.getTime());
 		this.yield = Float.valueOf(that.yield);
 		this.raw = Float.valueOf(that.raw);
+		this.blend = Float.valueOf(that.getBlendPercent());
+		this.cost = Double.valueOf(that.getCost());
 		this.notes = new String(that.notes);
 	}
 
@@ -262,6 +274,127 @@ public class BatchRecord implements Serializable {
 
 	/**
 	 * DESCRIPTION:
+	 * Getter method for the blend percentage attribute - the proportion of
+	 * gasoline or diesel mixed into the batch.
+	 * @return Float - the blend percentage (0 = none recorded).
+	 */
+	public Float getBlendPercent() {
+		if (blend == null) blend = 0f;   // defensive: record from an older version
+		return blend;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the blend percentage attribute.
+	 * @param blend - the blend percentage.
+	 */
+	public void setBlendPercent(Float blend) {
+		this.blend = (blend == null) ? 0f : blend;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the blend percentage attribute. This attribute is
+	 * optional - a blank value is accepted and means "none recorded".
+	 * @param blend - the blend percentage as a String (may be blank).
+	 * @throws NumberFormatException if the String is not a valid percentage.
+	 */
+	public void setBlendPercent(String blend) throws NumberFormatException {
+
+		if (blend == null || blend.trim().length() == 0) {
+			this.blend = 0f;
+			return;
+		}
+
+		Float value = Float.valueOf(blend.trim().replace(',', '.'));
+		if ((value < 0f) || (value > MAX_BLEND_PERCENT)) {
+			throw new NumberFormatException("invalid blend percentage");
+		}
+		this.blend = value;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Getter method for the blend percentage, formatted for display.
+	 * @return the blend percentage as a String, or "" if none recorded.
+	 */
+	public String getBlendPercentString() {
+		if (!hasBlendPercent()) return "";
+		return String.format(App.getLocale(), "%.0f%%", getBlendPercent());
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Indicates whether a blend percentage was recorded for this batch.
+	 * @return true if a blend percentage was recorded.
+	 */
+	public boolean hasBlendPercent() {
+		return (blend != null) && (blend > 0f);
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Getter method for the batch cost attribute - what the batch cost to
+	 * produce, including any blend stock, consumables and power.
+	 * @return Double - the batch cost (0 = not recorded).
+	 */
+	public Double getCost() {
+		if (cost == null) cost = 0d;   // defensive: record from an older version
+		return cost;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the batch cost attribute.
+	 * @param cost - the batch cost.
+	 */
+	public void setCost(Double cost) {
+		this.cost = (cost == null) ? 0d : cost;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the batch cost attribute. This attribute is optional -
+	 * a blank value is accepted and means "not recorded".
+	 * @param cost - the batch cost as a String (may be blank).
+	 * @throws NumberFormatException if the String is not a valid cost.
+	 */
+	public void setCost(String cost) throws NumberFormatException {
+
+		if (cost == null || cost.trim().length() == 0) {
+			this.cost = 0d;
+			return;
+		}
+
+		Double value = Double.valueOf(cost.trim().replace(',', '.'));
+		if ((value < 0d) || (value > MAX_COST)) {
+			throw new NumberFormatException("invalid batch cost");
+		}
+		this.cost = value;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Indicates whether a production cost was recorded for this batch.
+	 * @return true if a cost was recorded.
+	 */
+	public boolean hasCost() {
+		return (cost != null) && (cost > 0d);
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Calculates what each unit of clean fuel in this batch cost to produce.
+	 * This is a derived value - it is never stored.
+	 * @return the cost per unit, or null if no cost was recorded.
+	 */
+	public Double getCostPerUnit() {
+		if (!hasCost() || (yield == null) || (yield <= 0f)) return null;
+		return getCost() / yield;
+	}
+
+	/**
+	 * DESCRIPTION:
 	 * Calculates the percentage of the raw oil input that became usable fuel.
 	 * This is a derived value - it is never stored.
 	 * @return the yield percentage, or null if raw oil was not recorded.
@@ -337,6 +470,8 @@ public class BatchRecord implements Serializable {
 				", date=" + getDateString() +
 				", yield=" + yield +
 				", raw=" + raw +
+				", blend=" + blend +
+				", cost=" + cost +
 				", notes=" + notes +
 				"]";
 	}
@@ -350,8 +485,9 @@ public class BatchRecord implements Serializable {
 	private Object[] getHashArray() {
 
 		// create the array (only once for performance)
+		// NOTE: the array size and the assignments below must be kept in step.
 		if (hash == null) {
-			hash = new Object[5];
+			hash = new Object[7];
 		}
 
 		// populate the array
@@ -360,6 +496,8 @@ public class BatchRecord implements Serializable {
 		hash[2] = yield;
 		hash[3] = raw;
 		hash[4] = notes;
+		hash[5] = getBlendPercent();
+		hash[6] = getCost();
 		return hash;
 	}
 

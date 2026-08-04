@@ -106,6 +106,21 @@ public class StatisticsActivity extends Activity implements OnSharedPreferenceCh
     	// initialize the layout
     	rangeButtons = new PlotDateRangeButtons(this,Settings.KEY_PLOT_DATE_RANGE);
 		webview = (WebView)findViewById(R.id.webviewStats);
+
+		// the app bar (and therefore the options menu) is on the home screen only,
+		// so sharing the report has to be reachable directly from this screen
+		findViewById(R.id.buttonShareStats).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (!ensureStoragePermission()) return;
+				if (ExternalStorage.isWritable()) {
+					shareReport();
+				} else {
+					Utilities.toast(StatisticsActivity.this,
+							getString(R.string.toast_external_storage_not_writable));
+				}
+			}
+		});
     	webview.getSettings().setDefaultTextEncodingName("utf-8");
     	webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
     	

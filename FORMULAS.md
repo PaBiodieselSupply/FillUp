@@ -22,8 +22,8 @@ One vehicle. Complete history:
 | 2 | Pump Diesel  | 18.500  | $70.30 |
 | 3 | Pump Diesel  | 22.000  | $88.00 |
 | 4 | Pump Diesel  | 15.000  | *none recorded* |
-| 5 | Black Diesel | 40.000  | —      |
-| 6 | Black Diesel | 35.000  | —      |
+| 5 | Waste Oil Fuel | 40.000  | —      |
+| 6 | Waste Oil Fuel | 35.000  | —      |
 
 Two centrifuge batches: 55.0 gal clean from 65.0 gal raw, and 30.0 gal clean
 from 40.0 gal raw.
@@ -49,7 +49,7 @@ modified and never read the fuel type. Mixed-fuel tanks blend into one figure.
 > `(gallons of one fuel type / total gallons) × 100`
 
 ```
-Black Diesel   = 40.000 + 35.000                   = 75.000 gal
+Waste Oil Fuel   = 40.000 + 35.000                   = 75.000 gal
 Pump Diesel    = 20.000 + 18.500 + 22.000 + 15.000 = 75.500 gal
 Total                                              = 150.500 gal
 
@@ -57,7 +57,7 @@ Black %  = round(75.000 / 150.500 × 100) = round(49.8339) = 50
 Pump  %  = 100 − 50                                       = 50
 ```
 
-Displays: `50% Black Diesel (75.0 gal) · 50% Pump Diesel (75.5 gal)`
+Displays: `50% Waste Oil Fuel (75.0 gal) · 50% Pump Diesel (75.5 gal)`
 
 **Two deliberate behaviours worth knowing before someone reports them as bugs:**
 
@@ -75,7 +75,7 @@ burned, not money spent.
 
 ---
 
-3. Black Diesel Savings — `BlackDieselSavingsTable`
+3. Waste Oil Fuel Savings — `BlackDieselSavingsTable`
 ---------------------------------------------------
 
 > `Average Diesel Price = total cost of all Pump Diesel fill-ups ÷ total gallons
@@ -84,7 +84,7 @@ burned, not money spent.
 > Records without a cost entered are excluded."
 
 Row 4 has no cost, so it is excluded from **both** the numerator and the
-denominator. Rows 5 and 6 are Black Diesel and never enter the price at all.
+denominator. Rows 5 and 6 are Waste Oil Fuel and never enter the price at all.
 
 ```
 Costed Pump Diesel cost    = 75.00 + 70.30 + 88.00 = $233.30
@@ -99,14 +99,36 @@ Displays: `Pump Diesel Price (avg) — $3.856 per gallon (from 3 fill-ups, all t
 (Three decimal places: the app's fractional currency formatter adds one digit
 beyond the locale's normal two, so tenths of a cent are visible.)
 
-> `Estimated Savings = average diesel price × total gallons of Black Diesel consumed`
+### Production cost, and why savings are net
+
+Centrifuge batches record what they cost to produce, so produced fuel is not
+treated as free. Using two batches — 55.0 gal for $34.00 and 30.0 gal for
+$17.00:
 
 ```
-Savings = 3.856198… × 75.000 = $289.2148…  →  $289.21
+Production cost = (34.00 + 17.00) ÷ (55.0 + 30.0) = $0.600 per gallon
 ```
+
+Only batches with a cost recorded contribute to that rate. An unpriced batch is
+counted in the yield totals but excluded here — otherwise every unpriced batch
+would quietly drag production cost toward zero and overstate savings.
+
+> `Estimated Savings = (pump price − production cost) × gallons of Waste Oil Fuel consumed`
+
+```
+Savings = (3.856198… − 0.600) × 75.000 = $244.2148…  →  $244.21
+```
+
+The gross figure on the same data would be $289.21. The $45.00 difference is
+exactly what that fuel cost to make. **Only the net figure is shown** — a single
+savings number that survives a customer checking it.
+
+If no batch has a cost recorded, production cost is zero and this equals the
+gross figure. If producing ever costs more per gallon than buying, the result
+goes negative and is displayed as such rather than clamped to zero.
 
 **The two halves use different time windows, on purpose.** The price uses the
-complete history; the Black Diesel volume and therefore the savings follow the
+complete history; the Waste Oil Fuel volume and therefore the savings follow the
 date range buttons. That is what the spec asks for, and it is why the price row
 carries the explicit "all time" note — without it, a user switching from All to
 Past Month would watch every figure change except one and reasonably assume it
@@ -153,20 +175,20 @@ two can never display the same batch differently.
 5. Production vs Consumption — `ProductionConsumptionTable`
 -----------------------------------------------------------
 
-> `Net = total yield − Black Diesel consumed`. Positive means producing more
+> `Net = total yield − Waste Oil Fuel consumed`. Positive means producing more
 > than burning.
 
 ```
 Centrifuge batches    = 2
 Total yield           = 55.0 + 30.0 = 85.000 gal
-Black Diesel consumed = 75.000 gal
+Waste Oil Fuel consumed = 75.000 gal
 Net                   = 85.000 − 75.000 = +10.000 gal
 ```
 
 Displays `+10.0 gallons` — the sign is always printed, so surplus and deficit
 are distinguishable at a glance.
 
-**"Black Diesel consumed" here is the same number as "Black Diesel Burned" in
+**"Waste Oil Fuel consumed" here is the same number as "Waste Oil Fuel Burned" in
 the savings table above it, guaranteed.** Both come from the same
 `FuelTypeTotals` calculation rather than two separate loops, which is the whole
 reason that class exists.
@@ -179,7 +201,7 @@ Things that affect the numbers, that you should know about
 **1. "All" is not all time — it is the last 24 months.**
 `PlotDateRange` hard-caps the All range at −23 months, with the original
 author's comment *"force maximum range to 2 years or plot gets ugly"*. This is
-pre-existing and affects every ranged figure: Black Diesel burned, estimated
+pre-existing and affects every ranged figure: Waste Oil Fuel burned, estimated
 savings, batch count, total yield, consumed and net. **There is no way in the UI
 to see a true lifetime savings figure.** This is why the row is labelled
 "Estimated Savings" rather than the spec's "Estimated Lifetime Savings", and why
@@ -215,10 +237,22 @@ app, not something introduced here. A user who switches units partway through
 their history will get mixed units summed into a single figure, in the fuel
 split, the savings and the yield totals alike.
 
-**6. Black Diesel drags down the pre-existing cost statistics.**
-Black Diesel records carry a cost of 0, so they lower the average price per
-gallon and the cost per mile in the *original* summary tables and the price and
-cost plots. Arithmetically that is defensible — free fuel really does lower your
-cost per mile — but the average price per gallon in particular may read as
-diluted. Excluding Black Diesel from those is a separate decision that was not
-in scope.
+**6. Purchased and produced fuel are now kept separate everywhere.**
+Previously, waste oil fill-ups carried a cost of 0 and those zeros were averaged
+in with real purchases, producing a "Fuel Price (avg)" that described nothing.
+Now that batches carry a production cost, every gallon has a true cost and each
+figure states its own scope:
+
+| Where | Row | Covers |
+|---|---|---|
+| Savings table | `Pump Diesel Price (avg)` | what you pay at the pump, all time |
+| Savings table | `Waste Oil Fuel Cost to Produce` | what your own fuel costs, all time |
+| Summary table | `Pump Fuel Cost` | pump spend only |
+| Summary table | `Waste Oil Fuel Cost` | production cost of what you burned |
+| Summary table | `Total Fuel Cost` | both, plus cost per mile |
+| Summary table | `Blended Fuel Price` | total cost ÷ every gallon burned |
+| Plots | `Pump Diesel Price` | pump purchases only — months with none are not averaged in |
+| Plots | `Fuel Used` | every gallon, both types |
+
+`Fuel Used` was previously labelled `Fuel Purchased`. The underlying total always
+included both fuel types — only the label was wrong.

@@ -115,7 +115,7 @@ public class StatisticsReport implements HtmlData {
 		// create table for summary of all data in range
 		// note: no need for summary if only displaying one month table
 		if (months.size() > 1) {
-			tables.add(0,new StatisticsSummaryTable(months,title));
+			tables.add(0,new StatisticsSummaryTable(months,batches,title));
 		}
 
 		// PA Biodiesel additions. NOTE: every insert above and below is at index 0,
@@ -128,7 +128,7 @@ public class StatisticsReport implements HtmlData {
 			tables.add(0,new ProductionConsumptionTable(records,batches,title));
 		}
 
-		tables.add(0,new BlackDieselSavingsTable(records,title));
+		tables.add(0,new WasteOilSavingsTable(records,batches,title));
 	}
 	
 	/**

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    App bar for the home screen: title on the left, overflow on the right.
+
+    This is a plain layout rather than a real ActionBar because the app theme is
+    deliberately left as Theme.Black.NoTitleBar - switching to a Material or
+    AppCompat theme to get an ActionBar would restyle every screen in the app.
+
+    It exists because raising targetSdk above 10 removed the virtual menu key
+    that Android used to supply in the navigation bar. Without it there is no way
+    to open an options menu at all, which orphaned Settings, Help, Import, Export
+    and the vehicle actions. The overflow button here opens the same menu via a
+    PopupMenu - see MainActivity.showOverflowMenu().
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_bar_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="4dp" >
+
+        <TextView
+            android:id="@+id/textViewAppBarTitle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/app_name"
+            android:textColor="@color/app_bar_fg"
+            android:textSize="@dimen/main_text_size"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/buttonAppBarMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/menu_description"
+            android:padding="10dp"
+            android:src="@drawable/ic_menu_moreoptions" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/app_bar_divider" />
+
+</LinearLayout>

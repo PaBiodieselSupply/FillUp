@@ -32,7 +32,7 @@ import android.widget.TextView;
  * DESCRIPTION:
  * Manages the fuel split section of the plot screen: a horizontal stacked bar
  * showing what proportion of the fuel consumed over the selected date range was
- * Black Diesel the user produced themselves, versus Pump Diesel they bought.<p>
+ * Waste Oil Fuel the user produced themselves, versus Pump Diesel they bought.<p>
  *
  * NOTES:<p>
  * <ol>
@@ -57,7 +57,7 @@ public class FuelSplitPlot implements OnSharedPreferenceChangeListener {
 
 	/// the stacked bar and its two segments
 	private LinearLayout bar;
-	private View barBlackDiesel;
+	private View barWasteOil;
 	private View barPumpDiesel;
 
 	/// the summary label, and the message shown when there is no data
@@ -80,7 +80,7 @@ public class FuelSplitPlot implements OnSharedPreferenceChangeListener {
 		this.activity = parent;
 
 		bar = (LinearLayout)container.findViewById(R.id.barFuelSplit);
-		barBlackDiesel = container.findViewById(R.id.barBlackDiesel);
+		barWasteOil = container.findViewById(R.id.barWasteOilFuel);
 		barPumpDiesel = container.findViewById(R.id.barPumpDiesel);
 		label = (TextView)container.findViewById(R.id.labelFuelSplit);
 		labelEmpty = (TextView)container.findViewById(R.id.labelFuelSplitEmpty);
@@ -114,13 +114,13 @@ public class FuelSplitPlot implements OnSharedPreferenceChangeListener {
 		// A segment for a fuel type with no volume gets a weight of 0, and the
 		// segments are declared with a width of 0dp, so an all-one-type range
 		// renders as a single solid bar with no special casing.
-		setWeight(barBlackDiesel,totals.getBlackDieselFraction() * 100f);
+		setWeight(barWasteOil,totals.getWasteOilFraction() * 100f);
 		setWeight(barPumpDiesel,totals.getPumpDieselFraction() * 100f);
 
 		String volume = units.getLiquidVolumeLabelLowerCase();
 		String format = activity.getString(R.string.fuel_split_summary);
 		label.setText(String.format(App.getLocale(),format,
-				totals.getBlackDieselPercent(), totals.getBlackDieselGallons(), volume,
+				totals.getWasteOilPercent(), totals.getWasteOilGallons(), volume,
 				totals.getPumpDieselPercent(),  totals.getPumpDieselGallons(),  volume));
 	}
 

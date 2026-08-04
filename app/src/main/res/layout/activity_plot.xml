@@ -50,7 +50,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/fuel_split_bg"
+                android:background="@drawable/plot_card"
                 android:orientation="vertical"
                 android:padding="8dp" >
 
@@ -62,11 +62,11 @@
                     android:weightSum="100" >
 
                     <View
-                        android:id="@+id/barBlackDiesel"
+                        android:id="@+id/barWasteOilFuel"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="50"
-                        android:background="@color/fuel_split_black_diesel" />
+                        android:background="@color/fuel_split_waste_oil" />
 
                     <View
                         android:id="@+id/barPumpDiesel"

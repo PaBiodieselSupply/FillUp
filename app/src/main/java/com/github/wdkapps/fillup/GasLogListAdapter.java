@@ -131,15 +131,12 @@ public class GasLogListAdapter extends ArrayAdapter<GasRecord> {
 		columnMileage.setText(mileage);
 
 		// fuel type
-		// NOTE: distinguished by BOTH the label text and the color, not the color
-		// alone - the log background is near-greyscale and color alone excludes
-		// colorblind users
-		FuelType fuelType = record.getFuelType();
+		// NOTE: styled identically to every other row line - the label text is
+		// what distinguishes the two fuel types, not colour
 		String fuel = String.format("<b>%s</b>: %s",
 				App.getContext().getString(R.string.fuel_type_label),
-				fuelType.getLabel());
+				record.getFuelType().getLabel());
 		rowFuelType.setText(Html.fromHtml(fuel));
-		rowFuelType.setTextColor(activity.getResources().getColor(fuelType.getColorResId()));
 
 		// cost (don't display if zero)
 		if (!isCostDisplayable || (record.getCost() == 0d)) {

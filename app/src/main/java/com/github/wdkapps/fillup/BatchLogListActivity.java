@@ -99,6 +99,15 @@ implements ConfirmationDialog.Listener,
 		// configure ListView to use our adapter
 		listView.setAdapter(adapter);
 
+		// the app bar (and therefore the options menu) is on the home screen only,
+		// so adding a batch has to be reachable directly from this screen
+		findViewById(R.id.buttonAddBatch).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				addBatch(view);
+			}
+		});
+
 		// configure ListView to use our context menu when a record is clicked
 		registerForContextMenu(listView);
 		listView.setLongClickable(false);

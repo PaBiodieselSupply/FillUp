@@ -32,8 +32,8 @@ import java.util.List;
  * <li>Every feature that reports on fuel type - the fuel split bar on the plot
  * screen, the savings table and the production/consumption table in the
  * statistics report - goes through this one class. That is deliberate: it is
- * what guarantees the "Black Diesel Burned" figure in one table can never
- * disagree with the "Black Diesel Consumed" figure in the table beneath it.
+ * what guarantees the "Waste Oil Fuel Burned" figure in one table can never
+ * disagree with the "Waste Oil Fuel Consumed" figure in the table beneath it.
  * <li>A cost greater than zero is the only available proxy for "a cost was
  * recorded". The database column is <code>real not null default 0</code>, so a
  * genuinely free pump purchase is indistinguishable from an unrecorded one and
@@ -48,8 +48,8 @@ import java.util.List;
  */
 public class FuelTypeTotals {
 
-	/// total volume of user-produced fuel (Black Diesel) consumed
-	private float blackDieselGallons = 0f;
+	/// total volume of user-produced fuel (Waste Oil Fuel) consumed
+	private float wasteOilGallons = 0f;
 
 	/// total volume of purchased fuel (Pump Diesel) consumed
 	private float pumpDieselGallons = 0f;
@@ -80,8 +80,8 @@ public class FuelTypeTotals {
 
 			float gallons = record.getGallons();
 
-			if (record.getFuelType().isBlackDiesel()) {
-				blackDieselGallons += gallons;
+			if (record.getFuelType().isWasteOil()) {
+				wasteOilGallons += gallons;
 			} else {
 				pumpDieselGallons += gallons;
 
@@ -98,10 +98,10 @@ public class FuelTypeTotals {
 
 	/**
 	 * DESCRIPTION:
-	 * @return the total volume of Black Diesel consumed.
+	 * @return the total volume of Waste Oil Fuel consumed.
 	 */
-	public float getBlackDieselGallons() {
-		return blackDieselGallons;
+	public float getWasteOilGallons() {
+		return wasteOilGallons;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class FuelTypeTotals {
 	 * @return the total volume of fuel consumed, of both types.
 	 */
 	public float getTotalGallons() {
-		return blackDieselGallons + pumpDieselGallons;
+		return wasteOilGallons + pumpDieselGallons;
 	}
 
 	/**
@@ -166,12 +166,12 @@ public class FuelTypeTotals {
 
 	/**
 	 * DESCRIPTION:
-	 * @return the fraction (0.0 - 1.0) of total fuel that was Black Diesel.
+	 * @return the fraction (0.0 - 1.0) of total fuel that was Waste Oil Fuel.
 	 */
-	public float getBlackDieselFraction() {
+	public float getWasteOilFraction() {
 		float total = getTotalGallons();
 		if (total <= 0f) return 0f;
-		return blackDieselGallons / total;
+		return wasteOilGallons / total;
 	}
 
 	/**
@@ -186,25 +186,25 @@ public class FuelTypeTotals {
 
 	/**
 	 * DESCRIPTION:
-	 * @return the percentage (0 - 100) of total fuel that was Black Diesel.
+	 * @return the percentage (0 - 100) of total fuel that was Waste Oil Fuel.
 	 */
-	public int getBlackDieselPercent() {
+	public int getWasteOilPercent() {
 		if (isEmpty()) return 0;
-		return Math.round(getBlackDieselFraction() * 100f);
+		return Math.round(getWasteOilFraction() * 100f);
 	}
 
 	/**
 	 * DESCRIPTION:
 	 * Returns the percentage of total fuel that was Pump Diesel.<p>
 	 *
-	 * NOTE: this is derived from the Black Diesel percentage rather than rounded
+	 * NOTE: this is derived from the Waste Oil Fuel percentage rather than rounded
 	 * independently. Rounding both separately produces totals of 99% or 101%.
 	 *
 	 * @return the percentage (0 - 100) of total fuel that was Pump Diesel.
 	 */
 	public int getPumpDieselPercent() {
 		if (isEmpty()) return 0;
-		return 100 - getBlackDieselPercent();
+		return 100 - getWasteOilPercent();
 	}
 
 	/**

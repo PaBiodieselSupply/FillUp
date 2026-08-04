@@ -50,6 +50,12 @@ public class StatisticsSummaryTable implements HtmlData {
 	
 	/// gas records data was derived from
 	private ArrayList<GasRecord> records = new ArrayList<GasRecord>();
+
+	/// fuel volumes and pump costs split by fuel type, for the displayed months
+	private FuelTypeTotals fuel;
+
+	/// centrifuge batch economics, all time - the source of the production cost rate
+	private BatchTotals production;
 	
 	/// a row index used during creation
 	private int row;
@@ -63,15 +69,26 @@ public class StatisticsSummaryTable implements HtmlData {
 	 * @param data - the trip data used to generate the table (current month at index 0)
 	 * @param title - the table title.
 	 */
-	public StatisticsSummaryTable(List<TripRecord> data,  String title) {
+	public StatisticsSummaryTable(List<TripRecord> data, List<BatchRecord> batches, String title) {
 		this.data = data;
-		this.title = getString(R.string.stats_summary_prefix) + title;
+		this.title = String.format(App.getLocale(),
+				getString(R.string.stats_table_title),
+				getString(R.string.stats_heading_summary),
+				title);
 		this.total = new TripRecord(new Date());
-		for (TripRecord trip : data) { 
+		for (TripRecord trip : data) {
 			this.total.append(trip);
 		}
 		this.records.addAll(total.getGasRecords());
 		Collections.sort(records,new OdometerComparator());
+
+		// The records above are already limited to the displayed months, so these
+		// totals need no further date filtering. The production cost RATE, however,
+		// deliberately comes from the complete batch history - same reasoning as
+		// the savings table, so the two tables agree.
+		this.fuel = new FuelTypeTotals(records,null);
+		this.production = new BatchTotals(batches,null);
+
 		createTable();
 	}
 
@@ -98,7 +115,10 @@ public class StatisticsSummaryTable implements HtmlData {
 		appendMileageData();
 		appendDistanceData();
 		appendGallonsData();
+		appendFuelUsedBreakdown();
 		appendCostData();
+		appendWasteOilCostData();
+		appendTotalCostData();
 		appendPriceData();
 		html.append("</table>").append(newline);
 	}	
@@ -177,15 +197,97 @@ public class StatisticsSummaryTable implements HtmlData {
 			per_mile = total.getCost()/total.getDistance();
 		}
 		
-		// create table row
+		// NOTE: total.getCost() sums the cost recorded against fill-ups. Waste Oil
+		// Fuel fill-ups have no purchase cost, so this is pump spend only - which is
+		// what the label now says. What the produced fuel cost to make is a separate
+		// row below, so the two are never conflated.
 		String label = getString(R.string.stats_label_cost);
-		String value = String.format(App.getLocale(),getString(R.string.stats_calc_cost),
+		String value = String.format(App.getLocale(),getString(R.string.stats_calc_cost_permonth),
     				CurrencyManager.getInstance().getSymbolicFormatter().format(total.getCost()),
-    				CurrencyManager.getInstance().getSymbolicFormatter().format(per_month),
-    				CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(per_mile),
-    				units.getDistanceRatioLabel()); 
+    				CurrencyManager.getInstance().getSymbolicFormatter().format(per_month));
 		value = value.replace("(","<br/>(");
 		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends the fuel type breakdown beneath the Fuel Used row.
+	 */
+	private void appendFuelUsedBreakdown() {
+
+		if (fuel.isEmpty()) return;
+
+		String format = getString(R.string.stats_calc_gallons_pct);
+		String volume = units.getLiquidVolumeLabelLowerCase();
+
+		appendTableRow(new String[]{
+				indent(getString(R.string.stats_label_fuel_used_wvo)),
+				String.format(App.getLocale(),format,
+						fuel.getWasteOilGallons(),volume,fuel.getWasteOilPercent())});
+
+		appendTableRow(new String[]{
+				indent(getString(R.string.stats_label_fuel_used_pump)),
+				String.format(App.getLocale(),format,
+						fuel.getPumpDieselGallons(),volume,fuel.getPumpDieselPercent())});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends what the Waste Oil Fuel burned cost to produce.<p>
+	 *
+	 * NOTE: the rate comes from the complete batch history while the volume is
+	 * the volume burned in the displayed months, matching how the savings table
+	 * works. If no batch has a cost recorded this is zero, and the row still
+	 * appears so that the total below it can be seen to add up.
+	 */
+	private void appendWasteOilCostData() {
+		String label = getString(R.string.stats_label_wvo_fuel_cost);
+		String value = CurrencyManager.getInstance().getSymbolicFormatter()
+				.format(getWasteOilCost());
+		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends the true total cost of every unit of fuel burned, purchased or
+	 * produced, and what that works out to per unit of distance.
+	 */
+	private void appendTotalCostData() {
+
+		double totalCost = total.getCost() + getWasteOilCost();
+
+		double per_mile = 0;
+		if (total.getDistance() > 0) {
+			per_mile = totalCost/total.getDistance();
+		}
+
+		String label = getString(R.string.stats_label_total_fuel_cost);
+		String value = String.format(App.getLocale(),getString(R.string.stats_calc_cost_permile),
+				CurrencyManager.getInstance().getSymbolicFormatter().format(totalCost),
+				CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(per_mile),
+				units.getDistanceRatioLabel());
+		value = value.replace("(","<br/>(");
+		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Calculates what the Waste Oil Fuel burned in the displayed months cost to
+	 * produce.
+	 * @return the production cost, or 0 if no batch has a cost recorded.
+	 */
+	private double getWasteOilCost() {
+		return production.getCostPerUnit() * fuel.getWasteOilGallons();
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Indents a table label, for rows that break down the row above them.
+	 * @param label - the label to indent.
+	 * @return the indented label as HTML.
+	 */
+	private String indent(String label) {
+		return "&nbsp;&nbsp;&nbsp;&nbsp;" + label;
 	}
 
 	/**
@@ -216,12 +318,23 @@ public class StatisticsSummaryTable implements HtmlData {
 	 * Appends price statistical data to the table.
 	 */
 	private void appendPriceData() {
-		String label = getString(R.string.stats_label_price);;
+
+		// What every unit of fuel actually cost, purchased or produced.
+		//
+		// NOTE: this used to be pump spend divided by ALL fuel, which produced a
+		// figure that described nothing - free waste oil fuel dragged the average
+		// down without its production cost ever being counted. Now that batches
+		// carry a cost, the numerator and the denominator finally cover the same
+		// fuel, and the number means something. The isolated pump price lives in
+		// the savings table.
+		String label = getString(R.string.stats_label_blended_price);
 		String value = "-";
-		if (total.getGallons() > 0) {
-			double price = total.getCost()/total.getGallons();
+
+		float gallons = fuel.getTotalGallons();
+		if (gallons > 0f) {
+			double price = (total.getCost() + getWasteOilCost()) / gallons;
 			value = String.format("%s %s",
-					CurrencyManager.getInstance().getSymbolicFormatter().format(price),
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(price),
 					units.getLiquidVolumeRatioLabel());
 		}
 		appendTableRow(new String[]{label,value});

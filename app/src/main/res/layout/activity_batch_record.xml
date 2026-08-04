@@ -117,12 +117,52 @@
                 android:hint="@string/hint_batch_raw"
                 android:imeOptions="actionNext" />
 
-            <!-- YIELD PERCENTAGE (derived; blank until raw oil is entered) -->
+            <!-- BLEND PERCENTAGE (optional) -->
+            <TextView
+                android:id="@+id/textViewBlend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_blend_label" />
+
+            <EditText
+                android:id="@+id/editTextBlend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789.,"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/hint_batch_blend"
+                android:imeOptions="actionNext" />
+
+            <!-- TOTAL BATCH COST (optional) -->
+            <TextView
+                android:id="@+id/textViewBatchCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_cost_label" />
+
+            <EditText
+                android:id="@+id/editTextBatchCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789.,"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/hint_batch_cost"
+                android:imeOptions="actionNext" />
+
+            <!-- DERIVED: yield % and cost per unit, blank until inputs allow them -->
             <TextView
                 android:id="@+id/textViewYieldPercent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
+                android:textColor="@color/calc_text_color" />
+
+            <TextView
+                android:id="@+id/textViewCostPerUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:textColor="@color/calc_text_color" />
 

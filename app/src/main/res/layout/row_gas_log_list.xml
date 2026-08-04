@@ -58,14 +58,14 @@
         Fuel type. This is a full-width row beneath the four columns rather than a
         fifth column: activity_gas_log_list.xml carries a static four-column header
         whose weights mirror the columns above, so a fifth column would mean
-        re-weighting both files and fitting five columns into a phone width. The
-        text color is set per row in GasLogListAdapter.
+        re-weighting both files and fitting five columns into a phone width.
     -->
     <TextView
         android:id="@+id/rowFuelType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:textColor="@color/log_fg"
         android:textSize="@dimen/log_small_text_size"
         android:paddingLeft="15dp"
         android:singleLine="true"/>

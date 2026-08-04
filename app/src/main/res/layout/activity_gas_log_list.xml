@@ -72,11 +72,22 @@
     <ListView
         android:id="@+id/gas_log_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/log_bg"
         android:cacheColorHint="@color/log_bg"
         android:divider="@color/log_divider_color"
         android:dividerHeight="1dip"
         android:padding="4dip" />
+
+    <!-- the app bar (and its overflow) is on the home screen only, so the
+         primary action of this screen needs to be reachable directly -->
+    <Button
+        android:id="@+id/buttonAddFuel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_gas_can"
+        android:text="@string/get_gas_label"
+        android:textSize="@dimen/main_text_size" />
 
 </LinearLayout>

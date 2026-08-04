@@ -179,12 +179,20 @@ public class StatisticsMonthTable implements HtmlData {
 	 * Appends price statistical data to the table.
 	 */
 	private void appendPriceData() {
+
+		// NOTE: this is pump diesel only. It used to be this month's total spend
+		// divided by this month's total fuel, so a month running on waste oil fuel
+		// reported an artificially low price per unit - or zero - because free fuel
+		// was in the denominator while nothing was in the numerator.
+		FuelTypeTotals fuel = new FuelTypeTotals(
+				new ArrayList<GasRecord>(data.getGasRecords()),null);
+
 		String label = getString(R.string.stats_label_price);
 		String value = "-";
-		if (data.getGallons() > 0) {
-			double price = data.getCost()/data.getGallons();
+		if (fuel.hasAveragePumpPrice()) {
 			value = String.format("%s %s",
-					CurrencyManager.getInstance().getSymbolicFormatter().format(price),
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter()
+							.format(fuel.getAveragePumpPrice()),
 					units.getLiquidVolumeRatioLabel());
 		}
 		appendTableRow(new String[]{label,value});

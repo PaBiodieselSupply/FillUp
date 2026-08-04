@@ -19,13 +19,21 @@
 
 package com.github.wdkapps.fillup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +41,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
+
+import androidx.core.content.FileProvider;
 
 /**
  * DESCRIPTION:
@@ -44,10 +55,24 @@ import android.widget.Spinner;
  */
 public class MainActivity 
 extends Activity 
-implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickListener {
-	
+implements VehicleDialog.Listener,
+	ConfirmationDialog.Listener,
+	StorageSelectionDialog.Listener,
+	View.OnClickListener {
+
 	/// the gas log
 	private GasLog gaslog;
+
+	/// request code for the runtime external storage permission request
+	private static final int REQUEST_STORAGE_PERMISSION = 100;
+
+	/// actions that require external storage permission
+	private static final int PENDING_NONE = 0;
+	private static final int PENDING_EXPORT = 1;
+	private static final int PENDING_IMPORT_INTERNAL = 2;
+
+	/// the action to perform once the user grants storage permission
+	private int pendingStorageAction = PENDING_NONE;
 	
 	/// a list of vehicles from the log
 	private List<Vehicle> vehicles;
@@ -87,6 +112,8 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
         Button buttonViewStatistics = (Button)findViewById(R.id.buttonViewStatistics);
         Button buttonBatchLog = (Button)findViewById(R.id.buttonBatchLog);
         buttonBatchLog.setOnClickListener(this);
+        ImageButton buttonAppBarMenu = (ImageButton)findViewById(R.id.buttonAppBarMenu);
+        buttonAppBarMenu.setOnClickListener(this);
         buttonVehicleAdd.setOnClickListener(this);
         buttonVehicleEdit.setOnClickListener(this);
         buttonVehicleDelete.setOnClickListener(this);
@@ -187,6 +214,19 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
     		viewBatchLog(null);
     		return true;
 
+    	case R.id.itemImport:
+    		if (getSelectedVehicle() != null) {
+    			showDialog(DIALOG_SELECT_STORAGE_LOCATION_ID);
+    		}
+    		return true;
+
+    	case R.id.itemExport:
+    		if (getSelectedVehicle() == null) return true;
+    		if (ensureStoragePermission(PENDING_EXPORT)) {
+    			startExport();
+    		}
+    		return true;
+
     	case R.id.itemHelp:
 			intent = new Intent(this, HtmlViewerActivity.class);
 			intent.putExtra(HtmlViewerActivity.URL,getString(R.string.url_help_html));
@@ -250,11 +290,55 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
 			viewBatchLog(v);
 			break;
 
+		case R.id.buttonAppBarMenu:
+			showOverflowMenu(v);
+			break;
+
 
 		default:
 			Utilities.toast(this,"Invalid view id.");
 		}
 		
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Displays the options menu as a dropdown anchored to the app bar's overflow
+	 * button.<p>
+	 *
+	 * NOTE: this exists because raising targetSdk above 10 removed the virtual
+	 * menu key Android used to place in the navigation bar, and the app theme has
+	 * no ActionBar to hold an overflow. Without it there is no way to open an
+	 * options menu at all.<p>
+	 *
+	 * The same menu resource and the same {@link #onOptionsItemSelected} handler
+	 * are used, so nothing about menu handling is duplicated here.
+	 *
+	 * @param anchor - the View to anchor the dropdown to.
+	 */
+	public void showOverflowMenu(View anchor) {
+
+		PopupMenu popup = new PopupMenu(this, anchor);
+		popup.getMenuInflater().inflate(R.menu.activity_main, popup.getMenu());
+
+		// enable/disable the items that need a vehicle to act on
+		boolean hasVehicle = !vehicles.isEmpty();
+		int[] needVehicle = new int[] {
+				R.id.itemVehicleEdit, R.id.itemVehicleDelete,
+				R.id.itemImport, R.id.itemExport};
+		for (int id : needVehicle) {
+			MenuItem item = popup.getMenu().findItem(id);
+			if (item != null) item.setEnabled(hasVehicle);
+		}
+
+		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				return onOptionsItemSelected(item);
+			}
+		});
+
+		popup.show();
 	}
 
     /**
@@ -479,6 +563,9 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
     protected static final int DIALOG_SHOW_CALCULATION_ID = 4;
     protected static final int DIALOG_SHOW_ESTIMATE_ID = 5;
     protected static final int DIALOG_TANK_NEVER_FILLED_ID = 6;
+    protected static final int DIALOG_SELECT_STORAGE_LOCATION_ID = 7;
+    protected static final int DIALOG_CONFIRM_EXPORT_OVERWRITE_ID = 8;
+    protected static final int DIALOG_CONFIRM_EXPORT_SHARE_ID = 9;
 
     /**
      * DESCRIPTION:
@@ -519,7 +606,26 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
         case DIALOG_TANK_NEVER_FILLED_ID:
    			dialog = TankNeverFilledDialog.create(this,id);
             break;
-            
+
+        case DIALOG_SELECT_STORAGE_LOCATION_ID:
+        	dialog = StorageSelectionDialog.create(this,this,id);
+        	break;
+
+        case DIALOG_CONFIRM_EXPORT_OVERWRITE_ID:
+        	title = getString(R.string.title_confirm_export_overwrite_dialog);
+        	message = String.format(App.getLocale(),
+        			getString(R.string.message_confirm_export_overwrite_dialog),
+        			getExportFile().getAbsolutePath());
+        	dialog = ConfirmationDialog.create(this,this,id,title,message);
+        	break;
+
+        case DIALOG_CONFIRM_EXPORT_SHARE_ID:
+        	title = getString(R.string.title_confirm_export_share_dialog);
+        	message = getString(R.string.message_confirm_export_share_dialog);
+        	dialog = ConfirmationDialog.create(this,this,id,title,message);
+        	break;
+
+
         default:
         	Utilities.toast(this,"Invalid dialog id.");
     	}
@@ -573,11 +679,243 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
 		case DIALOG_DELETE_VEHICLE_ID:
 			deleteVehicle();
 			break;
-			
+
+		case DIALOG_CONFIRM_EXPORT_OVERWRITE_ID:
+			exportData();
+			break;
+
+		case DIALOG_CONFIRM_EXPORT_SHARE_ID:
+			shareExportFile();
+			break;
+
 		default:
 			Utilities.toast(this,"Invalid dialog id.");
 		}
 	}
+
+	/**
+	 * DESCRIPTION:
+	 * Called when the user chooses where to import a CSV file from.
+	 * @see com.github.wdkapps.fillup.StorageSelectionDialog.Listener#onStorageSelectionDialogResponse(int, com.github.wdkapps.fillup.StorageSelectionDialog.Result, java.lang.String)
+	 */
+	@Override
+	public void onStorageSelectionDialogResponse(int id, StorageSelectionDialog.Result result, String value) {
+
+		removeDialog(id);
+
+		if (result == StorageSelectionDialog.Result.RESULT_CANCEL) {
+			Utilities.toast(this,getString(R.string.toast_canceled));
+			return;
+		}
+
+		if (id != DIALOG_SELECT_STORAGE_LOCATION_ID) {
+			Utilities.toast(this,"Invalid dialog id.");
+			return;
+		}
+
+		if (value.equals("cloud")) {
+			showCloudStorageChooser();
+		} else {
+			showInternalStorageChooser();
+		}
+	}
+
+    /**
+     * DESCRIPTION:
+     * Return the name and path to a file for exporting log data.
+     * @return the File.
+     */
+    protected File getExportFile() {
+    	File dir = ExternalStorage.getPublicDownloadDirectory();
+    	return new File(dir, selectedVehicle.getName() + ".csv");
+    }
+
+    /**
+     * DESCRIPTION:
+     * Determines whether the export file already exists, and either asks the user
+     * to confirm overwriting it or exports immediately.
+     */
+    protected void startExport() {
+
+    	if (gaslog.readAllRecords(selectedVehicle).isEmpty()) {
+    		Utilities.toast(this,getString(R.string.toast_no_data_to_export));
+    		return;
+    	}
+
+    	if (getExportFile().exists()) {
+    		showDialog(DIALOG_CONFIRM_EXPORT_OVERWRITE_ID);
+    	} else {
+    		exportData();
+    	}
+    }
+
+    /**
+     * DESCRIPTION:
+     * Exports data for the selected vehicle to an ASCII CSV file.
+     */
+    protected void exportData() {
+
+    	if (!ExternalStorage.isWritable()) {
+    		Utilities.toast(this,getString(R.string.toast_external_storage_not_writable));
+    		return;
+    	}
+
+    	File file = getExportFile();
+
+    	if (gaslog.exportData(selectedVehicle,file)) {
+    		Utilities.toast(this,getString(R.string.toast_export_complete));
+    		Utilities.toast(this,file.getAbsolutePath());
+    		showDialog(DIALOG_CONFIRM_EXPORT_SHARE_ID);
+    	} else {
+    		Utilities.toast(this,getString(R.string.toast_export_failed));
+    	}
+    }
+
+    /**
+     * DESCRIPTION:
+     * Offers the exported CSV file to another application.
+     */
+    protected void shareExportFile() {
+
+    	File file = getExportFile();
+
+    	// NOTE: Uri.fromFile() throws FileUriExposedException at targetSdk >= 24.
+    	Uri uri;
+    	try {
+    		uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
+    	} catch (IllegalArgumentException e) {
+    		Utilities.toast(this,getString(R.string.toast_failed));
+    		return;
+    	}
+
+    	Intent intent = new Intent(Intent.ACTION_SEND);
+    	intent.setType("text/plain");
+    	intent.putExtra(Intent.EXTRA_STREAM,uri);
+    	intent.putExtra(Intent.EXTRA_SUBJECT,file.getName());
+    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    	startActivity(Intent.createChooser(intent, getString(R.string.title_chooser_share_csv)));
+    }
+
+    /**
+     * DESCRIPTION:
+     * Allow the user to select a file to import using an installed cloud application.
+     */
+    private void showCloudStorageChooser() {
+        try {
+            Intent target = new Intent(Intent.ACTION_GET_CONTENT);
+            // text/csv would be better, but Google Drive needs */* to allow selection
+            target.setType("*/*");
+            target.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(target,CHOOSE_IMPORT_FILE);
+        } catch (android.content.ActivityNotFoundException ex) {
+    		Utilities.toast(this,getString(R.string.toast_activity_not_found));
+        }
+    }
+
+    /**
+     * DESCRIPTION:
+     * Allow the user to select a file to import from internal storage.
+     */
+    private void showInternalStorageChooser() {
+
+    	if (!ensureStoragePermission(PENDING_IMPORT_INTERNAL)) return;
+
+    	if (!ExternalStorage.isReadable()) {
+    		Utilities.toast(this,getString(R.string.toast_external_storage_not_readable));
+    		return;
+    	}
+
+    	Intent intent = new Intent(this, FileSelectionActivity.class);
+    	File root = Environment.getExternalStorageDirectory();
+    	File path = Environment.getExternalStoragePublicDirectory(DOWNLOAD_SERVICE);
+    	intent.putExtra(FileSelectionActivity.ROOT,root.getAbsolutePath());
+    	intent.putExtra(FileSelectionActivity.PATH,path.getAbsolutePath());
+    	intent.putExtra(FileSelectionActivity.EXT,".csv");
+    	startActivityForResult(intent,CHOOSE_IMPORT_FILE);
+    }
+
+    /**
+     * DESCRIPTION:
+     * Imports data from an ASCII CSV file into the log for the selected vehicle.
+     * @param uri - the file to import.
+     */
+    protected void importData(Uri uri) {
+
+        InputStream file;
+		try {
+			file = getContentResolver().openInputStream(uri);
+		} catch (FileNotFoundException e) {
+    		Utilities.toast(this,getString(R.string.toast_import_failed));
+    		return;
+		}
+
+    	if (!gaslog.importData(selectedVehicle, file)) {
+    		Utilities.toast(this,getString(R.string.toast_import_failed));
+    		return;
+    	}
+
+		Utilities.toast(this,getString(R.string.toast_import_complete));
+    }
+
+    /**
+     * DESCRIPTION:
+     * Ensures that the app holds the external storage permission required to read
+     * and write CSV files. Declared in the manifest is not sufficient from API 23.
+     * @param pendingAction - the action to perform once permission is granted.
+     * @return true if the permission is already held and the caller may proceed.
+     */
+    private boolean ensureStoragePermission(int pendingAction) {
+
+    	// permissions are granted at install time below API 23
+    	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
+
+    	if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    			== PackageManager.PERMISSION_GRANTED) {
+    		return true;
+    	}
+
+    	pendingStorageAction = pendingAction;
+    	requestPermissions(new String[] {
+    			Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    			Manifest.permission.READ_EXTERNAL_STORAGE},
+    			REQUEST_STORAGE_PERMISSION);
+
+    	return false;
+    }
+
+    /**
+     * DESCRIPTION:
+     * Called when the user responds to a runtime permission request.
+     * @see android.app.Activity#onRequestPermissionsResult(int, java.lang.String[], int[])
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
+
+    	super.onRequestPermissionsResult(requestCode, permissions, results);
+
+    	if (requestCode != REQUEST_STORAGE_PERMISSION) return;
+
+    	int action = pendingStorageAction;
+    	pendingStorageAction = PENDING_NONE;
+
+    	boolean granted = (results.length > 0) && (results[0] == PackageManager.PERMISSION_GRANTED);
+    	if (!granted) {
+    		Utilities.toast(this,getString(R.string.toast_external_storage_not_writable));
+    		return;
+    	}
+
+    	switch (action) {
+    	case PENDING_EXPORT:
+    		startExport();
+    		break;
+    	case PENDING_IMPORT_INTERNAL:
+    		showInternalStorageChooser();
+    		break;
+    	default:
+    		break;
+    	}
+    }
 
     /**
      * DESCRIPTION:
@@ -634,6 +972,7 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
 	 * @see #onActivityResult(int, int, Intent)
 	 */
 	private static final int GET_GAS_REQUEST = 1;
+	private static final int CHOOSE_IMPORT_FILE = 2;
     
     /**
      * DESCRIPTION:
@@ -656,7 +995,15 @@ implements VehicleDialog.Listener, ConfirmationDialog.Listener, View.OnClickList
         		Utilities.toast(this,getString(R.string.toast_canceled));
         	}
         	break;
-        	
+
+        case CHOOSE_IMPORT_FILE:
+        	if ((resultCode == Activity.RESULT_OK) && (intent != null) && (intent.getData() != null)) {
+        		importData(intent.getData());
+        	} else {
+        		Utilities.toast(this,getString(R.string.toast_canceled));
+        	}
+        	break;
+
         default:
         	Utilities.toast(this,"Invalid Request Code.");
         }

@@ -66,11 +66,25 @@
     <ListView
         android:id="@+id/batch_log_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/log_bg"
         android:cacheColorHint="@color/log_bg"
         android:divider="@color/log_divider_color"
         android:dividerHeight="1dip"
         android:padding="4dip" />
+
+    <!--
+        Adding a batch is the primary action of this screen and it must not depend
+        on an options menu: the app bar is on the home screen only, so there is no
+        overflow here to reach one from.
+    -->
+    <Button
+        android:id="@+id/buttonAddBatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_menu_add"
+        android:text="@string/batch_add_label"
+        android:textSize="@dimen/main_text_size" />
 
 </LinearLayout>

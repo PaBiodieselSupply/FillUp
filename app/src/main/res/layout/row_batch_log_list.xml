@@ -52,6 +52,17 @@
         android:paddingLeft="15dp"
         android:singleLine="true"/>
 
+    <!-- production cost: optional, hidden when not recorded -->
+    <TextView
+        android:id="@+id/rowBatchCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textColor="@color/log_fg"
+        android:textSize="@dimen/log_small_text_size"
+        android:paddingLeft="15dp"
+        android:singleLine="true"/>
+
     <TextView
         android:id="@+id/rowBatchNotes"
         android:layout_width="match_parent"

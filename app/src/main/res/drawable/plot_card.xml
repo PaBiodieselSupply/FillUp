@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Matches the card that androidplot draws around each XYPlot on the plots
+    screen, so a plain layout can sit alongside them without looking foreign.
+
+    Values read from the bundled androidplot 0.6.0 source (Plot.java):
+      backgroundPaint = Color.DKGRAY          -> #444444
+      borderPaint     = Color.rgb(150,150,150)-> #969696, strokeWidth 1
+      borderStyle     = BorderStyle.SQUARE    -> no rounded corners
+-->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="@color/plot_card_bg" />
+
+    <stroke
+        android:width="1dp"
+        android:color="@color/plot_card_border" />
+
+</shape>

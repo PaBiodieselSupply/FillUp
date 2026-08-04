@@ -37,5 +37,23 @@
         android:orderInCategory="100"
         android:title="@string/menu_settings"
         />
-    
+
+    <!--
+        CSV import/export. These operate on the vehicle selected in the spinner,
+        which is why they live here rather than on the fuel log screen.
+    -->
+    <item
+        android:id="@+id/itemImport"
+        android:icon="@drawable/ic_menu_upload"
+        android:orderInCategory="200"
+        android:title="@string/import_label"
+        />
+
+    <item
+        android:id="@+id/itemExport"
+        android:icon="@drawable/ic_menu_save"
+        android:orderInCategory="201"
+        android:title="@string/export_label"
+        />
+
 </menu>

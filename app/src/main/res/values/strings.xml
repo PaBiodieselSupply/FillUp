@@ -28,9 +28,12 @@
     <string name="title_confirm_delete_vehicle">Delete Vehicle</string>
     <string name="title_plot_mileage">Fuel Economy</string>
     <string name="title_plot_odometer">Distance Driven</string>
-    <string name="title_plot_gallons">Fuel Purchased</string>
-    <string name="title_plot_cost">Fuel Cost</string>
-    <string name="title_plot_price">Fuel Price</string>
+    <!-- NOTE: "Fuel Used" covers both fuel types. The underlying totals always
+         did include waste oil fuel - the old "Fuel Purchased" label was simply
+         wrong, not the number. Cost and Price are pump-only and now say so. -->
+    <string name="title_plot_gallons">Fuel Used</string>
+    <string name="title_plot_cost">Pump Fuel Cost</string>
+    <string name="title_plot_price">Pump Diesel Price</string>
     <string name="title_plot_price_range">Price %1$s (avg)</string>
     <string name="title_storage_selection_dialog">CSV file location&#8230;</string>
     <string name="title_data_entry_mode_dialog">Data Entry Mode</string>
@@ -50,9 +53,9 @@
     <string name="stats_label_mileage_min">Fuel Economy (min)</string>
     <string name="stats_label_mileage_max">Fuel Economy (max)</string>
     <string name="stats_label_distance">Distance Driven</string>
-    <string name="stats_label_gallons">Fuel Purchased</string>
-    <string name="stats_label_cost">Fuel Cost</string>
-    <string name="stats_label_price">Fuel Price (avg)</string>
+    <string name="stats_label_gallons">Fuel Used</string>
+    <string name="stats_label_cost">Pump Fuel Cost</string>
+    <string name="stats_label_price">Pump Diesel Price (avg)</string>
     <string name="stats_calc_distance">%1$d %2$s (%3$.0f per month)</string>
     <string name="stats_calc_distance_noavg">%1$d %2$s</string>
     <string name="stats_calc_gallons">%1$.3f %2$s (%3$.3f per month)</string>
@@ -60,8 +63,7 @@
     <string name="stats_calc_cost">%1$s (%2$s per month) (%3$s %4$s)</string>    
     <string name="stats_calc_cost_noavg">%1$s (%2$s %3$s)</string>    
     <string name="stats_report_filename">%1$s_statistics.html</string>
-    <string name="stats_summary_prefix">SUMMARY: </string>    
-    
+
     <!--  labels -->
     <string name="get_gas_label">Add Fuel</string>
     <string name="date_label">Date</string>
@@ -257,55 +259,103 @@
     <!-- Do NOT add empty stubs to the translated files.                        -->
     <!-- ===================================================================== -->
 
-    <!-- fuel type -->
+    <!--
+        FUEL TYPE
+
+        "Waste Oil Fuel" covers both WVO (vegetable) and WMO (motor) oil feedstock,
+        which is why it is not called "Black Diesel" anywhere the customer can see.
+
+        NOTE: the value persisted to the database and to CSV is still the token
+        "wvo" - see FuelType. That token is an internal identifier, never displayed,
+        and changing it would require a data migration and would break every CSV
+        already exported.
+    -->
     <string name="fuel_type_label">Fuel Type</string>
     <string name="fuel_type_diesel">Pump Diesel</string>
-    <string name="fuel_type_wvo">Black Diesel</string>
+    <string name="fuel_type_wvo">Waste Oil Fuel</string>
+
+    <!-- app bar -->
+    <string name="menu_description">[menu]</string>
 
     <!-- fuel split (plots) -->
     <string name="title_plot_fuel_split">Fuel Split</string>
-    <string name="fuel_split_summary">%1$d%% Black Diesel (%2$.1f %3$s) · %4$d%% Pump Diesel (%5$.1f %6$s)</string>
+    <string name="fuel_split_summary">%1$d%% Waste Oil Fuel (%2$.1f %3$s) · %4$d%% Pump Diesel (%5$.1f %6$s)</string>
     <string name="fuel_split_nodata">No fuel recorded for this period.</string>
 
     <!-- centrifuge batch log: titles and navigation -->
-    <string name="title_activity_batch_log_list">Batch Log</string>
+    <string name="title_activity_batch_log_list">Centrifuge Batches</string>
     <string name="title_activity_batch_record">Centrifuge Batch</string>
-    <string name="batch_log_button_label">Batches</string>
-    <string name="batch_log_label">Batch Log</string>
+    <string name="batch_log_button_label">Centrifuge Batches</string>
+    <string name="batch_log_label">Centrifuge Batches</string>
     <string name="batch_add_label">Add Batch</string>
 
     <!-- centrifuge batch log: form and list -->
     <string name="batch_yield_label">Clean Fuel Produced (%1$s)</string>
-    <string name="batch_raw_label">Waste Oil Processed (%1$s)</string>
+    <string name="batch_raw_label">Waste Oil Collected (%1$s)</string>
+    <string name="batch_blend_label">Blend Percentage</string>
+    <string name="batch_cost_label">Total Batch Cost (%1$s)</string>
     <string name="batch_yield_percent_label">Yield</string>
     <string name="batch_yield_percent_value">Yield: %1$s</string>
+    <string name="batch_cost_per_unit_value">%1$s per %2$s</string>
     <string name="batch_row_yield">%1$.1f %2$s clean</string>
     <string name="batch_row_raw">from %1$.1f %2$s raw</string>
+    <string name="batch_row_blend">%1$s blend</string>
+    <string name="batch_row_cost">%1$s batch · %2$s per %3$s</string>
     <string name="hint_batch_yield">amount produced</string>
     <string name="hint_batch_raw">optional</string>
+    <string name="hint_batch_blend">optional, e.g. 10</string>
+    <string name="hint_batch_cost">optional</string>
     <string name="toast_invalid_yield_value">Invalid %1$s value.</string>
     <string name="toast_invalid_raw_value">Invalid %1$s value. Leave blank if not recorded.</string>
+    <string name="toast_invalid_blend_value">Invalid blend percentage. Enter 0 to 100, or leave blank.</string>
+    <string name="toast_invalid_batch_cost_value">Invalid batch cost. Leave blank if not recorded.</string>
     <string name="title_confirm_batch_delete_dialog">Delete Batch Record</string>
     <string name="message_confirm_batch_delete_dialog">Are you sure?</string>
     <string name="title_confirm_yield_high">Yield Correct?</string>
     <!-- NOTE: a single % here, not %% - this string is passed to getString() and
          displayed directly, never through String.format() -->
-    <string name="message_confirm_yield_high">Clean fuel produced is more than the waste oil processed, which is a yield over 100%.</string>
+    <string name="message_confirm_yield_high">Clean fuel produced is more than the waste oil collected, which is a yield over 100%.</string>
 
-    <!-- statistics: black diesel savings -->
-    <string name="stats_savings_prefix">BLACK DIESEL SAVINGS: </string>
+    <!--
+        STATISTICS TABLE HEADINGS
+
+        NOTE: headings are assembled through stats_table_title rather than by
+        concatenating a prefix with a trailing space. Android's resource compiler
+        strips leading and trailing whitespace from string resources, which is why
+        the original app renders "SUMMARY:Past Month" with no space.
+    -->
+    <string name="stats_table_title">%1$s — %2$s</string>
+    <string name="stats_heading_summary">SUMMARY</string>
+    <string name="stats_heading_savings">WASTE OIL FUEL SAVINGS</string>
+    <string name="stats_heading_production">PRODUCTION vs CONSUMPTION</string>
+
+    <!-- statistics: waste oil fuel savings -->
     <string name="stats_label_avg_pump_price">Pump Diesel Price (avg)</string>
     <string name="stats_calc_avg_pump_price">%1$s %2$s (from %3$d fill-ups, all time)</string>
-    <string name="stats_label_wvo_burned">Black Diesel Burned</string>
+    <string name="stats_label_production_cost">Waste Oil Fuel Cost to Produce</string>
+    <string name="stats_calc_production_cost">%1$s %2$s (from %3$d batches, all time)</string>
+    <string name="stats_calc_production_cost_none">Not recorded</string>
+    <string name="stats_label_wvo_burned">Waste Oil Fuel Burned</string>
     <string name="stats_label_est_savings">Estimated Savings</string>
     <string name="stats_calc_wvo_gallons">%1$.3f %2$s</string>
     <string name="stats_message_no_cost_data">No cost has been recorded for any Pump Diesel fill-up. Enter the cost when you add a Pump Diesel fill-up to see your estimated savings.</string>
 
+    <!-- statistics: fuel used breakdown and isolated costs -->
+    <string name="stats_label_fuel_used">Fuel Used</string>
+    <string name="stats_label_fuel_used_wvo">Waste Oil Fuel</string>
+    <string name="stats_label_fuel_used_pump">Pump Diesel</string>
+    <string name="stats_calc_gallons_pct">%1$.3f %2$s (%3$d%%)</string>
+    <string name="stats_label_pump_fuel_cost">Pump Fuel Cost</string>
+    <string name="stats_label_wvo_fuel_cost">Waste Oil Fuel Cost</string>
+    <string name="stats_label_total_fuel_cost">Total Fuel Cost</string>
+    <string name="stats_label_blended_price">Blended Fuel Price</string>
+    <string name="stats_calc_cost_permonth">%1$s (%2$s per month)</string>
+    <string name="stats_calc_cost_permile">%1$s (%2$s %3$s)</string>
+
     <!-- statistics: production vs consumption -->
-    <string name="stats_production_prefix">PRODUCTION vs CONSUMPTION: </string>
     <string name="stats_label_batch_count">Centrifuge Batches</string>
     <string name="stats_label_total_yield">Total Yield</string>
-    <string name="stats_label_wvo_consumed">Black Diesel Consumed</string>
+    <string name="stats_label_wvo_consumed">Waste Oil Fuel Consumed</string>
     <string name="stats_label_net">Net</string>
     <string name="stats_calc_net">%1$+.1f %2$s</string>
     <string name="stats_note_batch_scope">Note: batch totals cover all production; consumption shown is for this vehicle only.</string>

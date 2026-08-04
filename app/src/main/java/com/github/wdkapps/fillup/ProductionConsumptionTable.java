@@ -84,7 +84,10 @@ public class ProductionConsumptionTable implements HtmlData {
 	public ProductionConsumptionTable(List<GasRecord> records, List<BatchRecord> batches, String title) {
 		this.records = records;
 		this.batches = batches;
-		this.title = getString(R.string.stats_production_prefix) + title;
+		this.title = String.format(App.getLocale(),
+				getString(R.string.stats_table_title),
+				getString(R.string.stats_heading_production),
+				title);
 		createTable();
 	}
 
@@ -126,18 +129,13 @@ public class ProductionConsumptionTable implements HtmlData {
 
 		PlotDateRange range = new PlotDateRange(App.getContext(),Settings.KEY_PLOT_DATE_RANGE);
 
-		batchCount = 0;
-		totalYield = 0f;
-		if (batches != null) {
-			for (BatchRecord batch : batches) {
-				if (batch == null) continue;
-				if (!range.contains(batch.getDate())) continue;
-				batchCount++;
-				totalYield += batch.getYieldGallons();
-			}
-		}
+		// both sides come from the shared aggregators, which is what guarantees the
+		// consumed figure here matches "Waste Oil Fuel Burned" in the table above
+		BatchTotals production = new BatchTotals(batches,range);
+		batchCount = production.getCount();
+		totalYield = production.getTotalYield();
 
-		wvoConsumed = new FuelTypeTotals(records,range).getBlackDieselGallons();
+		wvoConsumed = new FuelTypeTotals(records,range).getWasteOilGallons();
 		net = totalYield - wvoConsumed;
 	}
 

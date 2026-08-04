@@ -6,18 +6,9 @@
         android:icon="@drawable/ic_gas_can" 
         />
     
-    <item
-        android:id="@+id/itemImport"
-        android:title="@string/import_label" 
-        android:icon="@drawable/ic_menu_upload" 
-        />
-    
-    <item
-        android:id="@+id/itemExport"
-        android:title="@string/export_label" 
-        android:icon="@drawable/ic_menu_save" 
-        />
-        
+    <!-- NOTE: Import and Export moved to the home screen menu, where the vehicle
+         they operate on is selected. -->
+
     <item android:id="@+id/itemSettings"
         android:title="@string/menu_settings"
         android:icon="@drawable/ic_menu_preferences"
