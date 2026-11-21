@@ -124,6 +124,10 @@ final class SavingsCard {
 					context.getString(R.string.card_price_pump_label), units.getLiquidVolumeRatioLabel()));
 		}
 
+		// call to action in the footer band
+		text(card, R.id.cardCta, context.getString(R.string.card_cta,
+				context.getString(R.string.link_website_display)));
+
 		// lay the template out at exactly 1080 x 1080 and draw it
 		int spec = View.MeasureSpec.makeMeasureSpec(SIZE_PX, View.MeasureSpec.EXACTLY);
 		card.measure(spec, spec);
@@ -145,7 +149,8 @@ final class SavingsCard {
 	static String caption(Context context, String vehicleName, String rangeName, SavingsSummary savings) {
 		return context.getString(R.string.card_caption,
 				CurrencyManager.getInstance().getSymbolicFormatter().format(savings.getSavings()),
-				vehicleName, rangeName.toLowerCase(App.getLocale()));
+				vehicleName, rangeName.toLowerCase(App.getLocale()),
+				context.getString(R.string.link_website_display));
 	}
 
 	/**

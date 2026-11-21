@@ -141,6 +141,17 @@
                 android:textSize="@dimen/main_text_size"
                 android:text="@string/batch_add_label" />
 
+            <!-- HELP & RESOURCES BUTTON: opens a menu of links to the PA Biodiesel
+                 Supply website (addresses are in res/values/links.xml) -->
+            <!-- NOTE: stays enabled with no vehicles defined -->
+            <Button
+                android:id="@+id/buttonResources"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_info"
+                android:textSize="@dimen/main_text_size"
+                android:text="@string/resources_button_label" />
+
         </LinearLayout>
     </LinearLayout>
   </ScrollView>

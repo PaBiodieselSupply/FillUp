@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Info icon for the Help & Resources button at the bottom of the home screen:
+    a white "i" on a green disc.
+
+    Sized 42dp so its button is the same height as the other home screen
+    buttons. Flat fills only - vector gradients need API 24 and this app
+    supports API 21.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- green disc -->
+    <path
+        android:fillColor="#2E7D32"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="1.2"
+        android:pathData="M6,24 A18,18 0 1,0 42,24 A18,18 0 1,0 6,24 Z" />
+
+    <!-- the dot of the "i" -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M21.2,14.5 A2.8,2.8 0 1,0 26.8,14.5 A2.8,2.8 0 1,0 21.2,14.5 Z" />
+
+    <!-- the stem of the "i" -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M22.8,20 H25.2 A1.4,1.4 0 0,1 26.6,21.4 V33.6 A1.4,1.4 0 0,1 25.2,35 H22.8 A1.4,1.4 0 0,1 21.4,33.6 V21.4 A1.4,1.4 0 0,1 22.8,20 Z" />
+
+</vector>

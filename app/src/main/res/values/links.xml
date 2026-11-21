@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    PA BIODIESEL SUPPLY WEB ADDRESSES
+
+    Every web address the app opens is here, so they can be changed in one
+    place. They open in the phone's own browser - the app itself never goes
+    online and needs no internet permission.
+
+    Used by the Help & Resources menu on the home screen (MainActivity) and the
+    shareable savings card (savings_card.xml, SavingsCard.caption()).
+-->
+
+<resources>
+
+    <!-- Help & Resources menu.
+
+         These are short links on the website, not the pages themselves. Each
+         one is a redirect in WordPress (Tools > Redirection, group "FillUp Bio
+         App") that forwards to the real page with utm_source=fillup-app tags,
+         so visits from the app show up in Google Analytics. To send a link
+         somewhere else, change its redirect on the website - no app update is
+         needed. -->
+    <string name="link_ultimate_force" translatable="false">https://pabiodieselsupply.com/app/ultimate-force</string>
+    <string name="link_video_vault" translatable="false">https://pabiodieselsupply.com/app/videos</string>
+    <string name="link_parts" translatable="false">https://pabiodieselsupply.com/app/parts</string>
+    <string name="link_contact" translatable="false">https://pabiodieselsupply.com/app/contact</string>
+
+    <!-- web address as printed on the savings card and in its caption -->
+    <string name="link_website_display" translatable="false">pabiodieselsupply.com</string>
+
+</resources>

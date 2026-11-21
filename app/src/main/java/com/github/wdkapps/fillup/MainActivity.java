@@ -27,7 +27,10 @@ import java.util.List;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -38,11 +41,14 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 
@@ -114,6 +120,8 @@ implements VehicleDialog.Listener,
         Button buttonAddBatch = (Button)findViewById(R.id.buttonAddBatch);
         buttonAddBatch.setOnClickListener(this);
         buttonBatchLog.setOnClickListener(this);
+        Button buttonResources = (Button)findViewById(R.id.buttonResources);
+        buttonResources.setOnClickListener(this);
         ImageButton buttonAppBarMenu = (ImageButton)findViewById(R.id.buttonAppBarMenu);
         buttonAppBarMenu.setOnClickListener(this);
         buttonVehicleAdd.setOnClickListener(this);
@@ -296,6 +304,10 @@ implements VehicleDialog.Listener,
 			viewBatchLog(v);
 			break;
 
+		case R.id.buttonResources:
+			showResources(v);
+			break;
+
 		case R.id.buttonAppBarMenu:
 			showOverflowMenu(v);
 			break;
@@ -451,6 +463,68 @@ implements VehicleDialog.Listener,
     public void viewBatchLog(View view) {
     	Intent intent = new Intent(this, BatchLogListActivity.class);
     	startActivity(intent);
+    }
+
+    /**
+     * DESCRIPTION:
+     * Shows the Help &amp; Resources menu: links to pages on the PA Biodiesel
+     * Supply website.<p>
+     *
+     * NOTE: each link opens in the phone's own browser, so the app itself
+     * never goes online and needs no internet permission. The web addresses
+     * are in res/values/links.xml.
+     *
+     * @param view - currently unused - necessary only if called as click listener.
+     */
+    public void showResources(View view) {
+
+    	// one entry per row: label, icon, web address
+    	final int[] labels = {
+    			R.string.resources_ultimate_force, R.string.resources_video_vault,
+    			R.string.resources_parts, R.string.resources_contact };
+    	final int[] icons = {
+    			R.drawable.ic_centrifuge, R.drawable.ic_video_vault,
+    			R.drawable.ic_shopping_cart, R.drawable.ic_email };
+    	final int[] links = {
+    			R.string.link_ultimate_force, R.string.link_video_vault,
+    			R.string.link_parts, R.string.link_contact };
+
+    	BaseAdapter adapter = new BaseAdapter() {
+    		@Override public int getCount() { return labels.length; }
+    		@Override public Object getItem(int position) { return labels[position]; }
+    		@Override public long getItemId(int position) { return position; }
+    		@Override public View getView(int position, View convertView, ViewGroup parent) {
+    			TextView row = (TextView)((convertView != null) ? convertView :
+    				getLayoutInflater().inflate(R.layout.row_resource_link, parent, false));
+    			row.setText(labels[position]);
+    			row.setCompoundDrawablesWithIntrinsicBounds(icons[position], 0, 0, 0);
+    			return row;
+    		}
+    	};
+
+    	new AlertDialog.Builder(this)
+    		.setTitle(R.string.resources_button_label)
+    		.setAdapter(adapter, new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				openWebPage(getString(links[which]));
+    			}
+    		})
+    		.setNegativeButton(android.R.string.cancel, null)
+    		.show();
+    }
+
+    /**
+     * DESCRIPTION:
+     * Opens a web address in the phone's browser.
+     * @param url - the address to open.
+     */
+    private void openWebPage(String url) {
+    	try {
+    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    	} catch (ActivityNotFoundException e) {
+    		Utilities.toast(this, getString(R.string.toast_no_browser));
+    	}
     }
 
     /**

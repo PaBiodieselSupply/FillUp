@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Contact Us icon for the Help & Resources menu: a blue envelope.
+
+    Sized 42dp to match the other menu icons. Flat fills only - vector
+    gradients need API 24 and this app supports API 21.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- envelope body -->
+    <path
+        android:fillColor="#42A5F5"
+        android:strokeColor="#0D47A1"
+        android:strokeWidth="1.2"
+        android:pathData="M6.5,11 H41.5 A2.5,2.5 0 0,1 44,13.5 V35.5 A2.5,2.5 0 0,1 41.5,38 H6.5 A2.5,2.5 0 0,1 4,35.5 V13.5 A2.5,2.5 0 0,1 6.5,11 Z" />
+
+    <!-- bottom folds -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="1"
+        android:pathData="M5,37 L19,23.5 M43,37 L29,23.5" />
+
+    <!-- top flap -->
+    <path
+        android:fillColor="#90CAF9"
+        android:strokeColor="#0D47A1"
+        android:strokeWidth="1.2"
+        android:strokeLineJoin="round"
+        android:pathData="M5,12 L24,27 L43,12 Z" />
+
+</vector>

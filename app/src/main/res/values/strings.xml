@@ -392,7 +392,8 @@
     <string name="card_price_vs_label">%1$s, my fuel vs the pump</string>
     <string name="card_price_pump_label">%1$s at the pump</string>
     <string name="card_footer">PA Biodiesel Supply</string>
-    <string name="card_caption">I saved %1$s running my %2$s on waste oil fuel (%3$s). Tracked with FillUp Bio from PA Biodiesel Supply.</string>
+    <string name="card_cta">Get your system at %1$s</string>
+    <string name="card_caption">I saved %1$s running my %2$s on waste oil fuel (%3$s). Tracked with FillUp Bio from PA Biodiesel Supply. Get your system at %4$s</string>
     <string name="card_caption_clip_label">Savings caption</string>
     <string name="toast_caption_copied">Caption copied. Paste it into your post.</string>
     <string name="toast_card_no_pump_price">Record the cost of a Pump Diesel fill-up to share savings.</string>
@@ -400,5 +401,13 @@
     <string name="toast_card_no_batch_cost">Add batch costs to share savings.</string>
     <string name="toast_card_failed">Unable to create the savings image.</string>
     <string name="stats_note_batch_scope">Note: batch totals cover all production; consumption shown is for this vehicle only.</string>
+
+    <!-- Help & Resources menu on the home screen (web addresses are in links.xml) -->
+    <string name="resources_button_label">Help &amp; Resources</string>
+    <string name="resources_ultimate_force">Ultimate Force</string>
+    <string name="resources_video_vault">Video Vault</string>
+    <string name="resources_parts">Parts</string>
+    <string name="resources_contact">Contact Us</string>
+    <string name="toast_no_browser">No app found to open this link.</string>
 
 </resources>

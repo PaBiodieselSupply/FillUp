@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Video Vault icon for the Help & Resources menu: a steel vault door with
+    hinges on the left and a gold play button where the dial would be.
+
+    Sized 42dp to match the other menu icons. Flat fills only - vector
+    gradients need API 24 and this app supports API 21.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- door frame -->
+    <path
+        android:fillColor="#78909C"
+        android:strokeColor="#37474F"
+        android:strokeWidth="1"
+        android:pathData="M8,4 H40 A4,4 0 0,1 44,8 V40 A4,4 0 0,1 40,44 H8 A4,4 0 0,1 4,40 V8 A4,4 0 0,1 8,4 Z" />
+
+    <!-- hinges -->
+    <path
+        android:fillColor="#455A64"
+        android:pathData="M5.5,12 H8.5 V18 H5.5 Z M5.5,30 H8.5 V36 H5.5 Z" />
+
+    <!-- round door -->
+    <path
+        android:fillColor="#B0BEC5"
+        android:strokeColor="#37474F"
+        android:strokeWidth="1"
+        android:pathData="M9,24 A15,15 0 1,0 39,24 A15,15 0 1,0 9,24 Z" />
+
+    <!-- inner ring -->
+    <path
+        android:fillColor="#CFD8DC"
+        android:strokeColor="#546E7A"
+        android:strokeWidth="0.8"
+        android:pathData="M12.5,24 A11.5,11.5 0 1,0 35.5,24 A11.5,11.5 0 1,0 12.5,24 Z" />
+
+    <!-- gold play button -->
+    <path
+        android:fillColor="#E8A623"
+        android:strokeColor="#7A4E05"
+        android:strokeWidth="1"
+        android:pathData="M16.5,24 A7.5,7.5 0 1,0 31.5,24 A7.5,7.5 0 1,0 16.5,24 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M21.6,20 L28.4,24 L21.6,28 Z" />
+
+</vector>

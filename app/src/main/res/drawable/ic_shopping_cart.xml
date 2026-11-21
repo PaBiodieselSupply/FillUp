@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Parts icon for the Help & Resources menu: a green shopping cart.
+
+    Sized 42dp to match the other menu icons. Flat fills only - vector
+    gradients need API 24 and this app supports API 21.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- handle and frame -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#37474F"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M3,8 H9 L14.5,31 H38" />
+
+    <!-- basket -->
+    <path
+        android:fillColor="#43A047"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="1.2"
+        android:strokeLineJoin="round"
+        android:pathData="M10.2,13 H43 L39.4,26.5 H13.4 Z" />
+
+    <!-- basket wires -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="0.9"
+        android:pathData="M18,13 L19.5,26.5 M26,13 L26.5,26.5 M34,13 L33,26.5 M11.6,19.5 H41.3" />
+
+    <!-- wheels -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M13.6,38 A3.4,3.4 0 1,0 20.4,38 A3.4,3.4 0 1,0 13.6,38 Z M31.6,38 A3.4,3.4 0 1,0 38.4,38 A3.4,3.4 0 1,0 31.6,38 Z" />
+
+</vector>
