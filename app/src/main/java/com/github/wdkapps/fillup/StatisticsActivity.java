@@ -109,6 +109,14 @@ public class StatisticsActivity extends Activity implements OnSharedPreferenceCh
 
 		// the app bar (and therefore the options menu) is on the home screen only,
 		// so sharing the report has to be reachable directly from this screen
+		// the savings card, for posting to a Facebook group (see SavingsCard)
+		findViewById(R.id.buttonShareSavings).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				shareSavings();
+			}
+		});
+
 		findViewById(R.id.buttonShareStats).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -246,6 +254,46 @@ public class StatisticsActivity extends Activity implements OnSharedPreferenceCh
     		shareReport();
     	} else {
     		Utilities.toast(this,getString(R.string.toast_external_storage_not_writable));
+    	}
+    }
+
+    /**
+     * DESCRIPTION:
+     * Draws the savings card for this vehicle and the selected date range and
+     * shares it - straight to Facebook's group picker where possible.<p>
+     *
+     * Refuses, with a message saying what is missing, when there is no honest
+     * savings figure to show: no pump price to compare against, no waste oil
+     * fuel burned in the range, or no batch cost to subtract.
+     */
+    private void shareSavings() {
+
+    	PlotDateRange range = rangeButtons.getPlotDateRange();
+    	SavingsSummary savings = new SavingsSummary(records, batches, range);
+
+    	if (!savings.hasPumpPrice()) {
+    		Utilities.toast(this,getString(R.string.toast_card_no_pump_price));
+    		return;
+    	}
+    	if (savings.getInRange().getWasteOilGallons() <= 0f) {
+    		Utilities.toast(this,getString(R.string.toast_card_no_waste_oil));
+    		return;
+    	}
+    	if (!savings.isWasteOilPriced()) {
+    		Utilities.toast(this,getString(R.string.toast_card_no_batch_cost));
+    		return;
+    	}
+
+    	String rangeName = range.getSummary();
+    	try {
+    		android.graphics.Bitmap card = SavingsCard.render(this, vehicle.getName(), rangeName, savings);
+    		String caption = SavingsCard.caption(this, vehicle.getName(), rangeName, savings);
+    		if (!SavingsCard.share(this, card, caption)) {
+    			Utilities.toast(this,getString(R.string.toast_card_failed));
+    		}
+    	} catch (RuntimeException e) {
+    		Log.e(getClass().getName(),"shareSavings() failed",e);
+    		Utilities.toast(this,getString(R.string.toast_card_failed));
     	}
     }
 

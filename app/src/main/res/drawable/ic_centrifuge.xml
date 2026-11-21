@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Centrifuge drawing used by the Add Centrifuge Batch icon
+    (ic_centrifuge_add.xml): a side profile of the
+    Ultimate Force Fuel System centrifuge, drawn from the product photos.
+
+    From top to bottom: brass inlet fitting on the domed lid, the flared lid
+    flange with its locking latches, the brushed aluminum bowl housing with its
+    brass outlet on the right, the dark motor hanging underneath, and the
+    splayed legs on black rubber feet.
+
+    Sized 42dp so its button is the same height as the other home screen
+    buttons. Flat fills only - vector gradients need API 24 and this app
+    supports API 21. The top-left corner is left clear for the "+" badge
+    in ic_centrifuge_add.xml.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- splayed legs (drawn first so the housing covers their tops) -->
+    <path
+        android:fillColor="#90A4AE"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.7"
+        android:pathData="M11,20 L13.4,20 L6.6,44.2 L4.2,44.2 Z" />
+    <path
+        android:fillColor="#90A4AE"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.7"
+        android:pathData="M34.6,20 L37,20 L43.8,44.2 L41.4,44.2 Z" />
+
+    <!-- black rubber feet -->
+    <path
+        android:fillColor="#212121"
+        android:pathData="M3.2,44 h5.2 a1,1 0 0,1 1,1 v1.6 h-7.2 v-1.6 a1,1 0 0,1 1,-1 z" />
+    <path
+        android:fillColor="#212121"
+        android:pathData="M39.6,44 h5.2 a1,1 0 0,1 1,1 v1.6 h-7.2 v-1.6 a1,1 0 0,1 1,-1 z" />
+
+    <!-- motor hanging under the bowl -->
+    <path
+        android:fillColor="#263238"
+        android:pathData="M18.5,28.6 H29.5 V38.4 A1.8,1.8 0 0,1 27.7,40.2 H20.3 A1.8,1.8 0 0,1 18.5,38.4 Z" />
+    <path
+        android:strokeColor="#455A64"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:pathData="M20,33.4 H28 M20,35.6 H28 M20,37.8 H28" />
+
+    <!-- motor mount collar -->
+    <path
+        android:fillColor="#455A64"
+        android:pathData="M17,28.6 H31 V30.4 H17 Z" />
+
+    <!-- brass outlet fitting on the right of the bowl -->
+    <path
+        android:fillColor="#C9A227"
+        android:strokeColor="#6D5A12"
+        android:strokeWidth="0.5"
+        android:pathData="M36.4,23 H40.2 V25.2 H36.4 Z" />
+
+    <!-- bowl housing -->
+    <path
+        android:fillColor="#9EAAB0"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.8"
+        android:pathData="M9.6,19.6 H38.4 L36.4,26.8 Q35.9,28.6 34,28.6 H14 Q12.1,28.6 11.6,26.8 Z" />
+
+    <!-- brushed highlight down the left of the housing -->
+    <path
+        android:fillColor="#CFD8DC"
+        android:pathData="M12.4,20.6 H14.6 L15,27.6 H13.4 Z" />
+
+    <!-- lid flange (wider than the housing) -->
+    <path
+        android:fillColor="#B0BEC5"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.8"
+        android:pathData="M8.6,16.6 H39.4 A0.8,0.8 0 0,1 40.2,17.4 V18.8 A0.8,0.8 0 0,1 39.4,19.6 H8.6 A0.8,0.8 0 0,1 7.8,18.8 V17.4 A0.8,0.8 0 0,1 8.6,16.6 Z" />
+
+    <!-- domed lid top -->
+    <path
+        android:fillColor="#DDE3E6"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.8"
+        android:pathData="M10,16.6 C13,13.4 35,13.4 38,16.6 Z" />
+
+    <!-- locking latches clamping the lid to the housing -->
+    <path
+        android:fillColor="#78909C"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.6"
+        android:pathData="M15.2,17.4 H17.4 V24 H15.2 Z" />
+    <path
+        android:fillColor="#78909C"
+        android:strokeColor="#37474F"
+        android:strokeWidth="0.6"
+        android:pathData="M30.6,17.4 H32.8 V24 H30.6 Z" />
+
+    <!-- brass inlet fitting on top of the lid -->
+    <path
+        android:fillColor="#C9A227"
+        android:strokeColor="#6D5A12"
+        android:strokeWidth="0.5"
+        android:pathData="M22.9,10.4 H25.1 V13 H22.9 Z" />
+    <path
+        android:fillColor="#C9A227"
+        android:strokeColor="#6D5A12"
+        android:strokeWidth="0.5"
+        android:pathData="M21.8,12.8 H26.2 V14.4 H21.8 Z" />
+
+    <!-- small brass cap beside it -->
+    <path
+        android:fillColor="#C9A227"
+        android:strokeColor="#6D5A12"
+        android:strokeWidth="0.5"
+        android:pathData="M29.6,13.2 H31.6 V14.8 H29.6 Z" />
+
+</vector>

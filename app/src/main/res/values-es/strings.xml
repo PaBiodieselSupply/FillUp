@@ -60,7 +60,6 @@
     <string name="stats_calc_cost">%1$s (%2$s por mes) (%3$s %4$s)</string>
     <string name="stats_calc_cost_noavg">%1$s (%2$s %3$s)</string>    
     <string name="stats_report_filename">%1$s_estadísticas.html</string>    
-    <string name="stats_summary_prefix">RESUMEN: </string>    
     
     <!-- labels -->
     <string name="get_gas_label">Añada Combustible</string>

@@ -39,7 +39,8 @@ import java.util.Date;
  * production) or to pick one arbitrarily. It would also mean that deleting a
  * vehicle - which cascades into deleting its gas records - destroyed years of
  * unrelated production history.
- * <li>Raw oil processed is optional. A value of 0 means "not recorded", which
+ * <li>Waste oil processed (the "raw" attribute) and waste oil collected are
+ * both optional. Yield is measured against oil processed. A value of 0 means "not recorded", which
  * mirrors how the cost attribute of {@link GasRecord} already behaves.
  * <li>Yield percentage is derived, never stored.
  * <li>Volumes are formatted to one decimal place rather than the three used by
@@ -75,6 +76,10 @@ public class BatchRecord implements Serializable {
 	/// amount of waste oil processed to produce the batch (0 = not recorded)
 	private Float raw;
 
+	/// amount of waste oil collected for the batch (0 = not recorded). Kept for
+	/// tracking oil supply only - yield is measured against the oil PROCESSED
+	private Float collected;
+
 	/// percentage of gasoline or diesel blended into the batch (0 = none/not recorded)
 	private Float blend;
 
@@ -96,6 +101,7 @@ public class BatchRecord implements Serializable {
 		date = new Date();
 		yield = Float.valueOf(0.0f);
 		raw = Float.valueOf(0.0f);
+		collected = Float.valueOf(0.0f);
 		blend = Float.valueOf(0.0f);
 		cost = Double.valueOf(0.0d);
 		notes = "";
@@ -112,6 +118,7 @@ public class BatchRecord implements Serializable {
 		this.date.setTime(that.date.getTime());
 		this.yield = Float.valueOf(that.yield);
 		this.raw = Float.valueOf(that.raw);
+		this.collected = Float.valueOf(that.getCollectedGallons());
 		this.blend = Float.valueOf(that.getBlendPercent());
 		this.cost = Double.valueOf(that.getCost());
 		this.notes = new String(that.notes);
@@ -320,7 +327,28 @@ public class BatchRecord implements Serializable {
 	 */
 	public String getBlendPercentString() {
 		if (!hasBlendPercent()) return "";
-		return String.format(App.getLocale(), "%.0f%%", getBlendPercent());
+		// exact, not rounded: a 12.5% blend must not read "13%" next to a total
+		// that was calculated from 12.5%
+		return formatExact(getBlendPercent()) + "%";
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Formats a stored value exactly as entered, without rounding and without
+	 * trailing zeros: 12.5 -> "12.5", 10 -> "10", 72.25 -> "72.25". Uses the
+	 * locale's decimal separator; the setters accept either separator.
+	 *
+	 * Used to pre-fill the edit form. Formatting there with a fixed number of
+	 * decimals would round the value, and saving the form unchanged would then
+	 * silently overwrite the real value with the rounded one.
+	 * @param value - the value to format.
+	 * @return the formatted String.
+	 */
+	public static String formatExact(float value) {
+		String s = new java.math.BigDecimal(Float.toString(value))
+				.stripTrailingZeros().toPlainString();
+		char separator = java.text.DecimalFormatSymbols.getInstance(App.getLocale()).getDecimalSeparator();
+		return s.replace('.', separator);
 	}
 
 	/**
@@ -384,18 +412,91 @@ public class BatchRecord implements Serializable {
 
 	/**
 	 * DESCRIPTION:
-	 * Calculates what each unit of clean fuel in this batch cost to produce.
-	 * This is a derived value - it is never stored.
-	 * @return the cost per unit, or null if no cost was recorded.
+	 * Calculates the total volume of fuel the batch produced, including any
+	 * gasoline or diesel blended in.<p>
+	 *
+	 * The blend percentage is ADDED ON TOP of the clean fuel: a 10% blend on
+	 * 55.0 gal of clean fuel adds 5.5 gal, for 60.5 gal in total. Clean fuel
+	 * produced is therefore the oil-derived fuel only, which is what keeps the
+	 * yield percentage a true measure of the centrifuge.<p>
+	 *
+	 * This total is what goes into the tank, so it is the figure compared against
+	 * waste oil fuel consumed, and the figure cost per unit is spread over.
+	 *
+	 * @return the total fuel produced.
 	 */
-	public Double getCostPerUnit() {
-		if (!hasCost() || (yield == null) || (yield <= 0f)) return null;
-		return getCost() / yield;
+	public float getTotalGallons() {
+		if ((yield == null) || (yield <= 0f)) return 0f;
+		return yield * (1f + (getBlendPercent() / 100f));
 	}
 
 	/**
 	 * DESCRIPTION:
-	 * Calculates the percentage of the raw oil input that became usable fuel.
+	 * Calculates what each unit of finished fuel in this batch cost to produce,
+	 * spread over the total fuel including the blend. The batch cost includes
+	 * what the blend stock cost.
+	 * This is a derived value - it is never stored.
+	 * @return the cost per unit, or null if no cost was recorded.
+	 */
+	public Double getCostPerUnit() {
+		float total = getTotalGallons();
+		if (!hasCost() || (total <= 0f)) return null;
+		return getCost() / total;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Getter method for the waste oil collected attribute.
+	 * @return Float - the amount of waste oil collected (0 = not recorded).
+	 */
+	public Float getCollectedGallons() {
+		if (collected == null) collected = 0f;   // defensive: record from an older version
+		return collected;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the waste oil collected attribute.
+	 * @param collected - the amount of waste oil collected.
+	 */
+	public void setCollectedGallons(Float collected) {
+		this.collected = (collected == null) ? 0f : collected;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Setter method for the waste oil collected attribute. This attribute is
+	 * optional - a blank value is accepted and means "not recorded".
+	 * @param collected - the amount as a String (may be blank).
+	 * @throws NumberFormatException if the String is not a valid volume.
+	 */
+	public void setCollectedGallons(String collected) throws NumberFormatException {
+
+		if (collected == null || collected.trim().length() == 0) {
+			this.collected = 0f;
+			return;
+		}
+
+		Float value = Float.valueOf(collected.trim().replace(',', '.'));
+		if ((value < 0f) || (value > MAX_GALLONS)) {
+			throw new NumberFormatException("invalid collected oil value");
+		}
+		this.collected = value;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Indicates whether an amount of waste oil collected was recorded.
+	 * @return true if collected oil was recorded.
+	 */
+	public boolean hasCollectedGallons() {
+		return (collected != null) && (collected > 0f);
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Calculates the percentage of the waste oil PROCESSED that became clean fuel.
+	 * Both figures exclude the blend, so blending never inflates the yield.
 	 * This is a derived value - it is never stored.
 	 * @return the yield percentage, or null if raw oil was not recorded.
 	 */
@@ -470,6 +571,7 @@ public class BatchRecord implements Serializable {
 				", date=" + getDateString() +
 				", yield=" + yield +
 				", raw=" + raw +
+				", collected=" + collected +
 				", blend=" + blend +
 				", cost=" + cost +
 				", notes=" + notes +
@@ -487,7 +589,7 @@ public class BatchRecord implements Serializable {
 		// create the array (only once for performance)
 		// NOTE: the array size and the assignments below must be kept in step.
 		if (hash == null) {
-			hash = new Object[7];
+			hash = new Object[8];
 		}
 
 		// populate the array
@@ -498,6 +600,7 @@ public class BatchRecord implements Serializable {
 		hash[4] = notes;
 		hash[5] = getBlendPercent();
 		hash[6] = getCost();
+		hash[7] = getCollectedGallons();
 		return hash;
 	}
 

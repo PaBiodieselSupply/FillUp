@@ -233,6 +233,10 @@ public class MileagePlot implements OnSharedPreferenceChangeListener {
         // axis title labels
         PaintUtils.setFontSizeDp(plot.getRangeLabelWidget().getLabelPaint(),size.getSizeDp());
         PaintUtils.setFontSizeDp(plot.getDomainLabelWidget().getLabelPaint(),size.getSizeDp());
+
+        // make room below the grid for the axis labels at this font size,
+        // or they are cut off on high-density screens (see PlotLayout)
+        PlotLayout.fitDomainLabels(plot);
         plot.getRangeLabelWidget().pack();
         plot.getDomainLabelWidget().pack();
         
@@ -304,6 +308,8 @@ public class MileagePlot implements OnSharedPreferenceChangeListener {
     	// x = time in milliseconds (from date) plus an index to avoid duplicate values
     	// y = calculated mileage at that date
     	float sumy = 0;
+    	int sumDistance = 0;
+    	float sumFuel = 0f;
     	miny = Float.MAX_VALUE; 
     	maxy = Float.MIN_VALUE;
     	minx = Long.MAX_VALUE; 
@@ -323,6 +329,8 @@ public class MileagePlot implements OnSharedPreferenceChangeListener {
    				xNumbers.add(x);
    				yNumbers.add(y);
    				sumy += y;
+   				sumDistance += record.getCalculation().getDistanceDriven();
+   				sumFuel += record.getCalculation().getGasolineUsed();
     		}
     	}
     	
@@ -331,9 +339,12 @@ public class MileagePlot implements OnSharedPreferenceChangeListener {
     	if (yNumbers.isEmpty()) miny = maxy = 0;
     	
     	// calculate average for the series
+    	// NOTE: total distance / total fuel, matching the statistics report, rather
+    	// than the mean of the plotted points - which would let a short top-up
+    	// count as much as a full tank.
     	average = 0;
     	if (!yNumbers.isEmpty()) {
-    		average = sumy / yNumbers.size();
+    		average = MileageCalculation.calculate(sumDistance,sumFuel,units);
     	}
 
     	Log.d(tag,"minx="+minx+" maxx="+maxx);

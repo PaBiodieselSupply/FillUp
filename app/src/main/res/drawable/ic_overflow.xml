@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Overflow menu icon: three small grey squares, matching the original FillUp's
+    action bar (each 5dp, 2.8dp apart, 20.6dp overall, measured on a Pixel 7).
+
+    A vector rather than the old ic_menu_moreoptions.png: that bitmap sits in the
+    density-less drawable folder, which Android treats as mdpi and scales up 2.6x
+    on a Pixel 7, which is why the old icon was so large.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24" >
+
+    <path
+        android:fillColor="#A6A6A6"
+        android:pathData="M9.5,1.7h5v5h-5z M9.5,9.5h5v5h-5z M9.5,17.3h5v5h-5z" />
+
+</vector>

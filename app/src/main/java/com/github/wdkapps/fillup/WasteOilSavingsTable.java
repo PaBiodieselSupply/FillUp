@@ -72,14 +72,23 @@ public class WasteOilSavingsTable implements HtmlData {
 	/// a row index used during creation
 	private int row;
 
-	/// fill-up totals over the complete history - the source of the pump price
-	private final FuelTypeTotals allTimeFuel;
 
 	/// fill-up totals over the selected date range - the source of the volume burned
 	private final FuelTypeTotals inRangeFuel;
 
 	/// batch totals over the complete history - the source of the production cost
 	private final BatchTotals allTimeBatches;
+
+	/// true when this vehicle has no priced pump fill-ups and the pump price was
+	/// taken from all vehicles instead
+	private final boolean pumpPriceFromAllVehicles;
+
+	/// the savings calculation shared with the savings card
+	private final SavingsSummary summary;
+
+	/// all batches and the selected range, kept for the all-vehicles total
+	private final List<BatchRecord> batches;
+	private final PlotDateRange range;
 
 	/// end of line string
 	private static final String newline = System.getProperty("line.separator");
@@ -98,13 +107,16 @@ public class WasteOilSavingsTable implements HtmlData {
 				getString(R.string.stats_heading_savings),
 				title);
 
-		// no range: both rates use the complete history
-		this.allTimeFuel = new FuelTypeTotals(records,null);
-		this.allTimeBatches = new BatchTotals(batches,null);
-
-		// ranged: the volume burned and the savings follow the range buttons
-		this.inRangeFuel = new FuelTypeTotals(records,
-				new PlotDateRange(App.getContext(),Settings.KEY_PLOT_DATE_RANGE));
+		// All of the arithmetic - including the fallback to every vehicle's pump
+		// price for a vehicle that never buys pump diesel - lives in
+		// SavingsSummary, which the shareable savings card also uses. One copy of
+		// the rules means the card a customer posts always matches this table.
+		this.batches = batches;
+		this.range = new PlotDateRange(App.getContext(),Settings.KEY_PLOT_DATE_RANGE);
+		this.summary = new SavingsSummary(records,batches,range);
+		this.pumpPriceFromAllVehicles = summary.isPumpPriceFromAllVehicles();
+		this.allTimeBatches = summary.getProduction();
+		this.inRangeFuel = summary.getInRange();
 
 		createTable();
 	}
@@ -129,11 +141,12 @@ public class WasteOilSavingsTable implements HtmlData {
 		html.append("<table"+property("class",cssClass)+">").append(newline);
 		appendTableHeaderRow(title,"2");
 		row = 0;
-		if (allTimeFuel.hasAveragePumpPrice()) {
+		if (summary.hasPumpPrice()) {
 			appendAvgPumpPriceData();
 			appendProductionCostData();
 			appendWasteOilBurnedData();
 			appendEstimatedSavingsData();
+			appendFleetSavingsData();
 		} else {
 			appendSpanningRow(getString(R.string.stats_message_no_cost_data));
 		}
@@ -146,11 +159,15 @@ public class WasteOilSavingsTable implements HtmlData {
 	 */
 	private void appendAvgPumpPriceData() {
 		String label = getString(R.string.stats_label_avg_pump_price);
-		String value = String.format(App.getLocale(),getString(R.string.stats_calc_avg_pump_price),
+		int format = pumpPriceFromAllVehicles
+				? R.plurals.stats_calc_avg_pump_price_all
+				: R.plurals.stats_calc_avg_pump_price;
+		String value = String.format(App.getLocale(),
+				getPlural(format,summary.getPumpPriceCount()),
 				CurrencyManager.getInstance().getSymbolicFractionalFormatter()
-						.format(allTimeFuel.getAveragePumpPrice()),
+						.format(summary.getPumpPrice()),
 				units.getLiquidVolumeRatioLabel(),
-				allTimeFuel.getPumpDieselCostedCount());
+				summary.getPumpPriceCount());
 		value = value.replace("(","<br/>(");
 		appendTableRow(new String[]{label,value});
 	}
@@ -165,7 +182,8 @@ public class WasteOilSavingsTable implements HtmlData {
 		String value;
 
 		if (allTimeBatches.hasCostPerUnit()) {
-			value = String.format(App.getLocale(),getString(R.string.stats_calc_production_cost),
+			value = String.format(App.getLocale(),
+					getPlural(R.plurals.stats_calc_production_cost,allTimeBatches.getCostedCount()),
 					CurrencyManager.getInstance().getSymbolicFractionalFormatter()
 							.format(allTimeBatches.getCostPerUnit()),
 					units.getLiquidVolumeRatioLabel(),
@@ -196,8 +214,54 @@ public class WasteOilSavingsTable implements HtmlData {
 	 */
 	private void appendEstimatedSavingsData() {
 		String label = getString(R.string.stats_label_est_savings);
-		String value = CurrencyManager.getInstance().getSymbolicFormatter().format(getNetSavings());
+		String value;
+
+		// NOTE: if waste oil fuel was burned but no batch has a production cost,
+		// the net saving is unknown. Subtracting $0 would present the gross figure
+		// as if it were net, so "-" is shown instead - the same rule the summary
+		// table applies to every cost it cannot back with recorded figures.
+		boolean priced = summary.isWasteOilPriced();
+		if (priced) {
+			value = CurrencyManager.getInstance().getSymbolicFormatter().format(getNetSavings());
+		} else {
+			value = getString(R.string.stats_calc_savings_none).replace("(","<br/>(");
+		}
 		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends the estimated savings for every vehicle together, when there is
+	 * more than one vehicle.
+	 *
+	 * Batches are shared, but savings only count the waste oil fuel a vehicle
+	 * actually burned, so with several vehicles each page shows only its share.
+	 * This row is the sum of each vehicle's own Estimated Savings, calculated
+	 * exactly as on that vehicle's page (its own pump price, or the all-vehicles
+	 * fallback), so it always equals adding up the vehicle pages. Fuel produced
+	 * but not yet burned is still not counted.
+	 */
+	private void appendFleetSavingsData() {
+		List<Vehicle> vehicles = GasLog.getInstance().readAllVehicles();
+		if ((vehicles == null) || (vehicles.size() < 2)) return;
+
+		String label = getString(R.string.stats_label_est_savings_all);
+		double total = 0d;
+		for (Vehicle vehicle : vehicles) {
+			SavingsSummary each = new SavingsSummary(
+					GasLog.getInstance().readAllRecords(vehicle),batches,range);
+			if (!each.isWasteOilPriced()) {
+				// waste oil fuel burned somewhere, but no batch cost to subtract
+				String value = getString(R.string.stats_calc_savings_none).replace("(","<br/>(");
+				appendTableRow(new String[]{label,value});
+				return;
+			}
+			if (each.hasPumpPrice()) {
+				total += each.getSavings();
+			}
+		}
+		appendTableRow(new String[]{label,
+				CurrencyManager.getInstance().getSymbolicFormatter().format(total)});
 	}
 
 	/**
@@ -207,8 +271,7 @@ public class WasteOilSavingsTable implements HtmlData {
 	 * @return the net savings.
 	 */
 	private double getNetSavings() {
-		double saving = allTimeFuel.getAveragePumpPrice() - allTimeBatches.getCostPerUnit();
-		return saving * inRangeFuel.getWasteOilGallons();
+		return summary.getSavings();
 	}
 
 	/**
@@ -276,6 +339,18 @@ public class WasteOilSavingsTable implements HtmlData {
 	 */
 	private String getString(int id) {
 		return App.getContext().getResources().getString(id);
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Convenience method to retrieve the singular or plural form of a String
+	 * resource for a count, unformatted.
+	 * @param id - the plurals resource identifier.
+	 * @param count - the count that decides singular or plural.
+	 * @return the String for that count.
+	 */
+	private String getPlural(int id, int count) {
+		return App.getContext().getResources().getQuantityString(id,count);
 	}
 
 }

@@ -283,30 +283,35 @@
     <string name="fuel_split_nodata">No fuel recorded for this period.</string>
 
     <!-- centrifuge batch log: titles and navigation -->
-    <string name="title_activity_batch_log_list">Centrifuge Batches</string>
+    <string name="title_activity_batch_log_list">Fuel Production Log</string>
     <string name="title_activity_batch_record">Centrifuge Batch</string>
-    <string name="batch_log_button_label">Centrifuge Batches</string>
-    <string name="batch_log_label">Centrifuge Batches</string>
-    <string name="batch_add_label">Add Batch</string>
+    <string name="batch_log_button_label">Fuel Production Log</string>
+    <string name="batch_log_label">Fuel Production Log</string>
+    <string name="batch_add_label">Add Centrifuge Batch</string>
 
     <!-- centrifuge batch log: form and list -->
-    <string name="batch_yield_label">Clean Fuel Produced (%1$s)</string>
-    <string name="batch_raw_label">Waste Oil Collected (%1$s)</string>
-    <string name="batch_blend_label">Blend Percentage</string>
+    <string name="batch_yield_label">Clean Fuel Produced, before blending (%1$s)</string>
+    <string name="batch_raw_label">Waste Oil Processed (%1$s)</string>
+    <string name="batch_collected_label">Waste Oil Collected (%1$s)</string>
+    <string name="batch_blend_label">Blend Added (percent of clean fuel)</string>
+    <string name="batch_total_value">Total fuel with blend: %1$.1f %2$s</string>
     <string name="batch_cost_label">Total Batch Cost (%1$s)</string>
     <string name="batch_yield_percent_label">Yield</string>
     <string name="batch_yield_percent_value">Yield: %1$s</string>
-    <string name="batch_cost_per_unit_value">%1$s per %2$s</string>
+    <string name="batch_cost_per_unit_value">%1$s %2$s</string>
     <string name="batch_row_yield">%1$.1f %2$s clean</string>
-    <string name="batch_row_raw">from %1$.1f %2$s raw</string>
-    <string name="batch_row_blend">%1$s blend</string>
-    <string name="batch_row_cost">%1$s batch · %2$s per %3$s</string>
+    <string name="batch_row_raw">from %1$.1f %2$s processed</string>
+    <string name="batch_row_collected">%1$.1f %2$s collected</string>
+    <string name="batch_row_blend">+%1$s blend = %2$.1f %3$s total</string>
+    <string name="batch_row_cost">%1$s batch · %2$s %3$s</string>
     <string name="hint_batch_yield">amount produced</string>
     <string name="hint_batch_raw">optional</string>
+    <string name="hint_batch_collected">optional</string>
     <string name="hint_batch_blend">optional, e.g. 10</string>
     <string name="hint_batch_cost">optional</string>
     <string name="toast_invalid_yield_value">Invalid %1$s value.</string>
     <string name="toast_invalid_raw_value">Invalid %1$s value. Leave blank if not recorded.</string>
+    <string name="toast_invalid_collected_value">Invalid %1$s value. Leave blank if not recorded.</string>
     <string name="toast_invalid_blend_value">Invalid blend percentage. Enter 0 to 100, or leave blank.</string>
     <string name="toast_invalid_batch_cost_value">Invalid batch cost. Leave blank if not recorded.</string>
     <string name="title_confirm_batch_delete_dialog">Delete Batch Record</string>
@@ -314,7 +319,7 @@
     <string name="title_confirm_yield_high">Yield Correct?</string>
     <!-- NOTE: a single % here, not %% - this string is passed to getString() and
          displayed directly, never through String.format() -->
-    <string name="message_confirm_yield_high">Clean fuel produced is more than the waste oil collected, which is a yield over 100%.</string>
+    <string name="message_confirm_yield_high">Clean fuel produced is more than the waste oil processed, which is a yield over 100%.</string>
 
     <!--
         STATISTICS TABLE HEADINGS
@@ -327,16 +332,29 @@
     <string name="stats_table_title">%1$s — %2$s</string>
     <string name="stats_heading_summary">SUMMARY</string>
     <string name="stats_heading_savings">WASTE OIL FUEL SAVINGS</string>
-    <string name="stats_heading_production">PRODUCTION vs CONSUMPTION</string>
+    <string name="stats_heading_production">FUEL PRODUCTION vs USE</string>
 
     <!-- statistics: waste oil fuel savings -->
     <string name="stats_label_avg_pump_price">Pump Diesel Price (avg)</string>
-    <string name="stats_calc_avg_pump_price">%1$s %2$s (from %3$d fill-ups, all time)</string>
+    <!-- plurals, so a count of one reads "1 fill-up", not "1 fill-ups" -->
+    <plurals name="stats_calc_avg_pump_price">
+        <item quantity="one">%1$s %2$s (from %3$d fill-up, all time)</item>
+        <item quantity="other">%1$s %2$s (from %3$d fill-ups, all time)</item>
+    </plurals>
+    <plurals name="stats_calc_avg_pump_price_all">
+        <item quantity="one">%1$s %2$s (from %3$d fill-up, all vehicles)</item>
+        <item quantity="other">%1$s %2$s (from %3$d fill-ups, all vehicles)</item>
+    </plurals>
     <string name="stats_label_production_cost">Waste Oil Fuel Cost to Produce</string>
-    <string name="stats_calc_production_cost">%1$s %2$s (from %3$d batches, all time)</string>
+    <plurals name="stats_calc_production_cost">
+        <item quantity="one">%1$s %2$s (from %3$d batch, all time)</item>
+        <item quantity="other">%1$s %2$s (from %3$d batches, all time)</item>
+    </plurals>
     <string name="stats_calc_production_cost_none">Not recorded</string>
     <string name="stats_label_wvo_burned">Waste Oil Fuel Burned</string>
     <string name="stats_label_est_savings">Estimated Savings</string>
+    <string name="stats_label_est_savings_all">Estimated Savings, all vehicles</string>
+    <string name="stats_calc_savings_none">- (Add batch costs to see this.)</string>
     <string name="stats_calc_wvo_gallons">%1$.3f %2$s</string>
     <string name="stats_message_no_cost_data">No cost has been recorded for any Pump Diesel fill-up. Enter the cost when you add a Pump Diesel fill-up to see your estimated savings.</string>
 
@@ -351,13 +369,36 @@
     <string name="stats_label_blended_price">Blended Fuel Price</string>
     <string name="stats_calc_cost_permonth">%1$s (%2$s per month)</string>
     <string name="stats_calc_cost_permile">%1$s (%2$s %3$s)</string>
+    <string name="stats_calc_total_cost_excl">%1$s (excludes %2$.3f %3$s with no cost recorded)</string>
+    <string name="stats_calc_wvo_cost_none">Not recorded. Add batch costs to see this.</string>
 
     <!-- statistics: production vs consumption -->
     <string name="stats_label_batch_count">Centrifuge Batches</string>
-    <string name="stats_label_total_yield">Total Yield</string>
+    <string name="stats_label_total_yield">Fuel Produced</string>
+    <string name="stats_label_total_collected">Waste Oil Collected</string>
     <string name="stats_label_wvo_consumed">Waste Oil Fuel Consumed</string>
     <string name="stats_label_net">Net</string>
     <string name="stats_calc_net">%1$+.1f %2$s</string>
+    <!-- savings card (res/layout/savings_card.xml) and sharing -->
+    <string name="share_savings_label">Share Savings</string>
+    <string name="share_report_label">Share Report</string>
+    <string name="title_chooser_share_savings">Share savings via &#8230;</string>
+    <string name="card_context">%1$s · %2$s</string>
+    <string name="card_saved_label">Estimated savings</string>
+    <string name="card_saved_sub">running on waste oil fuel instead of pump diesel</string>
+    <string name="card_split">%1$d%% waste oil fuel · %2$d%% pump diesel</string>
+    <string name="card_gallons_label">%1$s of waste oil fuel burned</string>
+    <string name="card_price_vs">%1$s vs %2$s</string>
+    <string name="card_price_vs_label">%1$s, my fuel vs the pump</string>
+    <string name="card_price_pump_label">%1$s at the pump</string>
+    <string name="card_footer">PA Biodiesel Supply</string>
+    <string name="card_caption">I saved %1$s running my %2$s on waste oil fuel (%3$s). Tracked with FillUp Bio from PA Biodiesel Supply.</string>
+    <string name="card_caption_clip_label">Savings caption</string>
+    <string name="toast_caption_copied">Caption copied. Paste it into your post.</string>
+    <string name="toast_card_no_pump_price">Record the cost of a Pump Diesel fill-up to share savings.</string>
+    <string name="toast_card_no_waste_oil">No waste oil fuel was burned in this period.</string>
+    <string name="toast_card_no_batch_cost">Add batch costs to share savings.</string>
+    <string name="toast_card_failed">Unable to create the savings image.</string>
     <string name="stats_note_batch_scope">Note: batch totals cover all production; consumption shown is for this vehicle only.</string>
 
 </resources>

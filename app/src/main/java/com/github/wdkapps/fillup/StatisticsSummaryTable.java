@@ -162,10 +162,12 @@ public class StatisticsSummaryTable implements HtmlData {
 	private void appendDistanceData() {
 
 		// calculate monthly average
-		int months = data.size();
+		int months = getMonthsWithData();
 		float average = 0;
 		if (months > 0) {
-			average = total.getDistance()/months;
+			// float division: Integer/int would truncate, so 17312 miles over 23
+			// months showed 752 instead of 753 (752.70 rounded)
+			average = (float) total.getDistance() / months;
 		}
 		
 		// create table row
@@ -185,7 +187,7 @@ public class StatisticsSummaryTable implements HtmlData {
 	private void appendCostData() {
 
 		// calculate cost per month
-		int months = data.size();
+		int months = getMonthsWithData();
 		double per_month = 0;
 		if (months > 0) {
 			per_month = total.getCost()/months;
@@ -237,35 +239,63 @@ public class StatisticsSummaryTable implements HtmlData {
 	 *
 	 * NOTE: the rate comes from the complete batch history while the volume is
 	 * the volume burned in the displayed months, matching how the savings table
-	 * works. If no batch has a cost recorded this is zero, and the row still
-	 * appears so that the total below it can be seen to add up.
+	 * works. If waste oil fuel was burned but no batch has a cost recorded, the
+	 * cost is unknown - it is reported as not recorded rather than as $0.00,
+	 * because treating the fuel as free understates every total below it.
 	 */
 	private void appendWasteOilCostData() {
 		String label = getString(R.string.stats_label_wvo_fuel_cost);
-		String value = CurrencyManager.getInstance().getSymbolicFormatter()
-				.format(getWasteOilCost());
+		String value;
+		if (isWasteOilPriced()) {
+			value = CurrencyManager.getInstance().getSymbolicFormatter().format(getWasteOilCost());
+		} else {
+			value = getString(R.string.stats_calc_wvo_cost_none);
+		}
 		appendTableRow(new String[]{label,value});
 	}
 
 	/**
 	 * DESCRIPTION:
-	 * Appends the true total cost of every unit of fuel burned, purchased or
-	 * produced, and what that works out to per unit of distance.
+	 * Appends the total recorded cost of the fuel burned, purchased or produced,
+	 * and what that works out to per unit of distance.<p>
+	 *
+	 * NOTE: only costs that were actually recorded are totalled - nothing is
+	 * estimated. Consequently:
+	 * <ul>
+	 * <li>If waste oil fuel was burned but its production cost is unknown, the
+	 * total is incomplete in a way that cannot be quantified, so "-" is shown.
+	 * <li>If some Pump Diesel fill-ups have no cost (typically imported history),
+	 * the total is shown with the unpriced volume stated, and cost per distance
+	 * is withheld - dividing a partial cost by the full distance would understate it.
+	 * </ul>
 	 */
 	private void appendTotalCostData() {
 
-		double totalCost = total.getCost() + getWasteOilCost();
+		String label = getString(R.string.stats_label_total_fuel_cost);
 
-		double per_mile = 0;
-		if (total.getDistance() > 0) {
-			per_mile = totalCost/total.getDistance();
+		if (!isWasteOilPriced()) {
+			appendTableRow(new String[]{label,"-"});
+			return;
 		}
 
-		String label = getString(R.string.stats_label_total_fuel_cost);
-		String value = String.format(App.getLocale(),getString(R.string.stats_calc_cost_permile),
-				CurrencyManager.getInstance().getSymbolicFormatter().format(totalCost),
-				CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(per_mile),
-				units.getDistanceRatioLabel());
+		double totalCost = fuel.getPumpDieselCost() + getWasteOilCost();
+		String money = CurrencyManager.getInstance().getSymbolicFormatter().format(totalCost);
+		float unpriced = getUnpricedPumpGallons();
+		String value;
+
+		if (unpriced > 0f) {
+			value = String.format(App.getLocale(),getString(R.string.stats_calc_total_cost_excl),
+					money, unpriced, units.getLiquidVolumeLabelLowerCase());
+		} else {
+			double per_mile = 0;
+			if (total.getDistance() > 0) {
+				per_mile = totalCost/total.getDistance();
+			}
+			value = String.format(App.getLocale(),getString(R.string.stats_calc_cost_permile),
+					money,
+					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(per_mile),
+					units.getDistanceRatioLabel());
+		}
 		value = value.replace("(","<br/>(");
 		appendTableRow(new String[]{label,value});
 	}
@@ -273,11 +303,45 @@ public class StatisticsSummaryTable implements HtmlData {
 	/**
 	 * DESCRIPTION:
 	 * Calculates what the Waste Oil Fuel burned in the displayed months cost to
-	 * produce.
-	 * @return the production cost, or 0 if no batch has a cost recorded.
+	 * produce. Only meaningful when {@link #isWasteOilPriced()} is true.
+	 * @return the production cost.
 	 */
 	private double getWasteOilCost() {
 		return production.getCostPerUnit() * fuel.getWasteOilGallons();
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Indicates whether the cost of the waste oil fuel burned is known: either
+	 * none was burned, or at least one batch has a production cost recorded.
+	 * @return true if the waste oil fuel cost is known.
+	 */
+	private boolean isWasteOilPriced() {
+		return (fuel.getWasteOilGallons() <= 0f) || production.hasCostPerUnit();
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * @return the volume of Pump Diesel burned that has no cost recorded.
+	 */
+	private float getUnpricedPumpGallons() {
+		return Math.max(0f, fuel.getPumpDieselGallons() - fuel.getPumpDieselCostedGallons());
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Counts the months in the range that have at least one fill-up. Per-month
+	 * averages divide by this rather than by every month in the range, so that
+	 * empty months - before the first fill-up, or with the 12m button pressed and
+	 * six months of data - do not dilute them.
+	 * @return the number of months with data (0 if none).
+	 */
+	private int getMonthsWithData() {
+		int count = 0;
+		for (TripRecord month : data) {
+			if (!month.getGasRecords().isEmpty()) count++;
+		}
+		return count;
 	}
 
 	/**
@@ -297,7 +361,7 @@ public class StatisticsSummaryTable implements HtmlData {
 	private void appendGallonsData() {
 
 		// calculate monthly average
-		int months = data.size();
+		int months = getMonthsWithData();
 		float average = 0;
 		if (months > 0) {
 			average = total.getGallons()/months;
@@ -321,18 +385,19 @@ public class StatisticsSummaryTable implements HtmlData {
 
 		// What every unit of fuel actually cost, purchased or produced.
 		//
-		// NOTE: this used to be pump spend divided by ALL fuel, which produced a
-		// figure that described nothing - free waste oil fuel dragged the average
-		// down without its production cost ever being counted. Now that batches
-		// carry a cost, the numerator and the denominator finally cover the same
-		// fuel, and the number means something. The isolated pump price lives in
-		// the savings table.
+		// NOTE: the numerator and the denominator must cover exactly the same fuel.
+		// Only fuel whose cost is known is included: priced Pump Diesel fill-ups
+		// plus waste oil fuel at the production rate. An unpriced pump fill-up would
+		// otherwise add its gallons with no cost, and unpriced waste oil fuel would
+		// count as free - both drag the figure below anything actually paid. When
+		// the waste oil fuel cost is unknown, "-" is shown rather than a guess. The
+		// isolated pump price lives in the savings table.
 		String label = getString(R.string.stats_label_blended_price);
 		String value = "-";
 
-		float gallons = fuel.getTotalGallons();
-		if (gallons > 0f) {
-			double price = (total.getCost() + getWasteOilCost()) / gallons;
+		float gallons = fuel.getPumpDieselCostedGallons() + fuel.getWasteOilGallons();
+		if (isWasteOilPriced() && (gallons > 0f)) {
+			double price = (fuel.getPumpDieselCost() + getWasteOilCost()) / gallons;
 			value = String.format("%s %s",
 					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(price),
 					units.getLiquidVolumeRatioLabel());
@@ -348,7 +413,8 @@ public class StatisticsSummaryTable implements HtmlData {
 		
 		float min = Float.MAX_VALUE;
 		float max = 0f;
-		float sum = 0f;
+		int distance = 0;
+		float fuelUsed = 0f;
 		int count = 0;
 		for (GasRecord record : records) {
 			if (!record.hasCalculation()) continue;
@@ -356,9 +422,16 @@ public class StatisticsSummaryTable implements HtmlData {
 			float mileage = record.getCalculation().getMileage();
 			min = Math.min(min,mileage);
 			max = Math.max(max,mileage);
-			sum += mileage;
+			distance += record.getCalculation().getDistanceDriven();
+			fuelUsed += record.getCalculation().getGasolineUsed();
 			count++;
 		}
+
+		// NOTE: the average is total distance / total fuel across the full-tank
+		// intervals, not the mean of each fill-up's figure. A mean of ratios lets a
+		// short top-up count as much as a full tank: 100 mi on 2 gal and 400 mi on
+		// 20 gal would average to 35.0 MPG when the vehicle actually got 22.7.
+		float overall = MileageCalculation.calculate(distance,fuelUsed,units);
 		
 		String label;
 		String value;
@@ -366,7 +439,7 @@ public class StatisticsSummaryTable implements HtmlData {
 		// average
 		label = getString(R.string.stats_label_mileage_avg);
 		value = "-";
-		if (count > 0) 	value = String.format(App.getLocale(),"%.2f %s",sum/count,units.getMileageLabel());
+		if (count > 0) 	value = String.format(App.getLocale(),"%.2f %s",overall,units.getMileageLabel());
 		appendTableRow(new String[]{label,value});
 		
 		// minimum

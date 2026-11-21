@@ -60,7 +60,6 @@
     <string name="stats_calc_cost">%1$s (%2$s pro Monat) (%3$s %4$s)</string>    
     <string name="stats_calc_cost_noavg">%1$s (%2$s %3$s)</string>    
     <string name="stats_report_filename">%1$s_statistics.html</string>    
-    <string name="stats_summary_prefix">AUSZUG: </string>    
     
     <!--  labels -->
     <string name="get_gas_label">Tanken</string>

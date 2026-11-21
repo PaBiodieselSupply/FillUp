@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Add Centrifuge Batch icon: the centrifuge (see ic_centrifuge.xml) with a
+    green "+" badge in the clear top-left corner, above the lid. Uses a layer-list so the
+    centrifuge drawing is defined only once.
+-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:drawable="@drawable/ic_centrifuge" />
+
+    <!-- insets rather than width/height/gravity: those need API 23, and this app
+         supports API 21. 42dp - 27dp leaves a 15dp badge in the top-left corner,
+         above the centrifuge's lid. -->
+    <item
+        android:right="27dp"
+        android:bottom="27dp" >
+        <vector
+            android:width="15dp"
+            android:height="15dp"
+            android:viewportWidth="16"
+            android:viewportHeight="16" >
+            <path
+                android:fillColor="#2E7D32"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="1.4"
+                android:pathData="M8,0.8 a7.2,7.2 0 1,0 0.01,0 z" />
+            <path
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="2"
+                android:strokeLineCap="round"
+                android:fillColor="#00000000"
+                android:pathData="M8,4.3 V11.7 M4.3,8 H11.7" />
+        </vector>
+    </item>
+
+</layer-list>

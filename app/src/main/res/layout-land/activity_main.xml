@@ -134,9 +134,19 @@
                 android:id="@+id/buttonBatchLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_notepad"
+                android:drawableLeft="@drawable/ic_oil_drop"
                 android:textSize="@dimen/main_text_size"
                 android:text="@string/batch_log_button_label" />
+
+            <!-- ADD BATCH BUTTON: opens the batch form directly, as Add Fuel does -->
+            <!-- NOTE: stays enabled with no vehicles defined - batches are global -->
+            <Button
+                android:id="@+id/buttonAddBatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_centrifuge_add"
+                android:textSize="@dimen/main_text_size"
+                android:text="@string/batch_add_label" />
 
         </LinearLayout>
     </RelativeLayout>

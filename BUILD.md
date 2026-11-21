@@ -69,6 +69,9 @@ export their CSV from the old app and import it into this one.
 Database migration
 ------------------
 
+Version 7 adds batch blend percentage and cost; version 8 adds waste oil
+collected (the existing `raw_gallons` column now means oil *processed*).
+
 Database version 6 adds `Records.fuel_type` (defaulting existing rows to
 `diesel`) and creates the `Batches` table.
 
@@ -76,7 +79,7 @@ Database version 6 adds `Records.fuel_type` (defaulting existing rows to
 not run for any existing FillUp user.** Because the application id was rebranded
 to `com.pabiodiesel.fillup`, this app gets its own private database directory
 and never sees a stock FillUp database. A first install therefore goes straight
-to `onCreate()` at version 6; `onUpgrade()` is never called.
+to `onCreate()` at the current version; `onUpgrade()` is never called.
 
 The migration code matters only for upgrades *between builds of this app* — for
 example if an interim build reaches testers before a later schema change. It is

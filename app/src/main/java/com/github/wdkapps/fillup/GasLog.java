@@ -78,6 +78,7 @@ public class GasLog {
     private static final String BATCH_NOTES = "notes";
     private static final String BATCH_BLEND = "blend_percent";
     private static final String BATCH_COST = "cost";
+    private static final String BATCH_COLLECTED = "collected_gallons";
 
 
     // column names for VEHICLE_TABLE
@@ -110,7 +111,8 @@ public class GasLog {
     	BATCH_RAW,
     	BATCH_NOTES,
     	BATCH_BLEND,
-    	BATCH_COST
+    	BATCH_COST,
+    	BATCH_COLLECTED
     };
     
     /// SQL commands to create the database
@@ -150,7 +152,8 @@ public class GasLog {
     			BATCH_RAW   + " real not null default 0, " +
     			BATCH_NOTES + " text, " +
     			BATCH_BLEND + " real not null default 0, " +
-    			BATCH_COST  + " real not null default 0);"
+    			BATCH_COST  + " real not null default 0, " +
+    			BATCH_COLLECTED + " real not null default 0);"
     };
 
     /// SQL commands to delete the database
@@ -166,7 +169,8 @@ public class GasLog {
 	/// the database version number
 	/// version 6 added Records.fuel_type and the Batches table
 	/// version 7 added Batches.blend_percent and Batches.cost
-    public static final int DATABASE_VERSION = 7;
+	/// version 8 added Batches.collected_gallons (raw_gallons now means oil PROCESSED)
+    public static final int DATABASE_VERSION = 8;
 
     /// context of the instance creator
     private final Context context;
@@ -263,7 +267,9 @@ public class GasLog {
     	values.put(RECORD_GALLONS, record.getGallons());
     	values.put(RECORD_FULLTANK, record.isFullTank());
     	values.put(RECORD_HIDDEN, record.isCalculationHidden());
-    	values.put(RECORD_COST, record.getCost());
+    	// a waste oil fuel fill-up never has a purchase cost - enforced here so no
+    	// path (form, CSV import, future code) can store one against it
+    	values.put(RECORD_COST, record.getFuelType().isWasteOil() ? 0d : record.getCost());
     	values.put(RECORD_NOTES, record.getNotes());
     	values.put(RECORD_FUEL_TYPE, record.getFuelType().getToken());
     	return values;
@@ -286,6 +292,7 @@ public class GasLog {
     	values.put(BATCH_NOTES, record.getNotes());
     	values.put(BATCH_BLEND, record.getBlendPercent());
     	values.put(BATCH_COST, record.getCost());
+    	values.put(BATCH_COLLECTED, record.getCollectedGallons());
     	return values;
     }
     
@@ -389,6 +396,7 @@ public class GasLog {
     		String notes = c.getString(c.getColumnIndex(BATCH_NOTES));
     		float blend = c.getFloat(c.getColumnIndex(BATCH_BLEND));
     		double cost = c.getDouble(c.getColumnIndex(BATCH_COST));
+    		float collected = c.getFloat(c.getColumnIndex(BATCH_COLLECTED));
 
     		record = new BatchRecord();
     		record.setID(id);
@@ -398,6 +406,7 @@ public class GasLog {
     		record.setNotes(notes);
     		record.setBlendPercent(blend);
     		record.setCost(cost);
+    		record.setCollectedGallons(collected);
     	}
     	return record;
     }
@@ -731,9 +740,43 @@ public class GasLog {
     
     /**
      * DESCRIPTION:
-     * Reads all gasoline records contained in the log for a specific vehicle.
-     * @param vehicle - the Vehicle to read the records for. 
-     * @return a List of all GasRecord's in the log for the vehicle (empty if none exist).
+     * Reads every gasoline record in the log, for all vehicles. Used where a
+     * figure does not depend on which vehicle the fuel went into - the average
+     * price paid for pump diesel is the same whichever truck was filled.
+     * @return a List of all GasRecords in the log (empty if none exist).
+     */
+    public List<GasRecord> readAllRecordsAllVehicles() {
+    	final String tag = TAG+".readAllRecordsAllVehicles()";
+    	List<GasRecord> list = new ArrayList<GasRecord>();
+    	Cursor cursor = null;
+    	try {
+    		// SELECT * FROM Records;
+    		cursor = db.query(RECORDS_TABLE, RECORDS_TABLE_COLUMNS, null, null, null, null, null, null);
+    		if (cursor != null) {
+    			if (cursor.moveToFirst()) {
+    				do {
+    					list.add(getRecordFromCursor(cursor));
+    				} while (cursor.moveToNext());
+    			}
+    		}
+    		// NOTE: deliberately no GasRecordList.calculateMileage() here. Fuel
+    		// economy is only meaningful within one vehicle's odometer sequence;
+    		// this list exists for fuel volumes and prices across all vehicles.
+    	} catch (SQLException e) {
+    		Log.e(tag,"SQLException: "+e.getMessage());
+    		list.clear();
+    	} finally {
+    		if (cursor != null) cursor.close();
+    	}
+    	return list;
+    }
+
+    /**
+     * DESCRIPTION:
+     * Reads all gas records for a specific vehicle, ordered by odometer, with
+     * fuel economy calculated.
+     * @param vehicle - the Vehicle to read records for.
+     * @return a List of the vehicle's GasRecords (empty if none exist).
      */
     public List<GasRecord> readAllRecords(Vehicle vehicle) {
        	final String tag = TAG+".readAllRecords()";

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Oil drop icon for the Fuel Production Log button on the home screen.
+
+    A golden drop of clean fuel with a darker shade along the bottom and a
+    highlight on the left, so it reads as liquid at button size.
+
+    Sized 42dp so its button is the same height as the other home screen
+    buttons. Flat fills only - vector gradients need API 24 and this app
+    supports API 21.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48" >
+
+    <!-- the drop -->
+    <path
+        android:fillColor="#E8A623"
+        android:strokeColor="#7A4E05"
+        android:strokeWidth="1.2"
+        android:pathData="M24,3.5 C24,3.5 10.5,19.5 10.5,30.5 A13.5,13.5 0 0,0 37.5,30.5 C37.5,19.5 24,3.5 24,3.5 Z" />
+
+    <!-- darker shade along the bottom right -->
+    <path
+        android:fillColor="#C98612"
+        android:pathData="M35.6,30.5 A11.6,11.6 0 0,1 16,39.2 A13.6,13.6 0 0,0 35.4,26.2 C35.5,27.6 35.6,29 35.6,30.5 Z" />
+
+    <!-- highlight on the left -->
+    <path
+        android:strokeColor="#FFF2C2"
+        android:strokeWidth="2.6"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M16.2,31 C16.2,26.5 18,22.5 20.6,18.6" />
+    <path
+        android:fillColor="#FFF2C2"
+        android:pathData="M17.6,35.2 a1.5,1.5 0 1,0 0.01,0 z" />
+
+</vector>

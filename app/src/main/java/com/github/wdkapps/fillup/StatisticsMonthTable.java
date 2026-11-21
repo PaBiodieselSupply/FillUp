@@ -206,7 +206,8 @@ public class StatisticsMonthTable implements HtmlData {
 		
 		float min = Float.MAX_VALUE;
 		float max = 0f;
-		float sum = 0f;
+		int distance = 0;
+		float fuel = 0f;
 		int count = 0;
 		for (GasRecord record : records) {
 			if (!record.hasCalculation()) continue;
@@ -214,9 +215,16 @@ public class StatisticsMonthTable implements HtmlData {
 			float mileage = record.getCalculation().getMileage();
 			min = Math.min(min,mileage);
 			max = Math.max(max,mileage);
-			sum += mileage;
+			distance += record.getCalculation().getDistanceDriven();
+			fuel += record.getCalculation().getGasolineUsed();
 			count++;
 		}
+
+		// NOTE: the average is total distance / total fuel across the full-tank
+		// intervals, not the mean of each fill-up's figure. A mean of ratios lets a
+		// short top-up count as much as a full tank: 100 mi on 2 gal and 400 mi on
+		// 20 gal would average to 35.0 MPG when the vehicle actually got 22.7.
+		float overall = MileageCalculation.calculate(distance,fuel,units);
 		
 		String label;
 		String value;
@@ -224,7 +232,7 @@ public class StatisticsMonthTable implements HtmlData {
 		// average
 		label = getString(R.string.stats_label_mileage_avg);
 		value = "-";
-		if (count > 0) 	value = String.format(App.getLocale(),"%.2f %s",sum/count,units.getMileageLabel());
+		if (count > 0) 	value = String.format(App.getLocale(),"%.2f %s",overall,units.getMileageLabel());
 		appendTableRow(new String[]{label,value});
 		
 		// minimum

@@ -10,19 +10,38 @@
         Sharing the report must not depend on an options menu: the app bar is on
         the home screen only, so there is no overflow here to reach one from.
     -->
-    <Button
-        android:id="@+id/buttonShareStats"
+    <LinearLayout
+        android:id="@+id/shareBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:drawableLeft="@drawable/ic_menu_share"
-        android:text="@string/share_label"
-        android:textSize="@dimen/main_text_size" />
+        android:orientation="horizontal" >
+
+        <!-- image card for posting to a Facebook group (SavingsCard) -->
+        <Button
+            android:id="@+id/buttonShareSavings"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_menu_share"
+            android:text="@string/share_savings_label"
+            android:textSize="@dimen/main_text_size" />
+
+        <!-- the full report as a web page file -->
+        <Button
+            android:id="@+id/buttonShareStats"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_menu_share"
+            android:text="@string/share_report_label"
+            android:textSize="@dimen/main_text_size" />
+    </LinearLayout>
 
     <WebView
         android:id="@+id/webviewStats"
         android:layout_below="@id/rangeButtons"
-        android:layout_above="@id/buttonShareStats"
+        android:layout_above="@id/shareBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

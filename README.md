@@ -13,8 +13,8 @@ Modifications by PA Biodiesel Supply, 2026
 
 Added:
 
-+ **Fuel type on every fill-up** - Black Diesel (produced by the user from waste
-  oil) or Pump Diesel (purchased). Black Diesel has no purchase cost, so the
++ **Fuel type on every fill-up** - Waste Oil Fuel (produced by the user from waste
+  oil) or Pump Diesel (purchased). Waste Oil Fuel has no purchase cost, so the
   price and cost inputs are hidden when it is selected. Fuel type does not
   affect how fuel economy is calculated.
 + **Fuel Split** section on the plots screen - the proportion of fuel consumed
@@ -22,16 +22,27 @@ Added:
 + **Centrifuge Batch Log** - a separate log of each batch of fuel processed:
   date, clean fuel yielded, raw oil processed (optional), notes, and a derived
   yield percentage. Batch records are global, not per-vehicle.
-+ **Black Diesel Savings** in the statistics report - estimated savings, priced
++ **Waste Oil Fuel Savings** in the statistics report - estimated savings, priced
   from the user's own all-time average pump diesel purchase price rather than a
   figure they have to enter and maintain.
-+ **Production vs Consumption** in the statistics report - centrifuge output
-  against Black Diesel burned, with a signed net.
++ **Fuel Production vs Use** in the statistics report - centrifuge output
+  against Waste Oil Fuel burned, with a signed net.
+
++ **Fuel Production Log** (previously "Centrifuge Batch Log") with an **Add
+  Centrifuge Batch** button on the home screen, both with a custom centrifuge
+  icon. Batches record clean fuel produced, waste oil processed and collected,
+  blend added and batch cost.
++ **Share Savings** on the Statistics screen: draws a 1080 x 1080 savings card
+  for the vehicle and date range (template: `res/layout/savings_card.xml`) and
+  opens Facebook's "Share to Groups" screen with it attached, falling back to
+  the normal share list. Figures come from `SavingsSummary`, the same
+  calculation as the statistics table.
 
 Also changed:
 
 + Migrated from the Eclipse/ADT + Ant build to Gradle.
-+ Database schema version 6: adds `Records.fuel_type` and the `Batches` table.
++ Database schema version 8: version 6 adds `Records.fuel_type` and the `Batches`
+  table; 7 adds batch blend and cost; 8 adds waste oil collected.
   Existing fill-up records are migrated to Pump Diesel.
 + CSV export/import extended with a `fuel_type` field. Older exports without
   that column still import and default to Pump Diesel.

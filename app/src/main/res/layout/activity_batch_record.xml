@@ -117,6 +117,23 @@
                 android:hint="@string/hint_batch_raw"
                 android:imeOptions="actionNext" />
 
+            <!-- WASTE OIL COLLECTED (optional, supply tracking only - yield uses PROCESSED) -->
+            <TextView
+                android:id="@+id/textViewCollected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_collected_label" />
+
+            <EditText
+                android:id="@+id/editTextCollected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789.,"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="@string/hint_batch_collected"
+                android:imeOptions="actionNext" />
+
             <!-- BLEND PERCENTAGE (optional) -->
             <TextView
                 android:id="@+id/textViewBlend"
@@ -157,6 +174,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
+                android:textColor="@color/calc_text_color" />
+
+            <TextView
+                android:id="@+id/textViewTotalWithBlend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/calc_text_color" />
 
             <TextView

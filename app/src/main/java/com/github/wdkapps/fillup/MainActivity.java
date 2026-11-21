@@ -111,6 +111,8 @@ implements VehicleDialog.Listener,
         Button buttonPlotData = (Button)findViewById(R.id.buttonPlotData);
         Button buttonViewStatistics = (Button)findViewById(R.id.buttonViewStatistics);
         Button buttonBatchLog = (Button)findViewById(R.id.buttonBatchLog);
+        Button buttonAddBatch = (Button)findViewById(R.id.buttonAddBatch);
+        buttonAddBatch.setOnClickListener(this);
         buttonBatchLog.setOnClickListener(this);
         ImageButton buttonAppBarMenu = (ImageButton)findViewById(R.id.buttonAppBarMenu);
         buttonAppBarMenu.setOnClickListener(this);
@@ -286,6 +288,10 @@ implements VehicleDialog.Listener,
 			viewStatistics(v);
 			break;
 
+		case R.id.buttonAddBatch:
+			addBatch(v);
+			break;
+
 		case R.id.buttonBatchLog:
 			viewBatchLog(v);
 			break;
@@ -405,11 +411,40 @@ implements VehicleDialog.Listener,
     
     /**
      * DESCRIPTION:
-     * Starts an Activity to view the centrifuge batch log.<p>
+     * Starts an Activity to add a centrifuge batch directly from the home
+     * screen, the way Add Fuel adds a fill-up.<p>
      *
      * NOTE: no vehicle is selected or passed. Centrifuge batches are global -
      * a batch of fuel exists before it is poured into any particular vehicle -
-     * so this screen works with no vehicles defined at all.
+     * so this works with no vehicles defined at all.
+     *
+     * @param view - currently unused - necessary only if called as click listener.
+     */
+    public void addBatch(View view) {
+    	Intent intent = new Intent(this, BatchRecordActivity.class);
+    	intent.putExtra(BatchRecordActivity.RECORD, new BatchRecord());
+    	startActivityForResult(intent, ADD_BATCH_REQUEST);
+    }
+
+    /**
+     * DESCRIPTION:
+     * Called when the user finishes entering a centrifuge batch started from the
+     * home screen.
+     * @param record - the BatchRecord entered by the user.
+     */
+    protected void onAddBatchResult(BatchRecord record) {
+    	if (gaslog.createBatchRecord(record)) {
+    		Utilities.toast(this,getString(R.string.toast_data_saved));
+    	} else {
+    		Utilities.toast(this,getString(R.string.toast_error_saving_data));
+    	}
+    }
+
+    /**
+     * DESCRIPTION:
+     * Starts an Activity to view the centrifuge batch log.<p>
+     *
+     * NOTE: no vehicle is selected or passed - see viewBatchLog().
      *
      * @param view - currently unused - necessary only if called as click listener.
      */
@@ -973,6 +1008,7 @@ implements VehicleDialog.Listener,
 	 */
 	private static final int GET_GAS_REQUEST = 1;
 	private static final int CHOOSE_IMPORT_FILE = 2;
+	private static final int ADD_BATCH_REQUEST = 3;
     
     /**
      * DESCRIPTION:
@@ -991,6 +1027,15 @@ implements VehicleDialog.Listener,
         	if (resultCode == Activity.RESULT_OK) {
         		GasRecord record = (GasRecord)intent.getSerializableExtra(GasRecordActivity.RECORD);
         		addGasRecord(record);
+        	} else {
+        		Utilities.toast(this,getString(R.string.toast_canceled));
+        	}
+        	break;
+
+        case ADD_BATCH_REQUEST:
+        	if ((resultCode == Activity.RESULT_OK) && (intent != null)) {
+        		BatchRecord batch = (BatchRecord)intent.getSerializableExtra(BatchRecordActivity.RECORD);
+        		if (batch != null) onAddBatchResult(batch);
         	} else {
         		Utilities.toast(this,getString(R.string.toast_canceled));
         	}

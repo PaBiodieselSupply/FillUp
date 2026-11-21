@@ -101,9 +101,27 @@ public class MileageCalculation implements Serializable {
 	 * @return float - calculated fuel efficiency (mileage) 
 	 */
 	public float getMileage() {
+		return calculate(getDistanceDriven(), gasolineUsed, units);
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Converts a distance and a quantity of fuel into fuel efficiency in the
+	 * specified units.<p>
+	 *
+	 * NOTE: static so that an overall figure across many fill-ups - total
+	 * distance and total fuel summed first - goes through exactly the same unit
+	 * conversion as a single fill-up. Averaging the individual MPG values instead
+	 * lets a short top-up count as much as a full tank.
+	 *
+	 * @param distance - the distance driven.
+	 * @param gasolineUsed - the fuel used over that distance.
+	 * @param units - the units of measurement.
+	 * @return the fuel efficiency, or 0 if either value is not positive.
+	 */
+	public static float calculate(int distance, float gasolineUsed, Units units) {
 		float mileage = 0;
-		int distance = getDistanceDriven();
-		
+
 		// avoid division by zero!
 		if ((gasolineUsed > 0) && (distance > 0)) {
 			

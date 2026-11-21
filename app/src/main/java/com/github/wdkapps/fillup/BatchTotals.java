@@ -48,8 +48,11 @@ public class BatchTotals {
 	/// number of batches in range
 	private int count = 0;
 
-	/// total clean fuel produced by those batches
+	/// total fuel produced by those batches, including any blend stock
 	private float totalYield = 0f;
+
+	/// total waste oil collected for those batches (where recorded)
+	private float totalCollected = 0f;
 
 	/// total cost of the batches that have a cost recorded
 	private double costedCost = 0d;
@@ -81,12 +84,18 @@ public class BatchTotals {
 			if (batch == null) continue;
 			if ((range != null) && !range.contains(batch.getDate())) continue;
 
-			count++;
-			totalYield += batch.getYieldGallons();
+			// NOTE: totals use the batch's TOTAL fuel, blend included. That is what
+			// goes into the tank, so it is the like-for-like comparison with waste
+			// oil fuel consumed, and what the batch cost is spread over.
+			float output = batch.getTotalGallons();
 
-			if (batch.hasCost() && (batch.getYieldGallons() > 0f)) {
+			count++;
+			totalYield += output;
+			totalCollected += batch.getCollectedGallons();
+
+			if (batch.hasCost() && (output > 0f)) {
 				costedCost += batch.getCost();
-				costedYield += batch.getYieldGallons();
+				costedYield += output;
 				costedCount++;
 			}
 
@@ -107,10 +116,18 @@ public class BatchTotals {
 
 	/**
 	 * DESCRIPTION:
-	 * @return the total volume of clean fuel produced.
+	 * @return the total volume of fuel produced, including any blend stock.
 	 */
 	public float getTotalYield() {
 		return totalYield;
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * @return the total waste oil collected, where recorded.
+	 */
+	public float getTotalCollected() {
+		return totalCollected;
 	}
 
 	/**

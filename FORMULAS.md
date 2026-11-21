@@ -5,9 +5,11 @@ Verification of every formula added for PA Biodiesel Supply, against the
 specification. Each section gives the spec text, where it is implemented, and a
 worked example.
 
-All arithmetic below was checked by hand. **None of it has been checked by
-running the app** — there is no JDK or Android SDK on the machine this was
-written on, and this project has no automated tests.
+All arithmetic below was checked by hand, and **verified on a phone on 21 Nov
+2026** against a 92 fill-up, 20 batch, 3 vehicle test history, across every
+date range button: 1,385 of 1,386 statistics figures and all 92 log rows
+matched an independent calculation. The one difference is a half-cent tie
+($42.645 displayed as $42.64). See [test-data/TEST-GUIDE.md](test-data/TEST-GUIDE.md).
 
 ---
 
@@ -32,14 +34,27 @@ Assume every record falls inside the selected date range.
 
 ---
 
-1. Fuel economy (MPG) — unchanged
----------------------------------
+1. Fuel economy (MPG)
+--------------------
 
 > `(current odometer − previous odometer) / gallons`
 
-**Untouched.** Fuel type has no effect on how fuel economy is calculated, as
-specified. `GasRecordList.calculateMileage()` and `MileageCalculation` were not
-modified and never read the fuel type. Mixed-fuel tanks blend into one figure.
+Each fill-up's figure is unchanged, and fuel type has no effect on it, as
+specified. Mixed-fuel tanks blend into one figure.
+
+**`Fuel Economy (avg)` changed** in the statistics tables and on the plot's red
+average line. It used to be the simple average of each fill-up's MPG, which lets
+a short top-up count as much as a full tank. It is now total miles ÷ total
+gallons across the full-tank intervals in the range:
+
+```
+100 mi on 2 gal (50 MPG) and 400 mi on 20 gal (20 MPG)
+old: (50 + 20) ÷ 2        = 35.0 MPG
+new: (100 + 400) ÷ 22     = 22.7 MPG   ← what the vehicle actually got
+```
+
+Min and max are still per fill-up. Every unit setting (L/100km, UK MPG and so on)
+goes through the same conversion as a single fill-up.
 
 ---
 
@@ -75,8 +90,8 @@ burned, not money spent.
 
 ---
 
-3. Waste Oil Fuel Savings — `BlackDieselSavingsTable`
----------------------------------------------------
+3. Waste Oil Fuel Savings — `WasteOilSavingsTable`
+-------------------------------------------------
 
 > `Average Diesel Price = total cost of all Pump Diesel fill-ups ÷ total gallons
 > of all Pump Diesel fill-ups`
@@ -98,6 +113,13 @@ Displays: `Pump Diesel Price (avg) — $3.856 per gallon (from 3 fill-ups, all t
 
 (Three decimal places: the app's fractional currency formatter adds one digit
 beyond the locale's normal two, so tenths of a cent are visible.)
+
+**A vehicle with no priced pump fill-ups uses all vehicles.** A truck that runs
+only on Waste Oil Fuel never buys pump diesel. Rather than show no savings, the
+price falls back to the average across every vehicle, and the row says so:
+`(from 12 fill-ups, all vehicles)`. The price at the pump doesn't depend on which
+truck you fill. The "no cost recorded" message now appears only when no vehicle
+has a priced Pump Diesel fill-up.
 
 ### Production cost, and why savings are net
 
@@ -123,8 +145,12 @@ The gross figure on the same data would be $289.21. The $45.00 difference is
 exactly what that fuel cost to make. **Only the net figure is shown** — a single
 savings number that survives a customer checking it.
 
-If no batch has a cost recorded, production cost is zero and this equals the
-gross figure. If producing ever costs more per gallon than buying, the result
+If a batch has a blend, the cost is spread over the total fuel including the
+blend (see section 4), because the batch cost includes what the blend stock cost.
+
+If Waste Oil Fuel was burned but no batch has a cost recorded, Estimated Savings
+shows "-" with *Add batch costs to see this.* Subtracting $0 would present the
+gross figure as if it were net. If producing ever costs more per gallon than buying, the result
 goes negative and is displayed as such rather than clamped to zero.
 
 **The two halves use different time windows, on purpose.** The price uses the
@@ -137,12 +163,45 @@ was broken.
 If no Pump Diesel fill-up anywhere in the history has a cost, the table shows
 the "add cost data" message instead of a number, as specified.
 
+### Why savings can look low next to the fuel produced
+
+Savings count fuel **burned**, by **the selected vehicle**, in the selected
+range. Batches are shared. On the test data (All range), the centrifuge made
+1,149 gal: the truck burned 592 gal ($1,936.72 saved), the tractor 229 gal
+($744.61), and 328 gal had not been burned yet ($0 so far). The truck's page
+shows only its own share.
+
+Only the production cost of the gallons burned is subtracted (592 × $0.578 =
+$342.54), not every batch's cost. Subtracting all batch costs would charge one
+vehicle for fuel it never used.
+
+**Estimated Savings, all vehicles** appears when more than one vehicle exists.
+It is the sum of each vehicle's own Estimated Savings, each calculated exactly
+as on its own page, so it always equals adding up the vehicle pages (to within a
+cent, since it adds the unrounded figures). Fuel still in storage is not
+counted until it is burned.
+
 ---
 
 4. Centrifuge yield percentage — `BatchRecord.getYieldPercent()`
 ----------------------------------------------------------------
 
 > `(clean_fuel_yielded / raw_oil_processed) × 100` — shown only when raw oil is entered
+
+**What each batch field means:**
+
+| Field | Meaning |
+|---|---|
+| Clean Fuel Produced | oil-derived fuel only, **before** blending |
+| Waste Oil Processed | oil that went into this batch — yield is measured against this |
+| Waste Oil Collected | oil collected, for tracking supply only; never used in yield |
+| Blend Added | percent of the clean fuel, **added on top** |
+
+So a 10% blend on 55.0 gal of clean fuel adds 5.5 gal, for **60.5 gal in total**.
+Yield uses only the clean fuel and the oil processed, so blending can never
+inflate it. The 60.5 gal total is what goes into the tank, so it is what
+Fuel Production vs Use counts as fuel produced, and what the batch cost is
+spread over.
 
 Displayed to **two decimal places**, rounded, consistent with how the rest of
 the app formats derived numbers:
@@ -172,7 +231,7 @@ two can never display the same batch differently.
 
 ---
 
-5. Production vs Consumption — `ProductionConsumptionTable`
+5. Fuel Production vs Use — `ProductionConsumptionTable`
 -----------------------------------------------------------
 
 > `Net = total yield − Waste Oil Fuel consumed`. Positive means producing more
@@ -250,9 +309,32 @@ figure states its own scope:
 | Summary table | `Pump Fuel Cost` | pump spend only |
 | Summary table | `Waste Oil Fuel Cost` | production cost of what you burned |
 | Summary table | `Total Fuel Cost` | both, plus cost per mile |
-| Summary table | `Blended Fuel Price` | total cost ÷ every gallon burned |
+| Summary table | `Blended Fuel Price` | priced fuel only: (pump spend + waste oil cost) ÷ (priced pump gallons + waste oil gallons) |
 | Plots | `Pump Diesel Price` | pump purchases only — months with none are not averaged in |
 | Plots | `Fuel Used` | every gallon, both types |
 
 `Fuel Used` was previously labelled `Fuel Purchased`. The underlying total always
 included both fuel types — only the label was wrong.
+
+**Missing costs are never treated as $0.** Nothing is estimated:
+
+- A Pump Diesel fill-up with no cost (usually imported history) is left out of
+  the blended price. Total Fuel Cost still shows what was recorded, states the
+  unpriced volume — `$278.30 (excludes 15.000 gallons with no cost recorded)` on the example data (row 4) —
+  and withholds cost per mile, since a partial cost over the full distance would
+  understate it.
+- If Waste Oil Fuel was burned but no batch has a cost, its cost row reads
+  *Not recorded. Add batch costs to see this.*, and Total Fuel Cost and Blended
+  Fuel Price show "-".
+- A Waste Oil Fuel fill-up never carries a cost. Import sets any cost on a `wvo`
+  CSV row to $0, and the database enforces it on every save.
+
+**Per-month figures divide by months that have data**, not by every month in the
+range. With the 12m button and six months of data, they used to be halved.
+Distance per month is also rounded properly now: the original app dropped the
+fraction (17,312 miles over 23 months showed 752, not 753).
+
+**Editing a batch keeps its exact values.** The edit form used to pre-fill the
+blend with no decimals and the volumes with one, so opening a 12.5% blend batch
+and pressing OK silently saved it as 13%. The batch log also showed "+13%" next
+to a total calculated from 12.5%. Both now show the value exactly as entered.

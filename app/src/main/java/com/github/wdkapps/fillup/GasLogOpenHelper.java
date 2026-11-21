@@ -118,6 +118,12 @@ class GasLogOpenHelper extends SQLiteOpenHelper {
 				sql.add("ALTER TABLE Batches ADD COLUMN blend_percent real not null default 0;");
 				sql.add("ALTER TABLE Batches ADD COLUMN cost real not null default 0;");
 				break;
+
+			case 7:
+				// waste oil collected, recorded separately from waste oil processed
+				// (raw_gallons), which is what yield is measured against
+				sql.add("ALTER TABLE Batches ADD COLUMN collected_gallons real not null default 0;");
+				break;
 			}
 
 			oldVersion++;

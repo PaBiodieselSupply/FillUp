@@ -7,4 +7,9 @@
     <external-path
         name="external"
         path="." />
+
+    <!-- the shareable savings card is drawn into the app's private cache -->
+    <cache-path
+        name="share"
+        path="share/" />
 </paths>

@@ -1,0 +1,2112 @@
+{
+ "generated_for": "2026-11-21",
+ "vehicles": {
+  "Test Truck": {
+   "fill_ups": 52,
+   "first": "2024-09-05",
+   "last": "2026-11-20",
+   "ranges": {
+    "1m": {
+     "range": "Past month",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.848 per gallon (from 19 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "47.813 gallons",
+      "Estimated Savings": "$156.34",
+      "Estimated Savings, all vehicles": "$228.89"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "1",
+      "Waste Oil Collected": "76.000 gallons",
+      "Fuel Produced": "63.800 gallons",
+      "Waste Oil Fuel Consumed": "47.813 gallons",
+      "Net": "+16.0 gallons",
+      "footnote": true
+     },
+     "Summary": null,
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "17.00 MPG",
+       "Fuel Economy (min)": "17.00 MPG",
+       "Fuel Economy (max)": "17.00 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (47.8 gallons) · 0% Pump Diesel (0.0 gallons)"
+    },
+    "6m": {
+     "range": "Past 6 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.848 per gallon (from 19 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "184.435 gallons",
+      "Estimated Savings": "$603.07",
+      "Estimated Savings, all vehicles": "$1,044.11"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "6",
+      "Waste Oil Collected": "479.000 gallons",
+      "Fuel Produced": "381.150 gallons",
+      "Waste Oil Fuel Consumed": "184.435 gallons",
+      "Net": "+196.7 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "17.25 MPG",
+      "Fuel Economy (min)": "16.50 MPG",
+      "Fuel Economy (max)": "17.74 MPG",
+      "Distance Driven": "4525 miles (754 per month)",
+      "Fuel Used": "270.721 gallons (45.120 per month)",
+      "    Waste Oil Fuel": "184.435 gallons (68%)",
+      "    Pump Diesel": "86.286 gallons (32%)",
+      "Pump Fuel Cost": "$255.87 ($42.65 per month)",
+      "Waste Oil Fuel Cost": "$106.66",
+      "Total Fuel Cost": "$362.53 (excludes 20.861 gallons with no cost recorded)",
+      "Blended Fuel Price": "$1.451 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "17.00 MPG",
+       "Fuel Economy (min)": "17.00 MPG",
+       "Fuel Economy (max)": "17.00 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "17.36 MPG",
+       "Fuel Economy (min)": "17.16 MPG",
+       "Fuel Economy (max)": "17.57 MPG",
+       "Distance Driven": "735 miles",
+       "Fuel Used": "42.339 gallons",
+       "Pump Fuel Cost": "$84.14 ($0.114 per mile)",
+       "Pump Diesel Price (avg)": "$4.106 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "16.95 MPG",
+       "Fuel Economy (max)": "17.74 MPG",
+       "Distance Driven": "714 miles",
+       "Fuel Used": "41.220 gallons",
+       "Pump Fuel Cost": "$87.66 ($0.123 per mile)",
+       "Pump Diesel Price (avg)": "$4.006 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "17.70 MPG",
+       "Fuel Economy (min)": "17.70 MPG",
+       "Fuel Economy (max)": "17.70 MPG",
+       "Distance Driven": "785 miles",
+       "Fuel Used": "52.893 gallons",
+       "Pump Fuel Cost": "$84.07 ($0.107 per mile)",
+       "Pump Diesel Price (avg)": "$3.647 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "16.98 MPG",
+       "Fuel Economy (min)": "16.50 MPG",
+       "Fuel Economy (max)": "17.45 MPG",
+       "Distance Driven": "709 miles",
+       "Fuel Used": "41.764 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "17.14 MPG",
+       "Fuel Economy (max)": "17.64 MPG",
+       "Distance Driven": "769 miles",
+       "Fuel Used": "44.692 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "68% Waste Oil Fuel (184.4 gallons) · 32% Pump Diesel (86.3 gallons)"
+    },
+    "12m": {
+     "range": "Past 12 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.848 per gallon (from 19 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "289.183 gallons",
+      "Estimated Savings": "$945.58",
+      "Estimated Savings, all vehicles": "$1,690.20"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "289.183 gallons",
+      "Net": "+350.2 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "17.30 MPG",
+      "Fuel Economy (min)": "16.50 MPG",
+      "Fuel Economy (max)": "29.49 MPG",
+      "Distance Driven": "8715 miles (726 per month)",
+      "Fuel Used": "511.839 gallons (42.653 per month)",
+      "    Waste Oil Fuel": "289.183 gallons (56%)",
+      "    Pump Diesel": "222.656 gallons (44%)",
+      "Pump Fuel Cost": "$777.68 ($64.81 per month)",
+      "Waste Oil Fuel Cost": "$167.24",
+      "Total Fuel Cost": "$944.92 (excludes 20.861 gallons with no cost recorded)",
+      "Blended Fuel Price": "$1.925 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "17.00 MPG",
+       "Fuel Economy (min)": "17.00 MPG",
+       "Fuel Economy (max)": "17.00 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "17.36 MPG",
+       "Fuel Economy (min)": "17.16 MPG",
+       "Fuel Economy (max)": "17.57 MPG",
+       "Distance Driven": "735 miles",
+       "Fuel Used": "42.339 gallons",
+       "Pump Fuel Cost": "$84.14 ($0.114 per mile)",
+       "Pump Diesel Price (avg)": "$4.106 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "16.95 MPG",
+       "Fuel Economy (max)": "17.74 MPG",
+       "Distance Driven": "714 miles",
+       "Fuel Used": "41.220 gallons",
+       "Pump Fuel Cost": "$87.66 ($0.123 per mile)",
+       "Pump Diesel Price (avg)": "$4.006 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "17.70 MPG",
+       "Fuel Economy (min)": "17.70 MPG",
+       "Fuel Economy (max)": "17.70 MPG",
+       "Distance Driven": "785 miles",
+       "Fuel Used": "52.893 gallons",
+       "Pump Fuel Cost": "$84.07 ($0.107 per mile)",
+       "Pump Diesel Price (avg)": "$3.647 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "16.98 MPG",
+       "Fuel Economy (min)": "16.50 MPG",
+       "Fuel Economy (max)": "17.45 MPG",
+       "Distance Driven": "709 miles",
+       "Fuel Used": "41.764 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "17.14 MPG",
+       "Fuel Economy (max)": "17.64 MPG",
+       "Distance Driven": "769 miles",
+       "Fuel Used": "44.692 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "17.33 MPG",
+       "Fuel Economy (min)": "17.33 MPG",
+       "Fuel Economy (max)": "17.33 MPG",
+       "Distance Driven": "716 miles",
+       "Fuel Used": "41.045 gallons",
+       "Pump Fuel Cost": "$67.53 ($0.094 per mile)",
+       "Pump Diesel Price (avg)": "$3.501 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "16.84 MPG",
+       "Fuel Economy (min)": "16.84 MPG",
+       "Fuel Economy (max)": "16.84 MPG",
+       "Distance Driven": "402 miles",
+       "Fuel Used": "23.871 gallons",
+       "Pump Fuel Cost": "$85.89 ($0.214 per mile)",
+       "Pump Diesel Price (avg)": "$3.598 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "17.48 MPG",
+       "Fuel Economy (min)": "17.23 MPG",
+       "Fuel Economy (max)": "17.66 MPG",
+       "Distance Driven": "1129 miles",
+       "Fuel Used": "64.594 gallons",
+       "Pump Fuel Cost": "$91.15 ($0.081 per mile)",
+       "Pump Diesel Price (avg)": "$3.908 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "17.76 MPG",
+       "Fuel Economy (min)": "17.50 MPG",
+       "Fuel Economy (max)": "18.03 MPG",
+       "Distance Driven": "718 miles",
+       "Fuel Used": "40.421 gallons",
+       "Pump Fuel Cost": "$77.69 ($0.108 per mile)",
+       "Pump Diesel Price (avg)": "$3.848 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "17.81 MPG",
+       "Fuel Economy (min)": "16.91 MPG",
+       "Fuel Economy (max)": "29.49 MPG",
+       "Distance Driven": "449 miles",
+       "Fuel Used": "25.210 gallons",
+       "Pump Fuel Cost": "$99.46 ($0.222 per mile)",
+       "Pump Diesel Price (avg)": "$3.945 per gallon"
+      },
+      {
+       "month": "Dec 2025",
+       "Fuel Economy (avg)": "16.88 MPG",
+       "Fuel Economy (min)": "16.70 MPG",
+       "Fuel Economy (max)": "17.03 MPG",
+       "Distance Driven": "776 miles",
+       "Fuel Used": "45.977 gallons",
+       "Pump Fuel Cost": "$100.09 ($0.129 per mile)",
+       "Pump Diesel Price (avg)": "$4.088 per gallon"
+      }
+     ],
+     "Fuel Split": "56% Waste Oil Fuel (289.2 gallons) · 44% Pump Diesel (222.7 gallons)"
+    },
+    "ytd": {
+     "range": "Year to date",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.848 per gallon (from 19 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "267.691 gallons",
+      "Estimated Savings": "$875.31",
+      "Estimated Savings, all vehicles": "$1,619.92"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "267.691 gallons",
+      "Net": "+371.7 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "17.34 MPG",
+      "Fuel Economy (min)": "16.50 MPG",
+      "Fuel Economy (max)": "29.49 MPG",
+      "Distance Driven": "7939 miles (722 per month)",
+      "Fuel Used": "465.862 gallons (42.351 per month)",
+      "    Waste Oil Fuel": "267.691 gallons (57%)",
+      "    Pump Diesel": "198.171 gallons (43%)",
+      "Pump Fuel Cost": "$677.59 ($61.60 per month)",
+      "Waste Oil Fuel Cost": "$154.81",
+      "Total Fuel Cost": "$832.40 (excludes 20.861 gallons with no cost recorded)",
+      "Blended Fuel Price": "$1.871 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "17.00 MPG",
+       "Fuel Economy (min)": "17.00 MPG",
+       "Fuel Economy (max)": "17.00 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "17.36 MPG",
+       "Fuel Economy (min)": "17.16 MPG",
+       "Fuel Economy (max)": "17.57 MPG",
+       "Distance Driven": "735 miles",
+       "Fuel Used": "42.339 gallons",
+       "Pump Fuel Cost": "$84.14 ($0.114 per mile)",
+       "Pump Diesel Price (avg)": "$4.106 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "16.95 MPG",
+       "Fuel Economy (max)": "17.74 MPG",
+       "Distance Driven": "714 miles",
+       "Fuel Used": "41.220 gallons",
+       "Pump Fuel Cost": "$87.66 ($0.123 per mile)",
+       "Pump Diesel Price (avg)": "$4.006 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "17.70 MPG",
+       "Fuel Economy (min)": "17.70 MPG",
+       "Fuel Economy (max)": "17.70 MPG",
+       "Distance Driven": "785 miles",
+       "Fuel Used": "52.893 gallons",
+       "Pump Fuel Cost": "$84.07 ($0.107 per mile)",
+       "Pump Diesel Price (avg)": "$3.647 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "16.98 MPG",
+       "Fuel Economy (min)": "16.50 MPG",
+       "Fuel Economy (max)": "17.45 MPG",
+       "Distance Driven": "709 miles",
+       "Fuel Used": "41.764 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "17.14 MPG",
+       "Fuel Economy (max)": "17.64 MPG",
+       "Distance Driven": "769 miles",
+       "Fuel Used": "44.692 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "17.33 MPG",
+       "Fuel Economy (min)": "17.33 MPG",
+       "Fuel Economy (max)": "17.33 MPG",
+       "Distance Driven": "716 miles",
+       "Fuel Used": "41.045 gallons",
+       "Pump Fuel Cost": "$67.53 ($0.094 per mile)",
+       "Pump Diesel Price (avg)": "$3.501 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "16.84 MPG",
+       "Fuel Economy (min)": "16.84 MPG",
+       "Fuel Economy (max)": "16.84 MPG",
+       "Distance Driven": "402 miles",
+       "Fuel Used": "23.871 gallons",
+       "Pump Fuel Cost": "$85.89 ($0.214 per mile)",
+       "Pump Diesel Price (avg)": "$3.598 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "17.48 MPG",
+       "Fuel Economy (min)": "17.23 MPG",
+       "Fuel Economy (max)": "17.66 MPG",
+       "Distance Driven": "1129 miles",
+       "Fuel Used": "64.594 gallons",
+       "Pump Fuel Cost": "$91.15 ($0.081 per mile)",
+       "Pump Diesel Price (avg)": "$3.908 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "17.76 MPG",
+       "Fuel Economy (min)": "17.50 MPG",
+       "Fuel Economy (max)": "18.03 MPG",
+       "Distance Driven": "718 miles",
+       "Fuel Used": "40.421 gallons",
+       "Pump Fuel Cost": "$77.69 ($0.108 per mile)",
+       "Pump Diesel Price (avg)": "$3.848 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "17.81 MPG",
+       "Fuel Economy (min)": "16.91 MPG",
+       "Fuel Economy (max)": "29.49 MPG",
+       "Distance Driven": "449 miles",
+       "Fuel Used": "25.210 gallons",
+       "Pump Fuel Cost": "$99.46 ($0.222 per mile)",
+       "Pump Diesel Price (avg)": "$3.945 per gallon"
+      }
+     ],
+     "Fuel Split": "57% Waste Oil Fuel (267.7 gallons) · 43% Pump Diesel (198.2 gallons)"
+    },
+    "all": {
+     "range": "All data",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.848 per gallon (from 19 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "592.298 gallons",
+      "Estimated Savings": "$1,936.72",
+      "Estimated Savings, all vehicles": "$2,681.34"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "19",
+      "Waste Oil Collected": "1279.000 gallons",
+      "Fuel Produced": "1149.250 gallons",
+      "Waste Oil Fuel Consumed": "592.298 gallons",
+      "Net": "+557.0 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "17.28 MPG",
+      "Fuel Economy (min)": "16.44 MPG",
+      "Fuel Economy (max)": "29.49 MPG",
+      "Distance Driven": "17312 miles (753 per month)",
+      "Fuel Used": "1016.730 gallons (44.206 per month)",
+      "    Waste Oil Fuel": "592.298 gallons (58%)",
+      "    Pump Diesel": "424.432 gallons (42%)",
+      "Pump Fuel Cost": "$1,467.27 ($63.79 per month)",
+      "Waste Oil Fuel Cost": "$342.54",
+      "Total Fuel Cost": "$1,809.81 (excludes 42.419 gallons with no cost recorded)",
+      "Blended Fuel Price": "$1.858 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "17.00 MPG",
+       "Fuel Economy (min)": "17.00 MPG",
+       "Fuel Economy (max)": "17.00 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "17.36 MPG",
+       "Fuel Economy (min)": "17.16 MPG",
+       "Fuel Economy (max)": "17.57 MPG",
+       "Distance Driven": "735 miles",
+       "Fuel Used": "42.339 gallons",
+       "Pump Fuel Cost": "$84.14 ($0.114 per mile)",
+       "Pump Diesel Price (avg)": "$4.106 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "16.95 MPG",
+       "Fuel Economy (max)": "17.74 MPG",
+       "Distance Driven": "714 miles",
+       "Fuel Used": "41.220 gallons",
+       "Pump Fuel Cost": "$87.66 ($0.123 per mile)",
+       "Pump Diesel Price (avg)": "$4.006 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "17.70 MPG",
+       "Fuel Economy (min)": "17.70 MPG",
+       "Fuel Economy (max)": "17.70 MPG",
+       "Distance Driven": "785 miles",
+       "Fuel Used": "52.893 gallons",
+       "Pump Fuel Cost": "$84.07 ($0.107 per mile)",
+       "Pump Diesel Price (avg)": "$3.647 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "16.98 MPG",
+       "Fuel Economy (min)": "16.50 MPG",
+       "Fuel Economy (max)": "17.45 MPG",
+       "Distance Driven": "709 miles",
+       "Fuel Used": "41.764 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "17.32 MPG",
+       "Fuel Economy (min)": "17.14 MPG",
+       "Fuel Economy (max)": "17.64 MPG",
+       "Distance Driven": "769 miles",
+       "Fuel Used": "44.692 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "17.33 MPG",
+       "Fuel Economy (min)": "17.33 MPG",
+       "Fuel Economy (max)": "17.33 MPG",
+       "Distance Driven": "716 miles",
+       "Fuel Used": "41.045 gallons",
+       "Pump Fuel Cost": "$67.53 ($0.094 per mile)",
+       "Pump Diesel Price (avg)": "$3.501 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "16.84 MPG",
+       "Fuel Economy (min)": "16.84 MPG",
+       "Fuel Economy (max)": "16.84 MPG",
+       "Distance Driven": "402 miles",
+       "Fuel Used": "23.871 gallons",
+       "Pump Fuel Cost": "$85.89 ($0.214 per mile)",
+       "Pump Diesel Price (avg)": "$3.598 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "17.48 MPG",
+       "Fuel Economy (min)": "17.23 MPG",
+       "Fuel Economy (max)": "17.66 MPG",
+       "Distance Driven": "1129 miles",
+       "Fuel Used": "64.594 gallons",
+       "Pump Fuel Cost": "$91.15 ($0.081 per mile)",
+       "Pump Diesel Price (avg)": "$3.908 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "17.76 MPG",
+       "Fuel Economy (min)": "17.50 MPG",
+       "Fuel Economy (max)": "18.03 MPG",
+       "Distance Driven": "718 miles",
+       "Fuel Used": "40.421 gallons",
+       "Pump Fuel Cost": "$77.69 ($0.108 per mile)",
+       "Pump Diesel Price (avg)": "$3.848 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "17.81 MPG",
+       "Fuel Economy (min)": "16.91 MPG",
+       "Fuel Economy (max)": "29.49 MPG",
+       "Distance Driven": "449 miles",
+       "Fuel Used": "25.210 gallons",
+       "Pump Fuel Cost": "$99.46 ($0.222 per mile)",
+       "Pump Diesel Price (avg)": "$3.945 per gallon"
+      },
+      {
+       "month": "Dec 2025",
+       "Fuel Economy (avg)": "16.88 MPG",
+       "Fuel Economy (min)": "16.70 MPG",
+       "Fuel Economy (max)": "17.03 MPG",
+       "Distance Driven": "776 miles",
+       "Fuel Used": "45.977 gallons",
+       "Pump Fuel Cost": "$100.09 ($0.129 per mile)",
+       "Pump Diesel Price (avg)": "$4.088 per gallon"
+      },
+      {
+       "month": "Nov 2025",
+       "Fuel Economy (avg)": "17.37 MPG",
+       "Fuel Economy (min)": "17.15 MPG",
+       "Fuel Economy (max)": "17.66 MPG",
+       "Distance Driven": "755 miles",
+       "Fuel Used": "43.466 gallons",
+       "Pump Fuel Cost": "$79.47 ($0.105 per mile)",
+       "Pump Diesel Price (avg)": "$4.176 per gallon"
+      },
+      {
+       "month": "Oct 2025",
+       "Fuel Economy (avg)": "17.25 MPG",
+       "Fuel Economy (min)": "16.51 MPG",
+       "Fuel Economy (max)": "18.01 MPG",
+       "Distance Driven": "809 miles",
+       "Fuel Used": "46.903 gallons",
+       "Pump Fuel Cost": "$90.88 ($0.112 per mile)",
+       "Pump Diesel Price (avg)": "$3.935 per gallon"
+      },
+      {
+       "month": "Sep 2025",
+       "Fuel Economy (avg)": "17.64 MPG",
+       "Fuel Economy (min)": "17.25 MPG",
+       "Fuel Economy (max)": "18.04 MPG",
+       "Distance Driven": "782 miles",
+       "Fuel Used": "44.342 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Aug 2025",
+       "Fuel Economy (avg)": "16.97 MPG",
+       "Fuel Economy (min)": "16.73 MPG",
+       "Fuel Economy (max)": "17.22 MPG",
+       "Distance Driven": "831 miles",
+       "Fuel Used": "48.955 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jul 2025",
+       "Fuel Economy (avg)": "17.15 MPG",
+       "Fuel Economy (min)": "17.15 MPG",
+       "Fuel Economy (max)": "17.15 MPG",
+       "Distance Driven": "757 miles",
+       "Fuel Used": "50.651 gallons",
+       "Pump Fuel Cost": "$96.52 ($0.128 per mile)",
+       "Pump Diesel Price (avg)": "$3.649 per gallon"
+      },
+      {
+       "month": "Jun 2025",
+       "Fuel Economy (avg)": "17.68 MPG",
+       "Fuel Economy (min)": "17.66 MPG",
+       "Fuel Economy (max)": "17.70 MPG",
+       "Distance Driven": "817 miles",
+       "Fuel Used": "46.202 gallons",
+       "Pump Fuel Cost": "$83.98 ($0.103 per mile)",
+       "Pump Diesel Price (avg)": "$3.474 per gallon"
+      },
+      {
+       "month": "May 2025",
+       "Fuel Economy (avg)": "17.48 MPG",
+       "Fuel Economy (min)": "17.45 MPG",
+       "Fuel Economy (max)": "17.53 MPG",
+       "Distance Driven": "760 miles",
+       "Fuel Used": "42.696 gallons",
+       "Pump Fuel Cost": "$74.44 ($0.098 per mile)",
+       "Pump Diesel Price (avg)": "$3.65 per gallon"
+      },
+      {
+       "month": "Apr 2025",
+       "Fuel Economy (avg)": "17.31 MPG",
+       "Fuel Economy (min)": "17.31 MPG",
+       "Fuel Economy (max)": "17.31 MPG",
+       "Distance Driven": "813 miles",
+       "Fuel Used": "47.542 gallons",
+       "Pump Fuel Cost": "$90.72 ($0.112 per mile)",
+       "Pump Diesel Price (avg)": "$3.703 per gallon"
+      },
+      {
+       "month": "Mar 2025",
+       "Fuel Economy (avg)": "16.97 MPG",
+       "Fuel Economy (min)": "16.56 MPG",
+       "Fuel Economy (max)": "17.39 MPG",
+       "Distance Driven": "778 miles",
+       "Fuel Used": "45.850 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Feb 2025",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "0.000 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jan 2025",
+       "Fuel Economy (avg)": "17.09 MPG",
+       "Fuel Economy (min)": "17.01 MPG",
+       "Fuel Economy (max)": "17.17 MPG",
+       "Distance Driven": "764 miles",
+       "Fuel Used": "44.705 gallons",
+       "Pump Fuel Cost": "$90.63 ($0.119 per mile)",
+       "Pump Diesel Price (avg)": "$4.042 per gallon"
+      },
+      {
+       "month": "Dec 2024",
+       "Fuel Economy (avg)": "16.77 MPG",
+       "Fuel Economy (min)": "16.44 MPG",
+       "Fuel Economy (max)": "17.17 MPG",
+       "Distance Driven": "731 miles",
+       "Fuel Used": "43.579 gallons",
+       "Pump Fuel Cost": "$82.95 ($0.113 per mile)",
+       "Pump Diesel Price (avg)": "$4.116 per gallon"
+      }
+     ],
+     "Fuel Split": "58% Waste Oil Fuel (592.3 gallons) · 42% Pump Diesel (424.4 gallons)"
+    }
+   }
+  },
+  "Test Tractor": {
+   "fill_ups": 10,
+   "first": "2026-02-20",
+   "last": "2026-11-02",
+   "ranges": {
+    "1m": {
+     "range": "Past month",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.826 per gallon (from 48 fill-ups, all vehicles)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "22.336 gallons",
+      "Estimated Savings": "$72.55",
+      "Estimated Savings, all vehicles": "$228.89"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "1",
+      "Waste Oil Collected": "76.000 gallons",
+      "Fuel Produced": "63.800 gallons",
+      "Waste Oil Fuel Consumed": "22.336 gallons",
+      "Net": "+41.5 gallons",
+      "footnote": true
+     },
+     "Summary": null,
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "9.40 MPG",
+       "Fuel Economy (min)": "9.40 MPG",
+       "Fuel Economy (max)": "9.40 MPG",
+       "Distance Driven": "210 miles",
+       "Fuel Used": "22.336 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (22.3 gallons) · 0% Pump Diesel (0.0 gallons)"
+    },
+    "6m": {
+     "range": "Past 6 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.826 per gallon (from 48 fill-ups, all vehicles)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "135.782 gallons",
+      "Estimated Savings": "$441.03",
+      "Estimated Savings, all vehicles": "$1,044.11"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "6",
+      "Waste Oil Collected": "479.000 gallons",
+      "Fuel Produced": "381.150 gallons",
+      "Waste Oil Fuel Consumed": "135.782 gallons",
+      "Net": "+245.4 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "9.73 MPG",
+      "Fuel Economy (min)": "9.32 MPG",
+      "Fuel Economy (max)": "10.56 MPG",
+      "Distance Driven": "1321 miles (220 per month)",
+      "Fuel Used": "135.782 gallons (22.630 per month)",
+      "    Waste Oil Fuel": "135.782 gallons (100%)",
+      "    Pump Diesel": "0.000 gallons (0%)",
+      "Pump Fuel Cost": "$0.00 ($0.00 per month)",
+      "Waste Oil Fuel Cost": "$78.52",
+      "Total Fuel Cost": "$78.52 ($0.059 per mile)",
+      "Blended Fuel Price": "$0.578 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "9.40 MPG",
+       "Fuel Economy (min)": "9.40 MPG",
+       "Fuel Economy (max)": "9.40 MPG",
+       "Distance Driven": "210 miles",
+       "Fuel Used": "22.336 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "10.56 MPG",
+       "Fuel Economy (min)": "10.56 MPG",
+       "Fuel Economy (max)": "10.56 MPG",
+       "Distance Driven": "241 miles",
+       "Fuel Used": "22.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "9.69 MPG",
+       "Fuel Economy (min)": "9.69 MPG",
+       "Fuel Economy (max)": "9.69 MPG",
+       "Distance Driven": "192 miles",
+       "Fuel Used": "19.811 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "9.32 MPG",
+       "Fuel Economy (min)": "9.32 MPG",
+       "Fuel Economy (max)": "9.32 MPG",
+       "Distance Driven": "206 miles",
+       "Fuel Used": "22.105 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "9.53 MPG",
+       "Fuel Economy (min)": "9.53 MPG",
+       "Fuel Economy (max)": "9.53 MPG",
+       "Distance Driven": "249 miles",
+       "Fuel Used": "26.125 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "9.87 MPG",
+       "Fuel Economy (min)": "9.87 MPG",
+       "Fuel Economy (max)": "9.87 MPG",
+       "Distance Driven": "223 miles",
+       "Fuel Used": "22.592 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (135.8 gallons) · 0% Pump Diesel (0.0 gallons)"
+    },
+    "12m": {
+     "range": "Past 12 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.826 per gallon (from 48 fill-ups, all vehicles)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "229.246 gallons",
+      "Estimated Savings": "$744.61",
+      "Estimated Savings, all vehicles": "$1,690.20"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "229.246 gallons",
+      "Net": "+410.1 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "9.68 MPG",
+      "Fuel Economy (min)": "9.28 MPG",
+      "Fuel Economy (max)": "10.56 MPG",
+      "Distance Driven": "1976 miles (198 per month)",
+      "Fuel Used": "229.246 gallons (22.925 per month)",
+      "    Waste Oil Fuel": "229.246 gallons (100%)",
+      "    Pump Diesel": "0.000 gallons (0%)",
+      "Pump Fuel Cost": "$0.00 ($0.00 per month)",
+      "Waste Oil Fuel Cost": "$132.58",
+      "Total Fuel Cost": "$132.58 ($0.067 per mile)",
+      "Blended Fuel Price": "$0.578 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "9.40 MPG",
+       "Fuel Economy (min)": "9.40 MPG",
+       "Fuel Economy (max)": "9.40 MPG",
+       "Distance Driven": "210 miles",
+       "Fuel Used": "22.336 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "10.56 MPG",
+       "Fuel Economy (min)": "10.56 MPG",
+       "Fuel Economy (max)": "10.56 MPG",
+       "Distance Driven": "241 miles",
+       "Fuel Used": "22.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "9.69 MPG",
+       "Fuel Economy (min)": "9.69 MPG",
+       "Fuel Economy (max)": "9.69 MPG",
+       "Distance Driven": "192 miles",
+       "Fuel Used": "19.811 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "9.32 MPG",
+       "Fuel Economy (min)": "9.32 MPG",
+       "Fuel Economy (max)": "9.32 MPG",
+       "Distance Driven": "206 miles",
+       "Fuel Used": "22.105 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "9.53 MPG",
+       "Fuel Economy (min)": "9.53 MPG",
+       "Fuel Economy (max)": "9.53 MPG",
+       "Distance Driven": "249 miles",
+       "Fuel Used": "26.125 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "9.87 MPG",
+       "Fuel Economy (min)": "9.87 MPG",
+       "Fuel Economy (max)": "9.87 MPG",
+       "Distance Driven": "223 miles",
+       "Fuel Used": "22.592 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "9.28 MPG",
+       "Fuel Economy (min)": "9.28 MPG",
+       "Fuel Economy (max)": "9.28 MPG",
+       "Distance Driven": "199 miles",
+       "Fuel Used": "21.452 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "9.90 MPG",
+       "Fuel Economy (min)": "9.90 MPG",
+       "Fuel Economy (max)": "9.90 MPG",
+       "Distance Driven": "237 miles",
+       "Fuel Used": "23.940 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "9.55 MPG",
+       "Fuel Economy (min)": "9.55 MPG",
+       "Fuel Economy (max)": "9.55 MPG",
+       "Distance Driven": "219 miles",
+       "Fuel Used": "22.937 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "25.135 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "0.000 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Dec 2025",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "0.000 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (229.2 gallons) · 0% Pump Diesel (0.0 gallons)"
+    },
+    "ytd": {
+     "range": "Year to date",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.826 per gallon (from 48 fill-ups, all vehicles)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "229.246 gallons",
+      "Estimated Savings": "$744.61",
+      "Estimated Savings, all vehicles": "$1,619.92"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "229.246 gallons",
+      "Net": "+410.1 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "9.68 MPG",
+      "Fuel Economy (min)": "9.28 MPG",
+      "Fuel Economy (max)": "10.56 MPG",
+      "Distance Driven": "1976 miles (198 per month)",
+      "Fuel Used": "229.246 gallons (22.925 per month)",
+      "    Waste Oil Fuel": "229.246 gallons (100%)",
+      "    Pump Diesel": "0.000 gallons (0%)",
+      "Pump Fuel Cost": "$0.00 ($0.00 per month)",
+      "Waste Oil Fuel Cost": "$132.58",
+      "Total Fuel Cost": "$132.58 ($0.067 per mile)",
+      "Blended Fuel Price": "$0.578 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "9.40 MPG",
+       "Fuel Economy (min)": "9.40 MPG",
+       "Fuel Economy (max)": "9.40 MPG",
+       "Distance Driven": "210 miles",
+       "Fuel Used": "22.336 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "10.56 MPG",
+       "Fuel Economy (min)": "10.56 MPG",
+       "Fuel Economy (max)": "10.56 MPG",
+       "Distance Driven": "241 miles",
+       "Fuel Used": "22.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "9.69 MPG",
+       "Fuel Economy (min)": "9.69 MPG",
+       "Fuel Economy (max)": "9.69 MPG",
+       "Distance Driven": "192 miles",
+       "Fuel Used": "19.811 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "9.32 MPG",
+       "Fuel Economy (min)": "9.32 MPG",
+       "Fuel Economy (max)": "9.32 MPG",
+       "Distance Driven": "206 miles",
+       "Fuel Used": "22.105 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "9.53 MPG",
+       "Fuel Economy (min)": "9.53 MPG",
+       "Fuel Economy (max)": "9.53 MPG",
+       "Distance Driven": "249 miles",
+       "Fuel Used": "26.125 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "9.87 MPG",
+       "Fuel Economy (min)": "9.87 MPG",
+       "Fuel Economy (max)": "9.87 MPG",
+       "Distance Driven": "223 miles",
+       "Fuel Used": "22.592 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "9.28 MPG",
+       "Fuel Economy (min)": "9.28 MPG",
+       "Fuel Economy (max)": "9.28 MPG",
+       "Distance Driven": "199 miles",
+       "Fuel Used": "21.452 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "9.90 MPG",
+       "Fuel Economy (min)": "9.90 MPG",
+       "Fuel Economy (max)": "9.90 MPG",
+       "Distance Driven": "237 miles",
+       "Fuel Used": "23.940 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "9.55 MPG",
+       "Fuel Economy (min)": "9.55 MPG",
+       "Fuel Economy (max)": "9.55 MPG",
+       "Distance Driven": "219 miles",
+       "Fuel Used": "22.937 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "25.135 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "0.000 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (229.2 gallons) · 0% Pump Diesel (0.0 gallons)"
+    },
+    "all": {
+     "range": "All data",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.826 per gallon (from 48 fill-ups, all vehicles)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "229.246 gallons",
+      "Estimated Savings": "$744.61",
+      "Estimated Savings, all vehicles": "$2,681.34"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "19",
+      "Waste Oil Collected": "1279.000 gallons",
+      "Fuel Produced": "1149.250 gallons",
+      "Waste Oil Fuel Consumed": "229.246 gallons",
+      "Net": "+920.0 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "9.68 MPG",
+      "Fuel Economy (min)": "9.28 MPG",
+      "Fuel Economy (max)": "10.56 MPG",
+      "Distance Driven": "1976 miles (198 per month)",
+      "Fuel Used": "229.246 gallons (22.925 per month)",
+      "    Waste Oil Fuel": "229.246 gallons (100%)",
+      "    Pump Diesel": "0.000 gallons (0%)",
+      "Pump Fuel Cost": "$0.00 ($0.00 per month)",
+      "Waste Oil Fuel Cost": "$132.58",
+      "Total Fuel Cost": "$132.58 ($0.067 per mile)",
+      "Blended Fuel Price": "$0.578 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "9.40 MPG",
+       "Fuel Economy (min)": "9.40 MPG",
+       "Fuel Economy (max)": "9.40 MPG",
+       "Distance Driven": "210 miles",
+       "Fuel Used": "22.336 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "10.56 MPG",
+       "Fuel Economy (min)": "10.56 MPG",
+       "Fuel Economy (max)": "10.56 MPG",
+       "Distance Driven": "241 miles",
+       "Fuel Used": "22.813 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "9.69 MPG",
+       "Fuel Economy (min)": "9.69 MPG",
+       "Fuel Economy (max)": "9.69 MPG",
+       "Distance Driven": "192 miles",
+       "Fuel Used": "19.811 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "9.32 MPG",
+       "Fuel Economy (min)": "9.32 MPG",
+       "Fuel Economy (max)": "9.32 MPG",
+       "Distance Driven": "206 miles",
+       "Fuel Used": "22.105 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "9.53 MPG",
+       "Fuel Economy (min)": "9.53 MPG",
+       "Fuel Economy (max)": "9.53 MPG",
+       "Distance Driven": "249 miles",
+       "Fuel Used": "26.125 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "9.87 MPG",
+       "Fuel Economy (min)": "9.87 MPG",
+       "Fuel Economy (max)": "9.87 MPG",
+       "Distance Driven": "223 miles",
+       "Fuel Used": "22.592 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "9.28 MPG",
+       "Fuel Economy (min)": "9.28 MPG",
+       "Fuel Economy (max)": "9.28 MPG",
+       "Distance Driven": "199 miles",
+       "Fuel Used": "21.452 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "9.90 MPG",
+       "Fuel Economy (min)": "9.90 MPG",
+       "Fuel Economy (max)": "9.90 MPG",
+       "Distance Driven": "237 miles",
+       "Fuel Used": "23.940 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "9.55 MPG",
+       "Fuel Economy (min)": "9.55 MPG",
+       "Fuel Economy (max)": "9.55 MPG",
+       "Distance Driven": "219 miles",
+       "Fuel Used": "22.937 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "-",
+       "Fuel Economy (min)": "-",
+       "Fuel Economy (max)": "-",
+       "Distance Driven": "0 miles",
+       "Fuel Used": "25.135 gallons",
+       "Pump Fuel Cost": "$0.00 ($0.00 per mile)",
+       "Pump Diesel Price (avg)": "-"
+      }
+     ],
+     "Fuel Split": "100% Waste Oil Fuel (229.2 gallons) · 0% Pump Diesel (0.0 gallons)"
+    }
+   }
+  },
+  "Test Van": {
+   "fill_ups": 30,
+   "first": "2025-01-08",
+   "last": "2026-11-07",
+   "ranges": {
+    "1m": {
+     "range": "Past month",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.811 per gallon (from 29 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "0.000 gallons",
+      "Estimated Savings": "$0.00",
+      "Estimated Savings, all vehicles": "$228.89"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "1",
+      "Waste Oil Collected": "76.000 gallons",
+      "Fuel Produced": "63.800 gallons",
+      "Waste Oil Fuel Consumed": "0.000 gallons",
+      "Net": "+63.8 gallons",
+      "footnote": true
+     },
+     "Summary": null,
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "22.54 MPG",
+       "Fuel Economy (min)": "22.54 MPG",
+       "Fuel Economy (max)": "22.54 MPG",
+       "Distance Driven": "425 miles",
+       "Fuel Used": "18.857 gallons",
+       "Pump Fuel Cost": "$77.86 ($0.183 per mile)",
+       "Pump Diesel Price (avg)": "$4.129 per gallon"
+      }
+     ],
+     "Fuel Split": "0% Waste Oil Fuel (0.0 gallons) · 100% Pump Diesel (18.9 gallons)"
+    },
+    "6m": {
+     "range": "Past 6 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.811 per gallon (from 29 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "0.000 gallons",
+      "Estimated Savings": "$0.00",
+      "Estimated Savings, all vehicles": "$1,044.11"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "6",
+      "Waste Oil Collected": "479.000 gallons",
+      "Fuel Produced": "381.150 gallons",
+      "Waste Oil Fuel Consumed": "0.000 gallons",
+      "Net": "+381.2 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "21.65 MPG",
+      "Fuel Economy (min)": "21.03 MPG",
+      "Fuel Economy (max)": "22.67 MPG",
+      "Distance Driven": "3256 miles (543 per month)",
+      "Fuel Used": "150.371 gallons (25.062 per month)",
+      "    Waste Oil Fuel": "0.000 gallons (0%)",
+      "    Pump Diesel": "150.371 gallons (100%)",
+      "Pump Fuel Cost": "$570.75 ($95.12 per month)",
+      "Waste Oil Fuel Cost": "$0.00",
+      "Total Fuel Cost": "$570.75 ($0.175 per mile)",
+      "Blended Fuel Price": "$3.796 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "22.54 MPG",
+       "Fuel Economy (min)": "22.54 MPG",
+       "Fuel Economy (max)": "22.54 MPG",
+       "Distance Driven": "425 miles",
+       "Fuel Used": "18.857 gallons",
+       "Pump Fuel Cost": "$77.86 ($0.183 per mile)",
+       "Pump Diesel Price (avg)": "$4.129 per gallon"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "21.35 MPG",
+       "Fuel Economy (min)": "21.35 MPG",
+       "Fuel Economy (max)": "21.35 MPG",
+       "Distance Driven": "432 miles",
+       "Fuel Used": "20.238 gallons",
+       "Pump Fuel Cost": "$82.59 ($0.191 per mile)",
+       "Pump Diesel Price (avg)": "$4.081 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "21.03 MPG",
+       "Fuel Economy (min)": "21.03 MPG",
+       "Fuel Economy (max)": "21.03 MPG",
+       "Distance Driven": "399 miles",
+       "Fuel Used": "18.970 gallons",
+       "Pump Fuel Cost": "$73.85 ($0.185 per mile)",
+       "Pump Diesel Price (avg)": "$3.893 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "21.36 MPG",
+       "Fuel Economy (min)": "21.33 MPG",
+       "Fuel Economy (max)": "21.39 MPG",
+       "Distance Driven": "818 miles",
+       "Fuel Used": "38.294 gallons",
+       "Pump Fuel Cost": "$141.28 ($0.173 per mile)",
+       "Pump Diesel Price (avg)": "$3.689 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "22.67 MPG",
+       "Fuel Economy (min)": "22.67 MPG",
+       "Fuel Economy (max)": "22.67 MPG",
+       "Distance Driven": "412 miles",
+       "Fuel Used": "18.172 gallons",
+       "Pump Fuel Cost": "$66.75 ($0.162 per mile)",
+       "Pump Diesel Price (avg)": "$3.673 per gallon"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "21.48 MPG",
+       "Fuel Economy (min)": "21.38 MPG",
+       "Fuel Economy (max)": "21.59 MPG",
+       "Distance Driven": "770 miles",
+       "Fuel Used": "35.840 gallons",
+       "Pump Fuel Cost": "$128.42 ($0.167 per mile)",
+       "Pump Diesel Price (avg)": "$3.583 per gallon"
+      }
+     ],
+     "Fuel Split": "0% Waste Oil Fuel (0.0 gallons) · 100% Pump Diesel (150.4 gallons)"
+    },
+    "12m": {
+     "range": "Past 12 months",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.811 per gallon (from 29 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "0.000 gallons",
+      "Estimated Savings": "$0.00",
+      "Estimated Savings, all vehicles": "$1,690.20"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "0.000 gallons",
+      "Net": "+639.4 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "21.75 MPG",
+      "Fuel Economy (min)": "21.03 MPG",
+      "Fuel Economy (max)": "22.67 MPG",
+      "Distance Driven": "6750 miles (563 per month)",
+      "Fuel Used": "310.351 gallons (25.863 per month)",
+      "    Waste Oil Fuel": "0.000 gallons (0%)",
+      "    Pump Diesel": "310.351 gallons (100%)",
+      "Pump Fuel Cost": "$1,104.37 ($92.03 per month)",
+      "Waste Oil Fuel Cost": "$0.00",
+      "Total Fuel Cost": "$1,104.37 (excludes 20.796 gallons with no cost recorded)",
+      "Blended Fuel Price": "$3.814 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "22.54 MPG",
+       "Fuel Economy (min)": "22.54 MPG",
+       "Fuel Economy (max)": "22.54 MPG",
+       "Distance Driven": "425 miles",
+       "Fuel Used": "18.857 gallons",
+       "Pump Fuel Cost": "$77.86 ($0.183 per mile)",
+       "Pump Diesel Price (avg)": "$4.129 per gallon"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "21.35 MPG",
+       "Fuel Economy (min)": "21.35 MPG",
+       "Fuel Economy (max)": "21.35 MPG",
+       "Distance Driven": "432 miles",
+       "Fuel Used": "20.238 gallons",
+       "Pump Fuel Cost": "$82.59 ($0.191 per mile)",
+       "Pump Diesel Price (avg)": "$4.081 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "21.03 MPG",
+       "Fuel Economy (min)": "21.03 MPG",
+       "Fuel Economy (max)": "21.03 MPG",
+       "Distance Driven": "399 miles",
+       "Fuel Used": "18.970 gallons",
+       "Pump Fuel Cost": "$73.85 ($0.185 per mile)",
+       "Pump Diesel Price (avg)": "$3.893 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "21.36 MPG",
+       "Fuel Economy (min)": "21.33 MPG",
+       "Fuel Economy (max)": "21.39 MPG",
+       "Distance Driven": "818 miles",
+       "Fuel Used": "38.294 gallons",
+       "Pump Fuel Cost": "$141.28 ($0.173 per mile)",
+       "Pump Diesel Price (avg)": "$3.689 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "22.67 MPG",
+       "Fuel Economy (min)": "22.67 MPG",
+       "Fuel Economy (max)": "22.67 MPG",
+       "Distance Driven": "412 miles",
+       "Fuel Used": "18.172 gallons",
+       "Pump Fuel Cost": "$66.75 ($0.162 per mile)",
+       "Pump Diesel Price (avg)": "$3.673 per gallon"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "21.48 MPG",
+       "Fuel Economy (min)": "21.38 MPG",
+       "Fuel Economy (max)": "21.59 MPG",
+       "Distance Driven": "770 miles",
+       "Fuel Used": "35.840 gallons",
+       "Pump Fuel Cost": "$128.42 ($0.167 per mile)",
+       "Pump Diesel Price (avg)": "$3.583 per gallon"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "22.60 MPG",
+       "Fuel Economy (min)": "22.60 MPG",
+       "Fuel Economy (max)": "22.60 MPG",
+       "Distance Driven": "380 miles",
+       "Fuel Used": "16.817 gallons",
+       "Pump Fuel Cost": "$58.47 ($0.154 per mile)",
+       "Pump Diesel Price (avg)": "$3.477 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "22.19 MPG",
+       "Fuel Economy (min)": "22.19 MPG",
+       "Fuel Economy (max)": "22.19 MPG",
+       "Distance Driven": "418 miles",
+       "Fuel Used": "18.841 gallons",
+       "Pump Fuel Cost": "$67.45 ($0.161 per mile)",
+       "Pump Diesel Price (avg)": "$3.58 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "22.25 MPG",
+       "Fuel Economy (min)": "21.99 MPG",
+       "Fuel Economy (max)": "22.50 MPG",
+       "Distance Driven": "910 miles",
+       "Fuel Used": "40.899 gallons",
+       "Pump Fuel Cost": "$75.10 ($0.083 per mile)",
+       "Pump Diesel Price (avg)": "$3.736 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "21.04 MPG",
+       "Fuel Economy (min)": "21.04 MPG",
+       "Fuel Economy (max)": "21.04 MPG",
+       "Distance Driven": "466 miles",
+       "Fuel Used": "22.150 gallons",
+       "Pump Fuel Cost": "$86.45 ($0.186 per mile)",
+       "Pump Diesel Price (avg)": "$3.903 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "21.76 MPG",
+       "Fuel Economy (min)": "21.54 MPG",
+       "Fuel Economy (max)": "21.97 MPG",
+       "Distance Driven": "883 miles",
+       "Fuel Used": "40.588 gallons",
+       "Pump Fuel Cost": "$160.33 ($0.182 per mile)",
+       "Pump Diesel Price (avg)": "$3.95 per gallon"
+      },
+      {
+       "month": "Dec 2025",
+       "Fuel Economy (avg)": "21.13 MPG",
+       "Fuel Economy (min)": "21.13 MPG",
+       "Fuel Economy (max)": "21.13 MPG",
+       "Distance Driven": "437 miles",
+       "Fuel Used": "20.685 gallons",
+       "Pump Fuel Cost": "$85.82 ($0.196 per mile)",
+       "Pump Diesel Price (avg)": "$4.149 per gallon"
+      }
+     ],
+     "Fuel Split": "0% Waste Oil Fuel (0.0 gallons) · 100% Pump Diesel (310.4 gallons)"
+    },
+    "ytd": {
+     "range": "Year to date",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.811 per gallon (from 29 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "0.000 gallons",
+      "Estimated Savings": "$0.00",
+      "Estimated Savings, all vehicles": "$1,619.92"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "10",
+      "Waste Oil Collected": "709.000 gallons",
+      "Fuel Produced": "639.350 gallons",
+      "Waste Oil Fuel Consumed": "0.000 gallons",
+      "Net": "+639.4 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "21.79 MPG",
+      "Fuel Economy (min)": "21.03 MPG",
+      "Fuel Economy (max)": "22.67 MPG",
+      "Distance Driven": "6313 miles (574 per month)",
+      "Fuel Used": "289.666 gallons (26.333 per month)",
+      "    Waste Oil Fuel": "0.000 gallons (0%)",
+      "    Pump Diesel": "289.666 gallons (100%)",
+      "Pump Fuel Cost": "$1,018.55 ($92.60 per month)",
+      "Waste Oil Fuel Cost": "$0.00",
+      "Total Fuel Cost": "$1,018.55 (excludes 20.796 gallons with no cost recorded)",
+      "Blended Fuel Price": "$3.788 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "22.54 MPG",
+       "Fuel Economy (min)": "22.54 MPG",
+       "Fuel Economy (max)": "22.54 MPG",
+       "Distance Driven": "425 miles",
+       "Fuel Used": "18.857 gallons",
+       "Pump Fuel Cost": "$77.86 ($0.183 per mile)",
+       "Pump Diesel Price (avg)": "$4.129 per gallon"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "21.35 MPG",
+       "Fuel Economy (min)": "21.35 MPG",
+       "Fuel Economy (max)": "21.35 MPG",
+       "Distance Driven": "432 miles",
+       "Fuel Used": "20.238 gallons",
+       "Pump Fuel Cost": "$82.59 ($0.191 per mile)",
+       "Pump Diesel Price (avg)": "$4.081 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "21.03 MPG",
+       "Fuel Economy (min)": "21.03 MPG",
+       "Fuel Economy (max)": "21.03 MPG",
+       "Distance Driven": "399 miles",
+       "Fuel Used": "18.970 gallons",
+       "Pump Fuel Cost": "$73.85 ($0.185 per mile)",
+       "Pump Diesel Price (avg)": "$3.893 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "21.36 MPG",
+       "Fuel Economy (min)": "21.33 MPG",
+       "Fuel Economy (max)": "21.39 MPG",
+       "Distance Driven": "818 miles",
+       "Fuel Used": "38.294 gallons",
+       "Pump Fuel Cost": "$141.28 ($0.173 per mile)",
+       "Pump Diesel Price (avg)": "$3.689 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "22.67 MPG",
+       "Fuel Economy (min)": "22.67 MPG",
+       "Fuel Economy (max)": "22.67 MPG",
+       "Distance Driven": "412 miles",
+       "Fuel Used": "18.172 gallons",
+       "Pump Fuel Cost": "$66.75 ($0.162 per mile)",
+       "Pump Diesel Price (avg)": "$3.673 per gallon"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "21.48 MPG",
+       "Fuel Economy (min)": "21.38 MPG",
+       "Fuel Economy (max)": "21.59 MPG",
+       "Distance Driven": "770 miles",
+       "Fuel Used": "35.840 gallons",
+       "Pump Fuel Cost": "$128.42 ($0.167 per mile)",
+       "Pump Diesel Price (avg)": "$3.583 per gallon"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "22.60 MPG",
+       "Fuel Economy (min)": "22.60 MPG",
+       "Fuel Economy (max)": "22.60 MPG",
+       "Distance Driven": "380 miles",
+       "Fuel Used": "16.817 gallons",
+       "Pump Fuel Cost": "$58.47 ($0.154 per mile)",
+       "Pump Diesel Price (avg)": "$3.477 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "22.19 MPG",
+       "Fuel Economy (min)": "22.19 MPG",
+       "Fuel Economy (max)": "22.19 MPG",
+       "Distance Driven": "418 miles",
+       "Fuel Used": "18.841 gallons",
+       "Pump Fuel Cost": "$67.45 ($0.161 per mile)",
+       "Pump Diesel Price (avg)": "$3.58 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "22.25 MPG",
+       "Fuel Economy (min)": "21.99 MPG",
+       "Fuel Economy (max)": "22.50 MPG",
+       "Distance Driven": "910 miles",
+       "Fuel Used": "40.899 gallons",
+       "Pump Fuel Cost": "$75.10 ($0.083 per mile)",
+       "Pump Diesel Price (avg)": "$3.736 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "21.04 MPG",
+       "Fuel Economy (min)": "21.04 MPG",
+       "Fuel Economy (max)": "21.04 MPG",
+       "Distance Driven": "466 miles",
+       "Fuel Used": "22.150 gallons",
+       "Pump Fuel Cost": "$86.45 ($0.186 per mile)",
+       "Pump Diesel Price (avg)": "$3.903 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "21.76 MPG",
+       "Fuel Economy (min)": "21.54 MPG",
+       "Fuel Economy (max)": "21.97 MPG",
+       "Distance Driven": "883 miles",
+       "Fuel Used": "40.588 gallons",
+       "Pump Fuel Cost": "$160.33 ($0.182 per mile)",
+       "Pump Diesel Price (avg)": "$3.95 per gallon"
+      }
+     ],
+     "Fuel Split": "0% Waste Oil Fuel (0.0 gallons) · 100% Pump Diesel (289.7 gallons)"
+    },
+    "all": {
+     "range": "All data",
+     "Waste Oil Fuel Savings": {
+      "Pump Diesel Price (avg)": "$3.811 per gallon (from 29 fill-ups, all time)",
+      "Waste Oil Fuel Cost to Produce": "$0.578 per gallon (from 19 batches, all time)",
+      "Waste Oil Fuel Burned": "0.000 gallons",
+      "Estimated Savings": "$0.00",
+      "Estimated Savings, all vehicles": "$2,681.34"
+     },
+     "Fuel Production vs Use": {
+      "Centrifuge Batches": "19",
+      "Waste Oil Collected": "1279.000 gallons",
+      "Fuel Produced": "1149.250 gallons",
+      "Waste Oil Fuel Consumed": "0.000 gallons",
+      "Net": "+1149.3 gallons",
+      "footnote": true
+     },
+     "Summary": {
+      "Fuel Economy (avg)": "21.77 MPG",
+      "Fuel Economy (min)": "21.03 MPG",
+      "Fuel Economy (max)": "22.89 MPG",
+      "Distance Driven": "12159 miles (529 per month)",
+      "Fuel Used": "582.640 gallons (25.332 per month)",
+      "    Waste Oil Fuel": "0.000 gallons (0%)",
+      "    Pump Diesel": "582.640 gallons (100%)",
+      "Pump Fuel Cost": "$2,141.11 ($93.09 per month)",
+      "Waste Oil Fuel Cost": "$0.00",
+      "Total Fuel Cost": "$2,141.11 (excludes 20.796 gallons with no cost recorded)",
+      "Blended Fuel Price": "$3.811 per gallon"
+     },
+     "Months": [
+      {
+       "month": "Nov 2026",
+       "Fuel Economy (avg)": "22.54 MPG",
+       "Fuel Economy (min)": "22.54 MPG",
+       "Fuel Economy (max)": "22.54 MPG",
+       "Distance Driven": "425 miles",
+       "Fuel Used": "18.857 gallons",
+       "Pump Fuel Cost": "$77.86 ($0.183 per mile)",
+       "Pump Diesel Price (avg)": "$4.129 per gallon"
+      },
+      {
+       "month": "Oct 2026",
+       "Fuel Economy (avg)": "21.35 MPG",
+       "Fuel Economy (min)": "21.35 MPG",
+       "Fuel Economy (max)": "21.35 MPG",
+       "Distance Driven": "432 miles",
+       "Fuel Used": "20.238 gallons",
+       "Pump Fuel Cost": "$82.59 ($0.191 per mile)",
+       "Pump Diesel Price (avg)": "$4.081 per gallon"
+      },
+      {
+       "month": "Sep 2026",
+       "Fuel Economy (avg)": "21.03 MPG",
+       "Fuel Economy (min)": "21.03 MPG",
+       "Fuel Economy (max)": "21.03 MPG",
+       "Distance Driven": "399 miles",
+       "Fuel Used": "18.970 gallons",
+       "Pump Fuel Cost": "$73.85 ($0.185 per mile)",
+       "Pump Diesel Price (avg)": "$3.893 per gallon"
+      },
+      {
+       "month": "Aug 2026",
+       "Fuel Economy (avg)": "21.36 MPG",
+       "Fuel Economy (min)": "21.33 MPG",
+       "Fuel Economy (max)": "21.39 MPG",
+       "Distance Driven": "818 miles",
+       "Fuel Used": "38.294 gallons",
+       "Pump Fuel Cost": "$141.28 ($0.173 per mile)",
+       "Pump Diesel Price (avg)": "$3.689 per gallon"
+      },
+      {
+       "month": "Jul 2026",
+       "Fuel Economy (avg)": "22.67 MPG",
+       "Fuel Economy (min)": "22.67 MPG",
+       "Fuel Economy (max)": "22.67 MPG",
+       "Distance Driven": "412 miles",
+       "Fuel Used": "18.172 gallons",
+       "Pump Fuel Cost": "$66.75 ($0.162 per mile)",
+       "Pump Diesel Price (avg)": "$3.673 per gallon"
+      },
+      {
+       "month": "Jun 2026",
+       "Fuel Economy (avg)": "21.48 MPG",
+       "Fuel Economy (min)": "21.38 MPG",
+       "Fuel Economy (max)": "21.59 MPG",
+       "Distance Driven": "770 miles",
+       "Fuel Used": "35.840 gallons",
+       "Pump Fuel Cost": "$128.42 ($0.167 per mile)",
+       "Pump Diesel Price (avg)": "$3.583 per gallon"
+      },
+      {
+       "month": "May 2026",
+       "Fuel Economy (avg)": "22.60 MPG",
+       "Fuel Economy (min)": "22.60 MPG",
+       "Fuel Economy (max)": "22.60 MPG",
+       "Distance Driven": "380 miles",
+       "Fuel Used": "16.817 gallons",
+       "Pump Fuel Cost": "$58.47 ($0.154 per mile)",
+       "Pump Diesel Price (avg)": "$3.477 per gallon"
+      },
+      {
+       "month": "Apr 2026",
+       "Fuel Economy (avg)": "22.19 MPG",
+       "Fuel Economy (min)": "22.19 MPG",
+       "Fuel Economy (max)": "22.19 MPG",
+       "Distance Driven": "418 miles",
+       "Fuel Used": "18.841 gallons",
+       "Pump Fuel Cost": "$67.45 ($0.161 per mile)",
+       "Pump Diesel Price (avg)": "$3.58 per gallon"
+      },
+      {
+       "month": "Mar 2026",
+       "Fuel Economy (avg)": "22.25 MPG",
+       "Fuel Economy (min)": "21.99 MPG",
+       "Fuel Economy (max)": "22.50 MPG",
+       "Distance Driven": "910 miles",
+       "Fuel Used": "40.899 gallons",
+       "Pump Fuel Cost": "$75.10 ($0.083 per mile)",
+       "Pump Diesel Price (avg)": "$3.736 per gallon"
+      },
+      {
+       "month": "Feb 2026",
+       "Fuel Economy (avg)": "21.04 MPG",
+       "Fuel Economy (min)": "21.04 MPG",
+       "Fuel Economy (max)": "21.04 MPG",
+       "Distance Driven": "466 miles",
+       "Fuel Used": "22.150 gallons",
+       "Pump Fuel Cost": "$86.45 ($0.186 per mile)",
+       "Pump Diesel Price (avg)": "$3.903 per gallon"
+      },
+      {
+       "month": "Jan 2026",
+       "Fuel Economy (avg)": "21.76 MPG",
+       "Fuel Economy (min)": "21.54 MPG",
+       "Fuel Economy (max)": "21.97 MPG",
+       "Distance Driven": "883 miles",
+       "Fuel Used": "40.588 gallons",
+       "Pump Fuel Cost": "$160.33 ($0.182 per mile)",
+       "Pump Diesel Price (avg)": "$3.95 per gallon"
+      },
+      {
+       "month": "Dec 2025",
+       "Fuel Economy (avg)": "21.13 MPG",
+       "Fuel Economy (min)": "21.13 MPG",
+       "Fuel Economy (max)": "21.13 MPG",
+       "Distance Driven": "437 miles",
+       "Fuel Used": "20.685 gallons",
+       "Pump Fuel Cost": "$85.82 ($0.196 per mile)",
+       "Pump Diesel Price (avg)": "$4.149 per gallon"
+      },
+      {
+       "month": "Nov 2025",
+       "Fuel Economy (avg)": "21.14 MPG",
+       "Fuel Economy (min)": "21.14 MPG",
+       "Fuel Economy (max)": "21.14 MPG",
+       "Distance Driven": "451 miles",
+       "Fuel Used": "21.332 gallons",
+       "Pump Fuel Cost": "$89.00 ($0.197 per mile)",
+       "Pump Diesel Price (avg)": "$4.172 per gallon"
+      },
+      {
+       "month": "Oct 2025",
+       "Fuel Economy (avg)": "21.99 MPG",
+       "Fuel Economy (min)": "21.18 MPG",
+       "Fuel Economy (max)": "22.89 MPG",
+       "Distance Driven": "775 miles",
+       "Fuel Used": "35.236 gallons",
+       "Pump Fuel Cost": "$138.82 ($0.179 per mile)",
+       "Pump Diesel Price (avg)": "$3.94 per gallon"
+      },
+      {
+       "month": "Sep 2025",
+       "Fuel Economy (avg)": "22.49 MPG",
+       "Fuel Economy (min)": "22.49 MPG",
+       "Fuel Economy (max)": "22.49 MPG",
+       "Distance Driven": "380 miles",
+       "Fuel Used": "16.895 gallons",
+       "Pump Fuel Cost": "$65.16 ($0.171 per mile)",
+       "Pump Diesel Price (avg)": "$3.857 per gallon"
+      },
+      {
+       "month": "Aug 2025",
+       "Fuel Economy (avg)": "21.08 MPG",
+       "Fuel Economy (min)": "21.08 MPG",
+       "Fuel Economy (max)": "21.08 MPG",
+       "Distance Driven": "402 miles",
+       "Fuel Used": "19.074 gallons",
+       "Pump Fuel Cost": "$72.90 ($0.181 per mile)",
+       "Pump Diesel Price (avg)": "$3.822 per gallon"
+      },
+      {
+       "month": "Jul 2025",
+       "Fuel Economy (avg)": "21.29 MPG",
+       "Fuel Economy (min)": "21.29 MPG",
+       "Fuel Economy (max)": "21.29 MPG",
+       "Distance Driven": "421 miles",
+       "Fuel Used": "19.778 gallons",
+       "Pump Fuel Cost": "$72.25 ($0.172 per mile)",
+       "Pump Diesel Price (avg)": "$3.653 per gallon"
+      },
+      {
+       "month": "Jun 2025",
+       "Fuel Economy (avg)": "22.11 MPG",
+       "Fuel Economy (min)": "22.11 MPG",
+       "Fuel Economy (max)": "22.11 MPG",
+       "Distance Driven": "381 miles",
+       "Fuel Used": "17.234 gallons",
+       "Pump Fuel Cost": "$59.47 ($0.156 per mile)",
+       "Pump Diesel Price (avg)": "$3.451 per gallon"
+      },
+      {
+       "month": "May 2025",
+       "Fuel Economy (avg)": "21.92 MPG",
+       "Fuel Economy (min)": "21.18 MPG",
+       "Fuel Economy (max)": "22.58 MPG",
+       "Distance Driven": "865 miles",
+       "Fuel Used": "39.469 gallons",
+       "Pump Fuel Cost": "$142.25 ($0.164 per mile)",
+       "Pump Diesel Price (avg)": "$3.604 per gallon"
+      },
+      {
+       "month": "Apr 2025",
+       "Fuel Economy (avg)": "21.22 MPG",
+       "Fuel Economy (min)": "21.22 MPG",
+       "Fuel Economy (max)": "21.22 MPG",
+       "Distance Driven": "449 miles",
+       "Fuel Used": "21.163 gallons",
+       "Pump Fuel Cost": "$77.39 ($0.172 per mile)",
+       "Pump Diesel Price (avg)": "$3.657 per gallon"
+      },
+      {
+       "month": "Mar 2025",
+       "Fuel Economy (avg)": "21.80 MPG",
+       "Fuel Economy (min)": "21.80 MPG",
+       "Fuel Economy (max)": "21.80 MPG",
+       "Distance Driven": "450 miles",
+       "Fuel Used": "20.640 gallons",
+       "Pump Fuel Cost": "$75.07 ($0.167 per mile)",
+       "Pump Diesel Price (avg)": "$3.637 per gallon"
+      },
+      {
+       "month": "Feb 2025",
+       "Fuel Economy (avg)": "21.96 MPG",
+       "Fuel Economy (min)": "21.96 MPG",
+       "Fuel Economy (max)": "21.96 MPG",
+       "Distance Driven": "403 miles",
+       "Fuel Used": "18.354 gallons",
+       "Pump Fuel Cost": "$68.86 ($0.171 per mile)",
+       "Pump Diesel Price (avg)": "$3.752 per gallon"
+      },
+      {
+       "month": "Jan 2025",
+       "Fuel Economy (avg)": "22.81 MPG",
+       "Fuel Economy (min)": "22.81 MPG",
+       "Fuel Economy (max)": "22.81 MPG",
+       "Distance Driven": "432 miles",
+       "Fuel Used": "43.114 gallons",
+       "Pump Fuel Cost": "$175.57 ($0.406 per mile)",
+       "Pump Diesel Price (avg)": "$4.072 per gallon"
+      }
+     ],
+     "Fuel Split": "0% Waste Oil Fuel (0.0 gallons) · 100% Pump Diesel (582.6 gallons)"
+    }
+   }
+  }
+ },
+ "batches": [
+  {
+   "date": "Nov 14, 2026",
+   "line1": "58.0 gallons clean · 84.67%",
+   "line2": "from 68.5 gallons processed · 76.0 gallons collected · +10% blend = 63.8 gallons total",
+   "line3": "$37.10 batch · $0.582 per gallon",
+   "notes": "latest batch - in the 1m range"
+  },
+  {
+   "date": "Oct 24, 2026",
+   "line1": "60.0 gallons clean · 85.71%",
+   "line2": "from 70.0 gallons processed · 80.0 gallons collected · +15% blend = 69.0 gallons total",
+   "line3": "$40.75 batch · $0.591 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Sep 19, 2026",
+   "line1": "57.5 gallons clean · 84.56%",
+   "line2": "from 68.0 gallons processed · 75.0 gallons collected · +10% blend = 63.3 gallons total",
+   "line3": "$35.60 batch · $0.563 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Aug 15, 2026",
+   "line1": "62.0 gallons clean · 84.93%",
+   "line2": "from 73.0 gallons processed · 90.0 gallons collected · +5% blend = 65.1 gallons total",
+   "line3": "$36.20 batch · $0.556 per gallon",
+   "notes": "new bowl gasket"
+  },
+  {
+   "date": "Jul 11, 2026",
+   "line1": "59.0 gallons clean · 85.51%",
+   "line2": "from 69.0 gallons processed · 78.0 gallons collected",
+   "line3": "$31.90 batch · $0.541 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Jun 06, 2026",
+   "line1": "61.0 gallons clean · 84.72%",
+   "line2": "from 72.0 gallons processed · 80.0 gallons collected",
+   "line3": "$32.40 batch · $0.531 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "May 02, 2026",
+   "line1": "58.0 gallons clean · 85.29%",
+   "line2": "from 68.0 gallons processed · 75.0 gallons collected · +5% blend = 60.9 gallons total",
+   "line3": "$33.75 batch · $0.554 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Mar 28, 2026",
+   "line1": "55.0 gallons clean · 84.62%",
+   "line2": "from 65.0 gallons processed · +10% blend = 60.5 gallons total",
+   "line3": "$34.00 batch · $0.562 per gallon",
+   "notes": "collected not recorded"
+  },
+  {
+   "date": "Feb 21, 2026",
+   "line1": "60.0 gallons clean · 84.51%",
+   "line2": "from 71.0 gallons processed · 85.0 gallons collected · +20% blend = 72.0 gallons total",
+   "line3": "$44.25 batch · $0.615 per gallon",
+   "notes": "winter blend"
+  },
+  {
+   "date": "Jan 10, 2026",
+   "line1": "54.0 gallons clean · 84.38%",
+   "line2": "from 64.0 gallons processed · 70.0 gallons collected · +20% blend = 64.8 gallons total",
+   "line3": "$40.50 batch · $0.625 per gallon",
+   "notes": "winter blend"
+  },
+  {
+   "date": "Nov 22, 2025",
+   "line1": "56.0 gallons clean · 84.85%",
+   "line2": "from 66.0 gallons processed · 72.0 gallons collected · +20% blend = 67.2 gallons total",
+   "line3": "$41.00 batch · $0.61 per gallon",
+   "notes": "winter blend"
+  },
+  {
+   "date": "Oct 11, 2025",
+   "line1": "47.5 gallons clean",
+   "line2": "60.0 gallons collected",
+   "line3": "$28.00 batch · $0.589 per gallon",
+   "notes": "processed not measured"
+  },
+  {
+   "date": "Aug 30, 2025",
+   "line1": "53.0 gallons clean · 84.13%",
+   "line2": "from 63.0 gallons processed · 70.0 gallons collected · +10% blend = 58.3 gallons total",
+   "line3": "$33.80 batch · $0.58 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Jul 19, 2025",
+   "line1": "58.0 gallons clean · 82.86%",
+   "line2": "from 70.0 gallons processed · 90.0 gallons collected · +15% blend = 66.7 gallons total",
+   "line3": "$40.10 batch · $0.601 per gallon",
+   "notes": "hot weather - thin oil"
+  },
+  {
+   "date": "Jun 07, 2025",
+   "line1": "46.0 gallons clean · 83.64%",
+   "line2": "from 55.0 gallons processed",
+   "line3": "",
+   "notes": "forgot receipts - no cost"
+  },
+  {
+   "date": "Apr 26, 2025",
+   "line1": "50.0 gallons clean · 83.33%",
+   "line2": "from 60.0 gallons processed · 65.0 gallons collected · +5% blend = 52.5 gallons total",
+   "line3": "$30.00 batch · $0.571 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Mar 15, 2025",
+   "line1": "57.0 gallons clean · 83.82%",
+   "line2": "from 68.0 gallons processed · 80.0 gallons collected · +10% blend = 62.7 gallons total",
+   "line3": "$36.25 batch · $0.578 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Jan 25, 2025",
+   "line1": "48.5 gallons clean · 83.62%",
+   "line2": "from 58.0 gallons processed · 58.0 gallons collected",
+   "line3": "$27.50 batch · $0.567 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Dec 14, 2024",
+   "line1": "55.0 gallons clean · 84.62%",
+   "line2": "from 65.0 gallons processed · 75.0 gallons collected · +10% blend = 60.5 gallons total",
+   "line3": "$34.00 batch · $0.562 per gallon",
+   "notes": ""
+  },
+  {
+   "date": "Oct 20, 2024",
+   "line1": "52.0 gallons clean · 83.87%",
+   "line2": "from 62.0 gallons processed · 70.0 gallons collected",
+   "line3": "$31.00 batch · $0.596 per gallon",
+   "notes": "first batch - before the All range"
+  }
+ ]
+}

@@ -230,6 +230,10 @@ public class PricePlot implements OnSharedPreferenceChangeListener {
         // axis title labels
         PaintUtils.setFontSizeDp(plot.getRangeLabelWidget().getLabelPaint(),size.getSizeDp());
         PaintUtils.setFontSizeDp(plot.getDomainLabelWidget().getLabelPaint(),size.getSizeDp());
+
+        // make room below the grid for the axis labels at this font size,
+        // or they are cut off on high-density screens (see PlotLayout)
+        PlotLayout.fitDomainLabels(plot);
         plot.getRangeLabelWidget().pack();
         plot.getDomainLabelWidget().pack();
         

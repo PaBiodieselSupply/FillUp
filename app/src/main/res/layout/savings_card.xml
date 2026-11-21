@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    THE SHAREABLE SAVINGS CARD - a reusable template.
+
+    This is never shown on screen. SavingsCard inflates it, fills in the numbers
+    for the selected vehicle and date range, and draws it into a 1080 x 1080
+    image - square, which is the shape Facebook shows largest in a feed.
+
+    Every size here is in px, not dp or sp, on purpose: the image must come out
+    identical on every phone, whatever its screen density or font size setting.
+
+    To restyle the card, edit this file. Nothing else needs to change. Keep the
+    body's content within the 810px between the header and footer bands: the
+    two labels at the bottom wrap to two lines.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1080px"
+    android:layout_height="1080px"
+    android:background="@color/card_bg"
+    android:orientation="vertical" >
+
+    <!-- HEADER BAND: matches the app's title bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:background="@color/app_bar_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="64px"
+        android:paddingRight="64px" >
+
+        <ImageView
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28px"
+            android:text="@string/app_name"
+            android:textColor="@color/app_bar_fg"
+            android:textSize="58px" />
+    </LinearLayout>
+
+    <!-- BODY -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="72px"
+        android:paddingRight="72px"
+        android:paddingTop="44px" >
+
+        <!-- vehicle and date range -->
+        <TextView
+            android:id="@+id/cardContext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/card_muted"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24px"
+            android:text="@string/card_saved_label"
+            android:textColor="@color/card_fg"
+            android:textSize="44px" />
+
+        <!-- the headline: estimated net savings -->
+        <TextView
+            android:id="@+id/cardSavings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/fuel_split_waste_oil"
+            android:textSize="170px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4px"
+            android:text="@string/card_saved_sub"
+            android:textColor="@color/card_fg"
+            android:textSize="38px" />
+
+        <!-- fuel split bar, same colours as the Fuel Split card in the app -->
+        <LinearLayout
+            android:id="@+id/cardSplitBar"
+            android:layout_width="match_parent"
+            android:layout_height="40px"
+            android:layout_marginTop="40px"
+            android:orientation="horizontal"
+            android:weightSum="100" >
+
+            <View
+                android:id="@+id/cardSplitWasteOil"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:background="@color/fuel_split_waste_oil" />
+
+            <View
+                android:id="@+id/cardSplitPump"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:background="@color/fuel_split_pump_diesel" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cardSplitLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14px"
+            android:textColor="@color/card_fg"
+            android:textSize="36px" />
+
+        <!-- two supporting figures -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/cardGallons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/card_fg"
+                    android:textSize="60px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cardGallonsLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:paddingRight="16px"
+                    android:textColor="@color/card_muted"
+                    android:textSize="32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/cardPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/card_fg"
+                    android:textSize="60px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cardPriceLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:paddingRight="16px"
+                    android:textColor="@color/card_muted"
+                    android:textSize="32px" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- FOOTER BAND -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:background="@color/app_bar_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="72px"
+        android:text="@string/card_footer"
+        android:textColor="@color/app_bar_fg"
+        android:textSize="44px" />
+
+</LinearLayout>

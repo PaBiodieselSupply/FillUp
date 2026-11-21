@@ -20,24 +20,16 @@
 package com.github.wdkapps.fillup;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 
-import androidx.core.content.FileProvider;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -58,7 +50,6 @@ import android.widget.ListView;
 public class GasLogListActivity 
 extends Activity 
 implements ConfirmationDialog.Listener, 
-	StorageSelectionDialog.Listener, 
 	OnItemClickListener, 
 	OnSharedPreferenceChangeListener 
 {
@@ -85,16 +76,6 @@ implements ConfirmationDialog.Listener,
 	/// an adapter used to format and display each log record
 	private GasLogListAdapter adapter;
 
-	/// request code for the runtime external storage permission request
-	private static final int REQUEST_STORAGE_PERMISSION = 100;
-
-	/// actions that require external storage permission (see ensureStoragePermission)
-	private static final int PENDING_NONE = 0;
-	private static final int PENDING_EXPORT = 1;
-	private static final int PENDING_IMPORT_INTERNAL = 2;
-
-	/// the action to perform once the user grants storage permission
-	private int pendingStorageAction = PENDING_NONE;
 
     /**
      * DESCRIPTION:
@@ -158,23 +139,6 @@ implements ConfirmationDialog.Listener,
         return true;
     }
     
-    /**
-     * DESCRIPTION:
-     * Prepare the Activity's standard options menu to be displayed. This 
-     * is called right before the menu is shown, every time it is shown, 
-     * and can therefore be used to efficiently enable/disable items or 
-     * otherwise dynamically modify the contents. 
-     * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
-     */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-    	// NOTE: Import and Export have moved to the home screen menu, so findItem
-    	// returns null here. Guarded rather than removed so this stays correct if
-    	// they are ever added back.
-    	MenuItem itemExport = menu.findItem(R.id.itemExport);
-    	if (itemExport != null) itemExport.setEnabled(!records.isEmpty());
-    	return true;
-    }
     
     /**
      * DESCRIPTION:
@@ -190,16 +154,6 @@ implements ConfirmationDialog.Listener,
     		getGas(null);
     		return true;
     	
-    	case R.id.itemImport:
-    		showDialog(DIALOG_SELECT_STORAGE_LOCATION_ID);
-    		return true;
-
-    	case R.id.itemExport:
-    		if (ensureStoragePermission(PENDING_EXPORT)) {
-    			startExport();
-    		}
-    		return true;
-    		
     	case R.id.itemSettings:
     		Intent intent = new Intent(this,Settings.class);
     		startActivity(intent);
@@ -317,195 +271,13 @@ implements ConfirmationDialog.Listener,
 		}
     }
     
-    /**
-     * DESCRIPTION:
-     * Imports data from an ASCII CSV file into the log.
-     */
-    protected void importData(Uri uri) {
-    	
-        InputStream file;
-		try {
-			file = getContentResolver().openInputStream(uri);
-		} catch (FileNotFoundException e) {
-    		Utilities.toast(this,getString(R.string.toast_import_failed));
-    		return;
-		}
-    	
-    	if (!gaslog.importData(vehicle, file)) {
-    		Utilities.toast(this,getString(R.string.toast_import_failed));
-    		return;
-    	} 
-    	
-    	records.clear();
-    	records.addAll(gaslog.readAllRecords(vehicle));
-    	adapter.notifyDataSetChanged();
-		Utilities.toast(this,getString(R.string.toast_import_complete));
-    }
     
-    /**
-     * DESCRIPTION:
-     * Return the name and path to a file for exporting log data.
-     * @return the File.
-     */
-    protected File getExportFile() {
-    	
-    	// get path to external storage directory 
-    	File dir = ExternalStorage.getPublicDownloadDirectory();
-    	
-    	// export file is named after vehicle and stored in external storage directory
-    	String file = vehicle.getName()+ ".csv";
-    	return new File(dir,file);
-    }
     
-    /**
-     * DESCRIPTION:
-     * Allow user to select a file to import using an installed cloud application.
-     */
-    private void showCloudStorageChooser() {
-        try {
-            Intent target = new Intent(Intent.ACTION_GET_CONTENT); 
-            // text/csv better, but need */* for google drive, else cannot select file
-            target.setType("*/*");  
-            target.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(target,CHOOSE_IMPORT_FILE);
-        } catch (android.content.ActivityNotFoundException ex) {
-    		Utilities.toast(this,getString(R.string.toast_activity_not_found));
-        }
-    }
     
-    /**
-     * DESCRIPTION:
-     * Determines whether the export file already exists, and either asks the user
-     * to confirm overwriting it or exports immediately.
-     *
-     * NOTE: callers must ensure external storage permission has been granted first
-     * (see ensureStoragePermission).
-     */
-    protected void startExport() {
-    	if (records.isEmpty()) {
-    		Utilities.toast(this,getString(R.string.toast_no_data_to_export));
-    		return;
-    	}
-    	File file = getExportFile();
-    	if (file.exists()) {
-    		showDialog(DIALOG_CONFIRM_EXPORT_OVERWRITE_ID);
-    	} else {
-    		exportData();
-    	}
-    }
 
-    /**
-     * DESCRIPTION:
-     * Ensures that the app holds the external storage permission required to read
-     * and write CSV files.
-     *
-     * The permissions are declared in the manifest, but as of API 23 that is no
-     * longer sufficient - they must also be granted at runtime. Without the grant
-     * the failure is silent rather than loud: exportData() fails inside GasLog's
-     * catch-all and simply reports "Export failed", and the internal file browser
-     * shows an empty directory.
-     *
-     * If the permission is not yet held, this requests it and records the action to
-     * perform once the user responds (see onRequestPermissionsResult).
-     *
-     * @param pendingAction - the action to perform once permission is granted.
-     * @return true if the permission is already held and the caller may proceed.
-     */
-    private boolean ensureStoragePermission(int pendingAction) {
 
-    	// permissions are granted at install time below API 23
-    	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
 
-    	if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    			== PackageManager.PERMISSION_GRANTED) {
-    		return true;
-    	}
-
-    	pendingStorageAction = pendingAction;
-    	requestPermissions(new String[] {
-    			Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    			Manifest.permission.READ_EXTERNAL_STORAGE},
-    			REQUEST_STORAGE_PERMISSION);
-
-    	return false;
-    }
-
-    /**
-     * DESCRIPTION:
-     * Called when the user responds to a runtime permission request.
-     * @see android.app.Activity#onRequestPermissionsResult(int, java.lang.String[], int[])
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] results) {
-
-    	super.onRequestPermissionsResult(requestCode, permissions, results);
-
-    	if (requestCode != REQUEST_STORAGE_PERMISSION) return;
-
-    	int action = pendingStorageAction;
-    	pendingStorageAction = PENDING_NONE;
-
-    	boolean granted = (results.length > 0) && (results[0] == PackageManager.PERMISSION_GRANTED);
-    	if (!granted) {
-    		Utilities.toast(this,getString(R.string.toast_external_storage_not_writable));
-    		return;
-    	}
-
-    	switch (action) {
-    	case PENDING_EXPORT:
-    		startExport();
-    		break;
-    	case PENDING_IMPORT_INTERNAL:
-    		showInternalStorageChooser();
-    		break;
-    	default:
-    		break;
-    	}
-    }
-
-    /**
-     * DESCRIPTION:
-     * Allow the user to select a file to import from internal storage.
-     */
-    private void showInternalStorageChooser() {
-
-    	if (!ensureStoragePermission(PENDING_IMPORT_INTERNAL)) return;
-
-    	if (ExternalStorage.isReadable()) {
-    		Intent intent = new Intent(this, FileSelectionActivity.class);
-    		File root = Environment.getExternalStorageDirectory();
-    		File path = Environment.getExternalStoragePublicDirectory(DOWNLOAD_SERVICE);
-    		intent.putExtra(FileSelectionActivity.ROOT,root.getAbsolutePath());
-    		intent.putExtra(FileSelectionActivity.PATH,path.getAbsolutePath());
-    		intent.putExtra(FileSelectionActivity.EXT,".csv");
-    		startActivityForResult(intent,CHOOSE_IMPORT_FILE);
-    	} else {
-    		Utilities.toast(this,getString(R.string.toast_external_storage_not_readable));
-    	}
-
-    }
     
-    /**
-     * DESCRIPTION:
-     * Exports data from the log to an ASCII CSV file.
-     */
-    protected void exportData() {
-    	
-    	if (!ExternalStorage.isWritable()) {
-    		Utilities.toast(this,getString(R.string.toast_external_storage_not_writable));
-    		return;
-    	}
-
-    	File file = getExportFile();
-	
-    	if (gaslog.exportData(vehicle,file)) {
-    		Utilities.toast(this,getString(R.string.toast_export_complete));
-    		Utilities.toast(this, file.getAbsolutePath());
-    		showDialog(DIALOG_CONFIRM_EXPORT_SHARE_ID);
-    	} else {
-    		Utilities.toast(this,getString(R.string.toast_export_failed));
-    	}
-    }
     
     /**
      * DESCRIPTION:
@@ -643,7 +415,6 @@ implements ConfirmationDialog.Listener,
 	 */
 	private static final int EDIT_ROW_REQUEST = 1;
 	private static final int GET_GAS_REQUEST = 2;
-	private static final int CHOOSE_IMPORT_FILE = 3;
     
     /**
      * DESCRIPTION:
@@ -676,16 +447,6 @@ implements ConfirmationDialog.Listener,
         	}
         	break;
         	
-        case CHOOSE_IMPORT_FILE:
-        	if (resultCode == Activity.RESULT_OK) {
-                Uri uri = intent.getData();
-    			importData(uri);
-        	} else {
-        		Utilities.toast(this,getString(R.string.toast_canceled));
-        	}
-
-        	break;
-        	
         default:
         	Utilities.toast(this,"Invalid request code.");
         }
@@ -698,11 +459,8 @@ implements ConfirmationDialog.Listener,
      */
     protected static final int DIALOG_CONFIRM_DELETE_ID = 1;
     protected static final int DIALOG_SHOW_CALCULATION_ID = 2;
-    protected static final int DIALOG_CONFIRM_EXPORT_OVERWRITE_ID = 3;
-    protected static final int DIALOG_SELECT_STORAGE_LOCATION_ID = 4;
     protected static final int DIALOG_SHOW_ESTIMATE_ID = 5;
     protected static final int DIALOG_TANK_NEVER_FILLED_ID = 6;
-    protected static final int DIALOG_CONFIRM_EXPORT_SHARE_ID = 7;
     
     /** 
      * DESCRIPTION: 
@@ -731,24 +489,6 @@ implements ConfirmationDialog.Listener,
         	dialog = MileageCalculationDialog.create(this,id);
             break;
             
-        case DIALOG_CONFIRM_EXPORT_OVERWRITE_ID:
-        	File file = getExportFile();
-        	title = getString(R.string.title_confirm_export_overwrite_dialog);
-        	message = getString(R.string.message_confirm_export_overwrite_dialog);
-        	message = String.format(message,file.getAbsolutePath());
-        	dialog = ConfirmationDialog.create(this,this,id,title,message);
-            break;
-            
-        case DIALOG_CONFIRM_EXPORT_SHARE_ID:
-        	title = getString(R.string.title_confirm_export_share_dialog);
-        	message = getString(R.string.message_confirm_export_share_dialog);
-        	dialog = ConfirmationDialog.create(this,this,id,title,message);
-            break;
-            
-        case DIALOG_SELECT_STORAGE_LOCATION_ID:
-        	dialog = StorageSelectionDialog.create(this,this,DIALOG_SELECT_STORAGE_LOCATION_ID);
-        	break;
-        	
         case DIALOG_TANK_NEVER_FILLED_ID:
    			dialog = TankNeverFilledDialog.create(this,id);
             break;
@@ -776,66 +516,12 @@ implements ConfirmationDialog.Listener,
 		case DIALOG_CONFIRM_DELETE_ID:
 			deleteRow();
 			break;
-		case DIALOG_CONFIRM_EXPORT_OVERWRITE_ID:
-			exportData();
-			break;
-		case DIALOG_CONFIRM_EXPORT_SHARE_ID:
-			File file = getExportFile();
-
-			// NOTE: Uri.fromFile() throws FileUriExposedException at targetSdk >= 24.
-			// The file must be handed to the share target through a FileProvider
-			// (declared in AndroidManifest.xml, paths in res/xml/file_paths.xml).
-			Uri uri;
-			try {
-				uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
-			} catch (IllegalArgumentException e) {
-				Utilities.toast(this,getString(R.string.toast_failed));
-				break;
-			}
-
-			Intent intent = new Intent(Intent.ACTION_SEND);
-			intent.setType("text/plain");
-			intent.putExtra(Intent.EXTRA_STREAM,uri);
-			intent.putExtra(Intent.EXTRA_SUBJECT,file.getName());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-			startActivity(Intent.createChooser(intent, getString(R.string.title_chooser_share_csv)));
-			break;
-			
 		default:
 			Utilities.toast(this,"Invalid dialog id.");
 		}
 		
 	}
 
-	/**
- 	 * DESCRIPTION:
-	 * Called when the user selects a file.
-	 * @see com.github.wdkapps.fillup.FileSelectionDialog.Listener#onFileSelectionDialogResponse(int, java.io.File)
-	 */
-	@Override
-	public void onStorageSelectionDialogResponse(int id, StorageSelectionDialog.Result result, String value) {
-
-		removeDialog(id);
-		
-		if (result == StorageSelectionDialog.Result.RESULT_CANCEL) {
-			Utilities.toast(this,getString(R.string.toast_canceled));
-			return;
-		}
-		
-		switch(id) {
-		case DIALOG_SELECT_STORAGE_LOCATION_ID:
-			if (value.equals("cloud")) {
-				showCloudStorageChooser();
-			} else {
-				showInternalStorageChooser();
-			}
-			break;
-		default:
-			Utilities.toast(this,"Invalid dialog id.");
-		}
-		
-	}
 	
 	/**
 	 * DESCRIPTION:

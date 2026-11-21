@@ -68,6 +68,7 @@ public class ProductionConsumptionTable implements HtmlData {
 	/// computed totals for the selected date range
 	private int batchCount;
 	private float totalYield;
+	private float totalCollected;
 	private float wvoConsumed;
 	private float net;
 
@@ -113,6 +114,7 @@ public class ProductionConsumptionTable implements HtmlData {
 		appendTableHeaderRow(title,"2");
 		row = 0;
 		appendBatchCountData();
+		appendCollectedData();
 		appendTotalYieldData();
 		appendConsumedData();
 		appendNetData();
@@ -134,6 +136,7 @@ public class ProductionConsumptionTable implements HtmlData {
 		BatchTotals production = new BatchTotals(batches,range);
 		batchCount = production.getCount();
 		totalYield = production.getTotalYield();
+		totalCollected = production.getTotalCollected();
 
 		wvoConsumed = new FuelTypeTotals(records,range).getWasteOilGallons();
 		net = totalYield - wvoConsumed;
@@ -151,7 +154,21 @@ public class ProductionConsumptionTable implements HtmlData {
 
 	/**
 	 * DESCRIPTION:
-	 * Appends the total volume of clean fuel produced to the table.
+	 * Appends the total waste oil collected to the table, when recorded.
+	 */
+	private void appendCollectedData() {
+		// supply tracking only, and only once any batch in range records it
+		if (totalCollected <= 0f) return;
+		String label = getString(R.string.stats_label_total_collected);
+		String value = String.format(App.getLocale(),getString(R.string.stats_calc_wvo_gallons),
+				totalCollected, units.getLiquidVolumeLabelLowerCase());
+		appendTableRow(new String[]{label,value});
+	}
+
+	/**
+	 * DESCRIPTION:
+	 * Appends the total fuel produced, blend included - the like-for-like figure
+	 * to compare against waste oil fuel consumed.
 	 */
 	private void appendTotalYieldData() {
 		String label = getString(R.string.stats_label_total_yield);

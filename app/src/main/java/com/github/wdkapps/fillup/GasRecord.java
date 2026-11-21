@@ -206,6 +206,10 @@ public class GasRecord implements Serializable {
 			setNotes(values[6]);
 			// values[7] is the calculation: informational only, recalculated later
 			setCsvFuelType(values[8]);
+			// waste oil fuel is never purchased: its production cost belongs on the
+			// centrifuge batch. A cost on a hand-edited "wvo" row would otherwise
+			// appear in Pump Fuel Cost while the savings maths ignored it.
+			if (getFuelType().isWasteOil()) setCost(0d);
 			calculatePrice();
 			break;
 

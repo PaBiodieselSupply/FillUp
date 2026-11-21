@@ -40,11 +40,15 @@
     <color name="calc_hint_color">#a0a0a0</color> <!--  darker grey -->
 
     <!-- APP BAR COLORS -->
-    <!-- Deliberately neutral dark to sit naturally on the existing black theme.
-         Brand colours are a later change. -->
-    <color name="app_bar_bg">#1f1f1f</color>
+    <!-- Matches the original FillUp action bar (#333333, measured from a
+         screenshot). Brand colours are a later change. -->
+    <color name="app_bar_bg">#333333</color>
     <color name="app_bar_fg">#ffffff</color>
-    <color name="app_bar_divider">#5a5a5a</color>
+
+    <!-- SAVINGS CARD COLORS (res/layout/savings_card.xml) -->
+    <color name="card_bg">#161816</color>
+    <color name="card_fg">#ffffff</color>
+    <color name="card_muted">#b5b5b5</color>
 
     <!-- FUEL SPLIT / FUEL USED CHART COLORS -->
     <!-- Shared by the fuel split bar and the stacked Fuel Used chart, so the

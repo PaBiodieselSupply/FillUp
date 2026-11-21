@@ -219,6 +219,10 @@ public class CostPlot implements OnSharedPreferenceChangeListener {
         // axis title labels
         PaintUtils.setFontSizeDp(plot.getRangeLabelWidget().getLabelPaint(),size.getSizeDp());
         PaintUtils.setFontSizeDp(plot.getDomainLabelWidget().getLabelPaint(),size.getSizeDp());
+
+        // make room below the grid for the axis labels at this font size,
+        // or they are cut off on high-density screens (see PlotLayout)
+        PlotLayout.fitDomainLabels(plot);
         plot.getRangeLabelWidget().pack();
         plot.getDomainLabelWidget().pack();
         
@@ -291,6 +295,7 @@ public class CostPlot implements OnSharedPreferenceChangeListener {
     	minx = Long.MAX_VALUE; 
     	maxx = Long.MIN_VALUE;
     	xlabels.clear();
+    	int monthsWithData = 0;
     	long x = 0L;
     	double y = 0f;
     	for (Month month : PlotActivity.monthly) {
@@ -303,6 +308,7 @@ public class CostPlot implements OnSharedPreferenceChangeListener {
     		xNumbers.add(x);
     		yNumbers.add(y);
     		sumy += y;
+    		if (!PlotActivity.monthly.getTrips(month).getGasRecords().isEmpty()) monthsWithData++;
     		xlabels.put(x++,month.getLabel());
     	}
 
@@ -311,9 +317,13 @@ public class CostPlot implements OnSharedPreferenceChangeListener {
     	if (yNumbers.isEmpty()) miny = maxy = 0;
     	
     	// calculate average for the series
+    	// NOTE: divided by the months that have a fill-up, not by every month on
+    	// the chart. Empty months (before the first fill-up, or with the 12m button
+    	// and six months of data) otherwise drag the line down - one 300 mile month
+    	// in a 6 month range showed an average of 50. Matches the statistics report.
     	average = 0;
-    	if (!yNumbers.isEmpty()) {
-    		average = sumy / yNumbers.size();
+    	if (monthsWithData > 0) {
+    		average = sumy / monthsWithData;
     	}
 
     	Log.d(tag,"minx="+minx+" maxx="+maxx);

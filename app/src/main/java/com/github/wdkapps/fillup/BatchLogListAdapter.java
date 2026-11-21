@@ -108,7 +108,7 @@ public class BatchLogListAdapter extends ArrayAdapter<BatchRecord> {
 		// yield percentage (only calculable when raw oil was recorded)
 		columnBatchPercent.setText(record.getYieldPercentString());
 
-		// raw oil collected and blend percentage, joined on one line
+		// oil processed, oil collected and blend, joined on one line
 		// (both optional - the line is hidden only if neither was recorded)
 		StringBuilder inputs = new StringBuilder();
 		if (record.hasRawGallons()) {
@@ -117,11 +117,21 @@ public class BatchLogListAdapter extends ArrayAdapter<BatchRecord> {
 					record.getRawGallons(),
 					units.getLiquidVolumeLabelLowerCase()));
 		}
+		if (record.hasCollectedGallons()) {
+			if (inputs.length() > 0) inputs.append(" · ");
+			format = App.getContext().getString(R.string.batch_row_collected);
+			inputs.append(String.format(App.getLocale(),format,
+					record.getCollectedGallons(),
+					units.getLiquidVolumeLabelLowerCase()));
+		}
 		if (record.hasBlendPercent()) {
+			// the blend is added on top of the clean fuel, so show the total it makes
 			if (inputs.length() > 0) inputs.append(" · ");
 			format = App.getContext().getString(R.string.batch_row_blend);
 			inputs.append(String.format(App.getLocale(),format,
-					record.getBlendPercentString()));
+					record.getBlendPercentString(),
+					record.getTotalGallons(),
+					units.getLiquidVolumeLabelLowerCase()));
 		}
 		if (inputs.length() == 0) {
 			rowBatchRaw.setVisibility(View.GONE);
@@ -139,7 +149,7 @@ public class BatchLogListAdapter extends ArrayAdapter<BatchRecord> {
 			rowBatchCost.setText(String.format(App.getLocale(),format,
 					CurrencyManager.getInstance().getSymbolicFormatter().format(record.getCost()),
 					CurrencyManager.getInstance().getSymbolicFractionalFormatter().format(costPerUnit),
-					units.getLiquidVolumeLabelLowerCase()));
+					units.getLiquidVolumeRatioLabel()));
 			rowBatchCost.setVisibility(View.VISIBLE);
 		}
 
